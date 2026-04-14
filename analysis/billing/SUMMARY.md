@@ -59,6 +59,24 @@ The billing domain has **decent test coverage overall**, but there are clear hol
 
 **Total estimated effort: ~1-2 days**
 
+## Monolith Selenium Tests (zocdoc_web)
+
+In addition to the frontend analysis above, we also triaged **76 Selenium integration tests** in the `zocdoc_web` monolith. These test backend billing logic: bill generation, Stripe payments, chargebacks, churn, credits, and refunds.
+
+**Triage result:** 38 keep, 38 remove. See [inventory/selenium-tests.md](inventory/selenium-tests.md) for the full breakdown.
+
+Key areas to keep:
+- **RBAC/Auth** (10 tests) — API access control, FGA flags
+- **Payment processing** (8 tests) — ACH/CC via Stripe
+- **Card validation** (9 tests) — All card brands + declined/fraud
+- **Credits** (9 tests) — Full/partial credit scenarios
+- **Chargebacks + Refunds** (4 tests) — Dispute and refund flows
+
+Key areas to remove (legacy billing):
+- **Churn scenarios** — 15 of 16 tests (legacy churn billing)
+- **Bill creation** — 11 of 13 tests (legacy monthly/annual billing)
+- **Contract changes** — all 6 tests (legacy contract term changes)
+
 ## Deeper Dives
 
 - **What tests exist today?** → [inventory/MASTER-INVENTORY.md](inventory/MASTER-INVENTORY.md)
@@ -66,6 +84,7 @@ The billing domain has **decent test coverage overall**, but there are clear hol
 - **Which component has which test?** → [inventory/components.md](inventory/components.md)
 - **Cypress test details** → [inventory/cypress-e2e-tests.md](inventory/cypress-e2e-tests.md)
 - **API endpoint coverage** → [inventory/api-endpoint-coverage.md](inventory/api-endpoint-coverage.md)
+- **Selenium tests (monolith)** → [inventory/selenium-tests.md](inventory/selenium-tests.md)
 - **Full gap list with priorities** → [gaps/GAPS.md](gaps/GAPS.md)
 - **Dead/outdated tests** → [gaps/OBSOLETE.md](gaps/OBSOLETE.md)
 - **Feature flag cleanup** → [gaps/feature-flag-audit.md](gaps/feature-flag-audit.md)
