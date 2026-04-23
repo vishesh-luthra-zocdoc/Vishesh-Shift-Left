@@ -1,8 +1,18 @@
 # Shift-Left Test Analysis
 
 **Owner:** Vishesh Luthra (Provider Billing Team)
-**Generated:** 2026-04-14
+**Generated:** 2026-04-14 (v1), 2026-04-23 (v2)
 **Scope:** Billing domain across `provider-fe-monorepo` + `zocdoc_web` monolith
+
+## Runs
+
+| Run | Folder | Notes |
+|---|---|---|
+| v1 — 2026-04-14 | [`analysis/billing/`](analysis/billing/SUMMARY.md) | Initial scan: 70 components, 25 unit test files (~265 tests), 3 Cypress specs (31 tests), 12 untested components. |
+| v2 — 2026-04-23 | [`analysis-v2/billing/`](analysis-v2/billing/SUMMARY.md) | Re-scan after 51 billing commits: 87 components, 33 unit test files (~365 tests), 6 Cypress specs (96 tests), 4 untested components. |
+| **Diff v1→v2** | [`analysis-v2/DIFF-FROM-V1.md`](analysis-v2/DIFF-FROM-V1.md) | What resolved, what's still open, what's newly obsolete. Start here if you read v1. |
+| Validation | [`validation/billing/CALLOUT-VALIDATION.md`](validation/billing/CALLOUT-VALIDATION.md) | Every v1 callout re-checked line by line with commit evidence. |
+| Shift-left plan | [`validation/billing/SHIFT-LEFT-CANDIDATES.md`](validation/billing/SHIFT-LEFT-CANDIDATES.md) | Per-Cypress-test classification: keep / shift / delete, with proposed Jest locations. |
 
 ## What This Is
 
