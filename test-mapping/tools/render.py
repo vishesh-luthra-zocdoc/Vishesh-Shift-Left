@@ -51,7 +51,7 @@ def sniff(body, kind):
     b = body or ''
     steps, notes = [], []
 
-    if kind in ('unit', 'api', 'integration', 'cron') or (kind == 'selenium' and 'Assert' in b):
+    if kind in ('unit', 'api', 'integration', 'cron') or (kind in ('selenium', 'e2e') and 'Assert' in b):
         # Arrange
         if DB.search(b): notes.append('real DbContext / in-memory DB')
         mo = re.findall(r'new Mock<I?(\w+)>', b)
@@ -173,17 +173,21 @@ def build_rows(recs, kind, owner, repo, sha, start_num=1):
             summary = mk_summary(what)
 
             unit = (suites[0] if suites else None) or os.path.basename(r['file']).split('-tests')[0].split('.test')[0]
-            level = {'unit': 'L1 unit', 'component': 'L2 component', 'integration': 'L3 integration',
-                     'api': 'L4 api', 'cron': 'L1 unit (cron handler)',
-                     'playwright': 'L5 e2e', 'cypress': 'L5 e2e',
-                     'selenium': 'L5 e2e'}.get(kind, kind)
+            level = {'unit': 'unit', 'component': 'component', 'integration': 'integration',
+                     'api': 'api', 'cron': 'unit (cron handler)',
+                     'playwright': 'e2e', 'cypress': 'e2e',
+                     'selenium': 'e2e', 'e2e': 'e2e'}.get(kind, kind)
             if kind == 'unit' and re.search(r'\b(render|renderHook|mount)\s*\(', r.get('body') or ''):
-                level = 'L2 component'
+                level = 'component'
+            if r.get('is_cron') and '(cron handler)' not in level:
+                level += ' (cron handler)'
             scope = f'{level}. In scope: `{unit}`.'
             oos = []
             if MOCKS.search(r.get('body') or ''): oos.append('mocked collaborators not exercised')
-            if kind in ('playwright', 'cypress'): oos.append('no real backend or Stripe')
-            if kind == 'selenium': oos.append('drives a real browser; slow and order-sensitive')
+            if kind in ('playwright', 'cypress') or r.get('driver') == 'playwright':
+                oos.append('no real backend or Stripe')
+            if kind == 'selenium' or r.get('driver') == 'selenium':
+                oos.append('drives a real browser; slow and order-sensitive')
             if oos: scope += ' Out of scope: ' + '; '.join(oos) + '.'
             extra = list(notes)
             if flags: extra = flags + extra

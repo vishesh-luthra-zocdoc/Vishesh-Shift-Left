@@ -2,6 +2,49 @@
 
 Newest entry on top. Test identity key is `<repo-relative-path>::<Class>.<TestName>`.
 
+## 2026-09-18 — one file per test level; `scripts/` → `tools/`
+
+Reorganized so each repo folder holds exactly one mapping per **test level**. No test content
+changed — 4,939 rows across 440 files, same as the previous run.
+
+**`cron-test-mapping.md` is gone, folded into `unit-test-mapping.md`.** Cron was never a test
+level; those files held unit tests whose subject happened to be a scheduled job, so listing
+them beside `unit` / `integration` / `api` implied a level that does not exist. Every folded row
+keeps **`unit (cron handler)`** in its Scope column, so the subset is still filterable:
+
+| Repo | Cron suite folded in | Tests | Unit mapping now |
+|---|---|---:|---|
+| `provider-billing` | `tests/BillingExportCron.UnitTests` | 228 | 350 → **578** rows |
+| `zocdoc_web` | `Zocron/Zocron.Tasks.Tests/Billing` | 30 | 2,381 → **2,411** rows |
+
+Worth knowing: 43 of the `provider-billing` cron tests drive a real in-memory EF context and are
+flagged as such in Scope. They sit closest to the unit/integration boundary and are the ones to look at first
+if this split gets revisited.
+
+**`playwright-` / `selenium-` → `e2e-test-mapping.md`.** Same reasoning: the filename now names the
+level, and the tool is named in the document title and intro. Both files keep their tool-specific
+Scope notes — Selenium rows say *drives a real browser; slow and order-sensitive*, Playwright rows
+say *no real backend or Stripe*.
+
+**`scripts/` → `tools/`.** The extractors, renderer, `awk` baseline and two scope files are
+tooling for regenerating the mappings, not deliverables; the old name sat at the same level as the
+repo folders and read like content.
+
+Resulting layout:
+
+| Mapping | Repo | Branch | Commit | Level | Test files | Rows |
+|---|---|---|---|---|---:|---:|
+| [`provider-billing/api`](provider-billing/api-test-mapping.md) | `provider-billing` | `main` | `166621f1c8` | api | 5 | 97 |
+| [`provider-billing/integration`](provider-billing/integration-test-mapping.md) | `provider-billing` | `main` | `166621f1c8` | integration | 13 | 88 |
+| [`provider-billing/unit`](provider-billing/unit-test-mapping.md) | `provider-billing` | `main` | `166621f1c8` | unit | 54 | 578 |
+| [`provider-fe-monorepo/e2e`](provider-fe-monorepo/e2e-test-mapping.md) | `provider-fe-monorepo` | `main` | `9b3c308d21` | e2e | 7 | 60 |
+| [`provider-fe-monorepo/unit`](provider-fe-monorepo/unit-test-mapping.md) | `provider-fe-monorepo` | `main` | `9b3c308d21` | unit | 82 | 1033 |
+| [`zocdoc_web/api`](zocdoc_web/api-test-mapping.md) | `zocdoc_web` | `master` | `b306dc12f4` | api | 22 | 144 |
+| [`zocdoc_web/e2e`](zocdoc_web/e2e-test-mapping.md) | `zocdoc_web` | `master` | `b306dc12f4` | e2e | 26 | 147 |
+| [`zocdoc_web/integration`](zocdoc_web/integration-test-mapping.md) | `zocdoc_web` | `master` | `b306dc12f4` | integration | 20 | 381 |
+| [`zocdoc_web/unit`](zocdoc_web/unit-test-mapping.md) | `zocdoc_web` | `master` | `b306dc12f4` | unit | 211 | 2411 |
+| **Total** | | | | | **440** | **4939** |
+
 ## 2026-09-18 — re-map `zocdoc_web` against current `origin/master`
 
 The five `zocdoc_web` mappings were regenerated from `origin/master` at `b306dc12f4`
@@ -31,7 +74,7 @@ suites is counted once as a reclassification rather than as both an add and a re
 
 **7 tests moved unit → integration.** Two `AppCode.SlowTests` billing files were assigned to the
 unit suite in the first run, which was wrong — `Tests/ZocDoc.AppCode.SlowTests/**` crosses a
-real boundary and belongs at L3. Both are now in the integration mapping:
+real boundary and belongs at integration. Both are now in the integration mapping:
 
 - `Tests/ZocDoc.AppCode.SlowTests/Billing/CreditCardTriggerTests.cs`
 - `Tests/ZocDoc.AppCode.SlowTests/CS/Billing/PricingOptionTest.cs`
@@ -99,7 +142,7 @@ They existed at `fb4a8bd7b9` too, so this is a correction to the earlier mapping
 - The extractor was re-validated per-file against the independent `awk` method counter across all
   279 files. One reported diff (`BillingDetailsViewModelTests.cs`, awk 14 vs 15) is a baseline
   limitation — `awk` cannot match `[TestCase (` with a space before the paren — not a miss.
-- The L4 classification of `SeleniumTests/.../Tests/API/Billing` was re-verified at this SHA: all
+- The api classification of `SeleniumTests/.../Tests/API/Billing` was re-verified at this SHA: all
   4 fixtures derive from `BaseZocHttpApiTestFixture` and reference no WebDriver (`Driver`,
   `Browser`, `OpenPage`, `Navigate` all absent). The 5th file in that directory,
   `BillingHttpUtils.cs`, is a `static` helper with no tests and so contributes no rows.
@@ -112,17 +155,17 @@ current, i.e. post-re-map.
 
 | Mapping | Repo | Branch | Commit | Type | Test files | Rows |
 |---|---|---|---|---|---:|---:|
-| [`provider-billing-api-test-mapping.md`](provider-billing-api-test-mapping.md) | `Zocdoc/provider-billing` | `main` | `166621f1c8` | api | 5 | 97 |
-| [`provider-billing-cron-test-mapping.md`](provider-billing-cron-test-mapping.md) | `Zocdoc/provider-billing` | `main` | `166621f1c8` | cron | 21 | 228 |
-| [`provider-billing-integration-test-mapping.md`](provider-billing-integration-test-mapping.md) | `Zocdoc/provider-billing` | `main` | `166621f1c8` | integration | 13 | 88 |
-| [`provider-billing-unit-test-mapping.md`](provider-billing-unit-test-mapping.md) | `Zocdoc/provider-billing` | `main` | `166621f1c8` | unit | 33 | 350 |
-| [`provider-fe-monorepo-playwright-billing-test-mapping.md`](provider-fe-monorepo-playwright-billing-test-mapping.md) | `Zocdoc/provider-fe-monorepo` | `main` | `9b3c308d21` | playwright | 7 | 60 |
-| [`provider-fe-monorepo-unit-billing-test-mapping.md`](provider-fe-monorepo-unit-billing-test-mapping.md) | `Zocdoc/provider-fe-monorepo` | `main` | `9b3c308d21` | unit | 82 | 1033 |
-| [`zocdoc_web-api-billing-test-mapping.md`](zocdoc_web-api-billing-test-mapping.md) | `Zocdoc/zocdoc_web` | `master` | `b306dc12f4` | api | 22 | 144 |
-| [`zocdoc_web-cron-billing-test-mapping.md`](zocdoc_web-cron-billing-test-mapping.md) | `Zocdoc/zocdoc_web` | `master` | `b306dc12f4` | cron | 9 | 30 |
-| [`zocdoc_web-integration-billing-test-mapping.md`](zocdoc_web-integration-billing-test-mapping.md) | `Zocdoc/zocdoc_web` | `master` | `b306dc12f4` | integration | 20 | 381 |
-| [`zocdoc_web-selenium-billing-test-mapping.md`](zocdoc_web-selenium-billing-test-mapping.md) | `Zocdoc/zocdoc_web` | `master` | `b306dc12f4` | selenium | 26 | 147 |
-| [`zocdoc_web-unit-billing-test-mapping.md`](zocdoc_web-unit-billing-test-mapping.md) | `Zocdoc/zocdoc_web` | `master` | `b306dc12f4` | unit | 202 | 2381 |
+| [`provider-billing/api`](provider-billing/api-test-mapping.md) | `Zocdoc/provider-billing` | `main` | `166621f1c8` | api | 5 | 97 |
+| [`provider-billing/unit`](provider-billing/unit-test-mapping.md) | `Zocdoc/provider-billing` | `main` | `166621f1c8` | cron | 21 | 228 |
+| [`provider-billing/integration`](provider-billing/integration-test-mapping.md) | `Zocdoc/provider-billing` | `main` | `166621f1c8` | integration | 13 | 88 |
+| [`provider-billing/unit`](provider-billing/unit-test-mapping.md) | `Zocdoc/provider-billing` | `main` | `166621f1c8` | unit | 33 | 350 |
+| [`provider-fe-monorepo/e2e`](provider-fe-monorepo/e2e-test-mapping.md) | `Zocdoc/provider-fe-monorepo` | `main` | `9b3c308d21` | playwright | 7 | 60 |
+| [`provider-fe-monorepo/unit`](provider-fe-monorepo/unit-test-mapping.md) | `Zocdoc/provider-fe-monorepo` | `main` | `9b3c308d21` | unit | 82 | 1033 |
+| [`zocdoc_web/api`](zocdoc_web/api-test-mapping.md) | `Zocdoc/zocdoc_web` | `master` | `b306dc12f4` | api | 22 | 144 |
+| [`zocdoc_web/unit`](zocdoc_web/unit-test-mapping.md) | `Zocdoc/zocdoc_web` | `master` | `b306dc12f4` | cron | 9 | 30 |
+| [`zocdoc_web/integration`](zocdoc_web/integration-test-mapping.md) | `Zocdoc/zocdoc_web` | `master` | `b306dc12f4` | integration | 20 | 381 |
+| [`zocdoc_web/e2e`](zocdoc_web/e2e-test-mapping.md) | `Zocdoc/zocdoc_web` | `master` | `b306dc12f4` | selenium | 26 | 147 |
+| [`zocdoc_web/unit`](zocdoc_web/unit-test-mapping.md) | `Zocdoc/zocdoc_web` | `master` | `b306dc12f4` | unit | 202 | 2381 |
 | **Total** | | | | | **440** | **4939** |
 
 ### Scope note
