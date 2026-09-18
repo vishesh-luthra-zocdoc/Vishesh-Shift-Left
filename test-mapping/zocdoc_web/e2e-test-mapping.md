@@ -1,11 +1,11 @@
-# zocdoc_web — Billing E2E (Selenium) Test Mapping
+# zocdoc_web — Billing E2E Test Mapping (Selenium)
 
 <!-- test-mapping-meta
 repo: Zocdoc/zocdoc_web
 branch: master
 commit: b306dc12f4a767a1462028a2dba66dcb8cae2134
 generated: 2026-09-18
-test-type: selenium
+test-type: e2e
 -->
 > Source: Zocdoc/zocdoc_web @ `b306dc12f4` · branch `master` · generated 2026-09-18
 

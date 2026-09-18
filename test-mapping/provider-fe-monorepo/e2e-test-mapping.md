@@ -1,11 +1,11 @@
-# provider-fe-monorepo — Billing E2E (Playwright) Test Mapping
+# provider-fe-monorepo — Billing E2E Test Mapping (Playwright)
 
 <!-- test-mapping-meta
 repo: Zocdoc/provider-fe-monorepo
 branch: main
 commit: 9b3c308d216a9a99efdcc648ade5349daba67b76
 generated: 2026-09-18
-test-type: playwright
+test-type: e2e
 -->
 > Source: Zocdoc/provider-fe-monorepo @ `9b3c308d21` · branch `main` · generated 2026-09-18
 

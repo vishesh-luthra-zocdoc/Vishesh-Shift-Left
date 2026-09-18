@@ -12,7 +12,7 @@ test-type: api
 
 **Suites:** `Apis/BillingMonolithApi`, `Apis/PracticeBillingSettings`, `RestApis/ZocDoc.RestApis.Tests/{PracticeBillingSettings,BillingGrowth}`, and `SeleniumTests/SeleniumTests/Tests/API/Billing`. Assert HTTP request/response contracts. Level **L4 api**.
 
-The `SeleniumTests/.../Tests/API/Billing` fixtures live under the Selenium project by directory convention only: all 4 test fixtures there derive from `BaseZocHttpApiTestFixture` and drive no WebDriver (verified — no `Driver`/`Browser`/`OpenPage`/`Navigate` usage), so they belong here at L4 rather than with the L5 browser tests.
+The `SeleniumTests/.../Tests/API/Billing` fixtures live under the Selenium project by directory convention only: all 5 derive from `BaseZocHttpApiTestFixture` and drive no WebDriver (verified — no `Driver`/`Browser`/`OpenPage`/`Navigate` usage), so they belong here at L4 rather than with the L5 browser tests.
 
 > **Revision note:** mapped from `origin/master` at `b306dc12f4` (2026-09-18), the current tip. Links are pinned to this full SHA and will not drift.
 

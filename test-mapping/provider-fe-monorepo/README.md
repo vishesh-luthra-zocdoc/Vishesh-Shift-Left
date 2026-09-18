@@ -6,7 +6,7 @@
 
 | Mapping | Level | Test files | Rows | Revision |
 |---|---|---:|---:|---|
-| [`playwright-test-mapping.md`](playwright-test-mapping.md) | L5 e2e (Playwright) | 7 | 60 | `main` @ `9b3c308d21` |
+| [`e2e-test-mapping.md`](e2e-test-mapping.md) | L5 e2e | 7 | 60 | `main` @ `9b3c308d21` |
 | [`unit-test-mapping.md`](unit-test-mapping.md) | L1/L2 unit + component | 82 | 1033 | `main` @ `9b3c308d21` |
 
 Each mapping opens with a `<!-- test-mapping-meta -->` header recording the repo, branch,
