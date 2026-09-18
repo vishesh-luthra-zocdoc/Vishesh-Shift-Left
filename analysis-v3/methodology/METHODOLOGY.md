@@ -27,12 +27,16 @@ v3 changes three things:
 
 ## Repositories in scope
 
+Scope is **pre-release tests in team-owned repos**. The QA-owned `sandbox` repo (Playwright against
+production `zocdoc.com`) is post-release and out of scope — it is analyzed separately. Where a
+`sandbox` observation explains a monorepo gap it is cited as evidence, but no `sandbox` gap is filed
+here.
+
 | Repo | What it holds | Levels present |
 |---|---|---|
 | `provider-fe-monorepo` | Billing Settings UI (`apps/settings`), shared payment components (`shared/core`) | L1, L2, L5 |
 | `zocdoc_web` | Billing monolith — bill generation, charges, Stripe, chargebacks, tax | L1, L4, L5 |
 | `provider-billing` | Provider Billing service (.NET) — Web API, lambdas, cron jobs | L1, L3, L4 |
-| `sandbox` | Playwright suite running against production `zocdoc.com` | L5 |
 
 ## Repositories considered and excluded
 
@@ -58,7 +62,6 @@ be refreshed.
 | Repo | Revision analyzed | Date | Freshness |
 |---|---|---|---|
 | `provider-fe-monorepo` | `dd9e4952a6` (`origin/main`) | 2026-09-03 | Current |
-| `sandbox` | `dac52b65` (branch `fix/billing-stripe-payment-element`); `origin/main` at `4bb607cc` | 2026-09-04 | Current |
 | `zocdoc_web` | see `../inventory/zocdoc_web/` | — | See note below |
 | `provider-billing` | see `../inventory/provider-billing/` | — | See note below |
 
@@ -81,8 +84,8 @@ Cross-references performed:
 2. Same behaviour asserted at two levels? (finds redundancy — the shift-left and delete candidates)
 3. E2E test → does it mock its backend? (finds tests paying L5 cost for L2 confidence)
 4. v2 finding → still true at v3 revision? (finds what the team actually fixed, and what v2 got wrong)
-5. `sandbox` spec → `provider-fe-monorepo` spec (finds cross-repo duplication, since both repos
-   have a `billing-settings-page` Playwright spec)
+5. Monorepo billing DOM → the `data-test` attributes the downstream production suite depends on
+   (finds implicit cross-repo coupling with no CI signal — the basis for X-001)
 
 ## Evidence standard
 
@@ -98,8 +101,8 @@ tickets and a fabricated line becomes a ticket that wastes a sprint.
    asserts anything useful — where a test looked weak it is noted, but this analysis measures
    presence and level, not assertion quality.
 2. **Runtime figures are estimates** unless taken from a real CI run, and are labelled as such.
-3. **Two repos could not be refreshed.** The sandbox environment denies writes to their `.git`
-   directories, so `git fetch` failed. Their staleness at time of analysis is recorded per-repo and
-   on every finding derived from them.
+3. **Local checkouts could not be refreshed.** The agentic sandbox denies writes to their `.git`
+   directories, so `git fetch` failed. Findings were taken from remote snapshots instead; see
+   [`REVISIONS.md`](REVISIONS.md).
 4. **Assertion quality and flakiness are out of scope.** Both matter and both deserve their own
    pass; mixing them into a coverage inventory would have made this one unreadable.

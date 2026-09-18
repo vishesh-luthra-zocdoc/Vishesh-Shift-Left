@@ -14,7 +14,6 @@ Filenames: `<REPO>-<nnn>-<kebab-slug>.md`, numbered in priority order **within e
 | `FE` | `provider-fe-monorepo` |
 | `WEB` | `zocdoc_web` |
 | `PB` | `provider-billing` |
-| `SBX` | `sandbox` |
 | `X` | cross-repo (a gap no single repo owns) |
 
 Per-repo prefixes rather than one global sequence, for two reasons: you can tell which repo and
@@ -34,14 +33,14 @@ written back into [`BACKLOG.md`](BACKLOG.md) after creation, so the mapping stay
 | Field | Value |
 |---|---|
 | Jira project | BILL |
-| Issue type | Task \| Bug \| Chore |
+| Issue type | Story |
 | Priority | P0 \| P1 \| P2 \| P3 |
 | Test level | L1 unit \| L2 component \| L3 integration \| L4 api \| L5 e2e |
 | Action | add-coverage \| shift-left \| delete \| investigate |
-| Repo | provider-fe-monorepo \| zocdoc_web \| provider-billing \| sandbox |
+| Repo | provider-fe-monorepo \| zocdoc_web \| provider-billing |
 | Area | <e.g. Billing Settings — invoice formatting> |
 | Estimate | <e.g. 45m / 2h / 1d> |
-| Labels | shift-left, test-coverage, <level> |
+| Labels | qa-shift-left, <level>, test-coverage \| cleanup |
 | Evidence revision | <commit SHA the finding was verified against> |
 
 ## Summary

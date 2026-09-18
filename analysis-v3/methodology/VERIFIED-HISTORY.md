@@ -70,18 +70,19 @@ intact and then added to.
 | plus 2 page objects | — | 231 |
 | **Total billing E2E footprint** | **63 tests** | **3,173 lines** |
 
-## Cross-repo root cause: why `sandbox` billing E2E is red
+## Cross-repo root cause: a monorepo change that could not fail in the monorepo
 
 `70a384854e` (2026-09-02) tore down the `billing_payment_element_flow` flag in
 `provider-fe-monorepo`, making the Stripe Payment Element the only code path and changing the
-rendered DOM. `sandbox`'s billing specs target that DOM against production and went red the same
-day. The fix — `dac52b65` `fix: repoint billing add-payment-method helpers at Stripe Payment
-Element` — exists locally but is **not merged to `sandbox`'s `main`** (verified: not an ancestor of
-`origin/main` `4bb607cc`).
+rendered DOM. The downstream Playwright billing specs that target that DOM on production went red the
+same day. They were repointed downstream on 2026-09-04 (`eef9429d`, #2593) — as of `dac52b65` that
+fix was still on a branch, not yet on `origin/main` `4bb607cc`.
 
-This is the structural finding, not the incident: a flag teardown in one repo silently broke a
-suite in another repo, and nothing connected the two. No canary, no shared selector contract, no
-cross-repo ownership link. It will recur on the next teardown.
+This is the structural finding, not the incident: **monorepo CI could not fail on a monorepo change**,
+because it mocks Stripe entirely and cannot see real payment DOM. The break surfaced in a different
+repo, on a different workflow, and was diagnosed by hand. Nothing was changed in the monorepo, so it
+will recur on the next teardown. The fix (X-001) is monorepo-side, which is why it is in scope here
+even though the red suite was not.
 
 ## Corrections to subagent findings
 

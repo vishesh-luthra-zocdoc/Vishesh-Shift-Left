@@ -8,12 +8,13 @@ Snapshots are content exports and carry no git metadata. This file is the author
 | `provider-billing/` | Zocdoc/provider-billing | `84318e3d5c` | `main` (GitHub API) | 2026-09-03 |
 | `zocdoc_web/` | Zocdoc/zocdoc_web | `8742b5072da` | `master` (GitHub API) | 2026-09-04 |
 
-`sandbox` was analyzed in place at working-tree `dac52b65` (branch `fix/billing-stripe-payment-element`);
-its `origin/main` was `4bb607cc`.
+The QA-owned `sandbox` repo is out of scope for this analysis. Where its 2026-09-02 breakage is cited
+as evidence for X-001, the reference revisions are `dac52b65` (branch
+`fix/billing-stripe-payment-element`) and `origin/main` at `4bb607cc`, both 2026-09-04.
 
 ## Why snapshots, not the local checkouts
 
-The local checkouts were badly stale and the sandbox denies writes to their `.git` dirs, so
+The local checkouts were badly stale and the agentic sandbox denies writes to their `.git` dirs, so
 `git fetch` fails. Analyzing them would have produced findings about deleted code:
 
 | Repo | Local checkout | Current remote | Drift |

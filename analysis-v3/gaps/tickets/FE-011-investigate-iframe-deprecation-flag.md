@@ -73,5 +73,5 @@ yarn test apps/settings/src/pages/settingsPages/billingSettings
 Plus a build if source was removed.
 
 ## Notes
-Do **X-001 first.** This is a pending flag teardown of exactly the kind that broke the `sandbox`
+Do **X-001 first.** This is a pending flag teardown of exactly the kind that broke the downstream
 suite on 2026-09-02. Landing the cross-repo tripwire before this teardown is the whole point of X-001.

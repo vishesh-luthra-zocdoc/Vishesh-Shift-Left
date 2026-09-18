@@ -72,9 +72,19 @@ That is the single clearest illustration of what v3's backlog is for. `FE-002` i
 v2's largest cleanup item was "`billing-settings-page-tests.ts` is 1,254 lines and may be redundant;
 check the `SHOW_NEW_BILLING_MEZZ_REVAMP` rollout."
 
-v2's line count was **exactly right** (verified: `git show b730e8aafb:...` → 1254). The cleanup
-happened: the file went **1,254 → 179 lines** by 2026-07-06 — a 1,075-line reduction, landed
-*before* the Playwright port even started.
+v2's line count was **exactly right** (verified: `git show b730e8aafb:...` → 1254), and v2's
+hypothesis was right too — it *was* the flag rollout.
+
+What actually happened, commit by commit:
+
+| When | Commit | Effect |
+|---|---|---|
+| 2026-05-13 | `d5317c99b6` (#10712, BILL-663) — tear down `SHOW_NEW_BILLING_MEZZ_REVAMP` | **−1,080 lines**, 1,254 → 175. The old-billing test branches became unreachable the moment the flag went, and were removed with it. |
+| May–Jul | assorted | drifted 175 → 179 |
+| 2026-07-06 | Cypress → Playwright port | file **deleted**; its remaining coverage moved to the Playwright specs |
+
+So the reduction was not a generic cleanup — it was the flag teardown v2 told the team to go look at.
+The file no longer exists.
 
 **Closed. Not re-raised in v3.**
 
@@ -125,7 +135,7 @@ it to visual regression rather than deleting it — see
 | Item | Raised in | Status |
 |---|---|---|
 | `YearlyValueCalcModal` untested money math | v1/v2 era P0 | ✅ **Fixed** (BILL-748, BILL-962) — 34 tests, non-tautological |
-| `billing-settings-page-tests.ts` 1,254 lines | v2 P2 #6 | ✅ **Fixed** — down to 179 lines |
+| `billing-settings-page-tests.ts` 1,254 lines | v2 P2 #6 | ✅ **Fixed** — `d5317c99b6` flag teardown cut it to 175; file deleted in the Jul 6 Playwright port |
 | Dead V1 calculator code | v2 (general) | ✅ **Fixed** — 505 lines removed |
 | Stripe mock in production code | not raised | 🔄 **In progress** by the team (`dd9e4952a6`) |
 | `LegacyInvoiceView` "dead code" | v2 P0 #1 | ❌ **Was never a real gap** — v2 was wrong, correctly not acted on |

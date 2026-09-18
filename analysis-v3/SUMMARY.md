@@ -2,6 +2,12 @@
 
 Plain language. Technical detail is one click away in each linked ticket.
 
+**New here? Read [`START-HERE.md`](START-HERE.md) instead** — it's one page and it tells you what to
+test, at what priority, and what to do first. This file is the same findings in prose.
+
+**Scope:** pre-release tests in team-owned repos (`provider-fe-monorepo`, `provider-billing`,
+`zocdoc_web`). The QA-owned `sandbox` repo is out of scope.
+
 ---
 
 ## The four things that matter
@@ -38,11 +44,13 @@ green no-ops that report success while testing nothing.
 
 ### 4. A flag teardown in one repo silently broke another repo
 2026-09-02: `70a384854e` tore down `billing_payment_element_flow` in `provider-fe-monorepo`, changing
-the payment DOM. `sandbox`'s billing specs — which target that DOM against production — went red the
-same day. Fixed 2026-09-04 (`eef9429d`, #2593).
+the payment DOM. The downstream Playwright suite that targets that DOM against production went red
+the same day. Fixed downstream 2026-09-04 (`eef9429d`, #2593) — but nothing was fixed in the
+monorepo, which is where the change originated.
 
 **The monorepo's own CI stayed green**, because it mocks Stripe and cannot see real payment DOM.
-Nothing connected the two repos: no canary, no shared selector contract, no ownership link. It will
+Nothing made the breaking change fail where it was made: no canary, no shared selector contract, no
+ownership link. **The fix for this is monorepo-side**, which is why it's in scope here. It will
 recur on the next teardown — and **[FE-011](gaps/tickets/FE-011-investigate-iframe-deprecation-flag.md)**
 is a pending teardown of exactly that kind.
 → **[X-001](gaps/tickets/X-001-cross-repo-selector-contract.md)**
@@ -100,8 +108,6 @@ rendering for providers. → [`V2-VALIDATION.md`](V2-VALIDATION.md),
 
 152 source files · 88 with coverage · 64 with no direct test · **13 with no coverage at all**
 
-`sandbox`: 2 specs, 5 tests, but only **3 distinct journeys** — two tests are ~75% duplicates of the
-other spec. → **[SBX-001](gaps/tickets/SBX-001-billing-specs-are-75-percent-duplicates.md)**
 
 ## Where to start Monday
 

@@ -1,5 +1,20 @@
 # Test-Level Taxonomy
 
+**Short version, if you only want the labels:**
+
+| Level | What it means | Example from billing |
+|---|---|---|
+| **L1 — unit** | One function on its own | `formatDate` in `invoiceHelpers.ts` |
+| **L2 — component** | One screen on its own | `EditMonthlyLimitModal` |
+| **L3 — integration** | A few real pieces wired together | modal + real provider tree, or a LocalStack test |
+| **L4 — api** | The API returns the fields the page expects | *(billing has none)* |
+| **L5 — e2e** | A real browser clicking through billing | the Playwright billing specs |
+
+Lower is better whenever it can catch the same bug: faster, runs on every PR, easier to debug. The
+rest of this file is the exact decision procedure used to classify each test.
+
+---
+
 **This is the spine of the v3 analysis.** v1 and v2 counted "unit tests" and "E2E tests" and
 nothing else. That hid two things: most of what the frontend calls a unit test is really a
 component-render test, and most of what the monolith calls an integration test is really a
@@ -81,6 +96,8 @@ of an unverified claim.
 
 ## Target shape
 
-The current and target distribution per repo is in
-[`../shift-left/TEST-PYRAMID.md`](../shift-left/TEST-PYRAMID.md). The goal is not a fixed ratio —
-it is that each test sits at the **lowest level that can still prove what it needs to prove**.
+The current distribution is in [`../START-HERE.md`](../START-HERE.md); the reasoning behind the
+proposed E2E reduction is in
+[`../shift-left/E2E-PLAN-JUDGMENT.md`](../shift-left/E2E-PLAN-JUDGMENT.md). The goal is not a fixed
+ratio — it is that each test sits at the **lowest level that can still prove what it needs to
+prove**.
