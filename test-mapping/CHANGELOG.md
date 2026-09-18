@@ -112,17 +112,17 @@ current, i.e. post-re-map.
 
 | Mapping | Repo | Branch | Commit | Type | Test files | Rows |
 |---|---|---|---|---|---:|---:|
-| [`provider-billing-api-test-mapping.md`](provider-billing-api-test-mapping.md) | `Zocdoc/provider-billing` | `main` | `166621f1c8` | api | 5 | 97 |
-| [`provider-billing-cron-test-mapping.md`](provider-billing-cron-test-mapping.md) | `Zocdoc/provider-billing` | `main` | `166621f1c8` | cron | 21 | 228 |
-| [`provider-billing-integration-test-mapping.md`](provider-billing-integration-test-mapping.md) | `Zocdoc/provider-billing` | `main` | `166621f1c8` | integration | 13 | 88 |
-| [`provider-billing-unit-test-mapping.md`](provider-billing-unit-test-mapping.md) | `Zocdoc/provider-billing` | `main` | `166621f1c8` | unit | 33 | 350 |
-| [`provider-fe-monorepo-playwright-billing-test-mapping.md`](provider-fe-monorepo-playwright-billing-test-mapping.md) | `Zocdoc/provider-fe-monorepo` | `main` | `9b3c308d21` | playwright | 7 | 60 |
-| [`provider-fe-monorepo-unit-billing-test-mapping.md`](provider-fe-monorepo-unit-billing-test-mapping.md) | `Zocdoc/provider-fe-monorepo` | `main` | `9b3c308d21` | unit | 82 | 1033 |
-| [`zocdoc_web-api-billing-test-mapping.md`](zocdoc_web-api-billing-test-mapping.md) | `Zocdoc/zocdoc_web` | `master` | `b306dc12f4` | api | 22 | 144 |
-| [`zocdoc_web-cron-billing-test-mapping.md`](zocdoc_web-cron-billing-test-mapping.md) | `Zocdoc/zocdoc_web` | `master` | `b306dc12f4` | cron | 9 | 30 |
-| [`zocdoc_web-integration-billing-test-mapping.md`](zocdoc_web-integration-billing-test-mapping.md) | `Zocdoc/zocdoc_web` | `master` | `b306dc12f4` | integration | 20 | 381 |
-| [`zocdoc_web-selenium-billing-test-mapping.md`](zocdoc_web-selenium-billing-test-mapping.md) | `Zocdoc/zocdoc_web` | `master` | `b306dc12f4` | selenium | 26 | 147 |
-| [`zocdoc_web-unit-billing-test-mapping.md`](zocdoc_web-unit-billing-test-mapping.md) | `Zocdoc/zocdoc_web` | `master` | `b306dc12f4` | unit | 202 | 2381 |
+| [`provider-billing/api`](provider-billing/api-test-mapping.md) | `Zocdoc/provider-billing` | `main` | `166621f1c8` | api | 5 | 97 |
+| [`provider-billing/cron`](provider-billing/cron-test-mapping.md) | `Zocdoc/provider-billing` | `main` | `166621f1c8` | cron | 21 | 228 |
+| [`provider-billing/integration`](provider-billing/integration-test-mapping.md) | `Zocdoc/provider-billing` | `main` | `166621f1c8` | integration | 13 | 88 |
+| [`provider-billing/unit`](provider-billing/unit-test-mapping.md) | `Zocdoc/provider-billing` | `main` | `166621f1c8` | unit | 33 | 350 |
+| [`provider-fe-monorepo/playwright`](provider-fe-monorepo/playwright-test-mapping.md) | `Zocdoc/provider-fe-monorepo` | `main` | `9b3c308d21` | playwright | 7 | 60 |
+| [`provider-fe-monorepo/unit`](provider-fe-monorepo/unit-test-mapping.md) | `Zocdoc/provider-fe-monorepo` | `main` | `9b3c308d21` | unit | 82 | 1033 |
+| [`zocdoc_web/api`](zocdoc_web/api-test-mapping.md) | `Zocdoc/zocdoc_web` | `master` | `b306dc12f4` | api | 22 | 144 |
+| [`zocdoc_web/cron`](zocdoc_web/cron-test-mapping.md) | `Zocdoc/zocdoc_web` | `master` | `b306dc12f4` | cron | 9 | 30 |
+| [`zocdoc_web/integration`](zocdoc_web/integration-test-mapping.md) | `Zocdoc/zocdoc_web` | `master` | `b306dc12f4` | integration | 20 | 381 |
+| [`zocdoc_web/selenium`](zocdoc_web/selenium-test-mapping.md) | `Zocdoc/zocdoc_web` | `master` | `b306dc12f4` | selenium | 26 | 147 |
+| [`zocdoc_web/unit`](zocdoc_web/unit-test-mapping.md) | `Zocdoc/zocdoc_web` | `master` | `b306dc12f4` | unit | 202 | 2381 |
 | **Total** | | | | | **440** | **4939** |
 
 ### Scope note
