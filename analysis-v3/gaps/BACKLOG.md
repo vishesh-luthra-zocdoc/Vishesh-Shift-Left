@@ -32,52 +32,52 @@ exist only as Jira tickets — the backend write-ups and inventories were never 
 
 ### P0 — untested logic that can corrupt money or provider-facing data
 
-| ID | Title | Level | Action | Est. | Jira |
+| ID | Title | Kind of test | Action | Est. | Jira |
 |---|---|---|---|---|---|
-| [FE-001](tickets/FE-001-real-stripe-payment-element-untested.md) | Add an integration test that a real Stripe Payment Element mounts and accepts a card | L5 e2e | add-coverage | 1d | [BILL-1193](https://zocdoc.atlassian.net/browse/BILL-1193) |
-| [FE-002](tickets/FE-002-monthly-limit-tautological-test.md) | Replace the tautological monthly-limit assertion with hardcoded boundary values | L1 unit | add-coverage | 45m | [BILL-1194](https://zocdoc.atlassian.net/browse/BILL-1194) |
-| [FE-003](tickets/FE-003-invoice-helpers-untested.md) | Add unit tests for `invoiceHelpers.ts` | L1 unit | add-coverage | 45m | [BILL-1195](https://zocdoc.atlassian.net/browse/BILL-1195) — **In Progress** |
-| PB-001 | Stripe webhook idempotency is bypassed in production and all four dedup tests are commented out | L3 integration | add-coverage | 1d | [BILL-1211](https://zocdoc.atlassian.net/browse/BILL-1211) |
-| WEB-001 | Prorated subscription day-count is untested, and the source comment says the math is wrong | L1 unit | add-coverage | 4h | [BILL-1217](https://zocdoc.atlassian.net/browse/BILL-1217) |
+| [FE-001](tickets/FE-001-real-stripe-payment-element-untested.md) | Add an integration test that a real Stripe Payment Element mounts and accepts a card | Browser test | add-coverage | 1d | [BILL-1193](https://zocdoc.atlassian.net/browse/BILL-1193) |
+| [FE-002](tickets/FE-002-monthly-limit-tautological-test.md) | Replace the tautological monthly-limit assertion with hardcoded boundary values | Unit test | add-coverage | 45m | [BILL-1194](https://zocdoc.atlassian.net/browse/BILL-1194) |
+| [FE-003](tickets/FE-003-invoice-helpers-untested.md) | Add unit tests for `invoiceHelpers.ts` | Unit test | add-coverage | 45m | [BILL-1195](https://zocdoc.atlassian.net/browse/BILL-1195) — **In Progress** |
+| PB-001 | Stripe webhook idempotency is bypassed in production and all four dedup tests are commented out | Integration test | add-coverage | 1d | [BILL-1211](https://zocdoc.atlassian.net/browse/BILL-1211) |
+| WEB-001 | Prorated subscription day-count is untested, and the source comment says the math is wrong | Unit test | add-coverage | 4h | [BILL-1217](https://zocdoc.atlassian.net/browse/BILL-1217) |
 
 ### P1 — real user-visible failure mode, or material CI cost
 
-| ID | Title | Level | Action | Est. | Jira |
+| ID | Title | Kind of test | Action | Est. | Jira |
 |---|---|---|---|---|---|
-| [FE-005](tickets/FE-005-zero-api-contract-tests.md) | Add API contract tests for the billing endpoints the UI consumes | L4 api | add-coverage | 1d | [BILL-1197](https://zocdoc.atlassian.net/browse/BILL-1197) — **In Progress** |
-| [FE-004](tickets/FE-004-conditional-assertions-green-noops.md) | Fix six E2E tests whose assertions are entirely inside `if (mock.find(...))` | L5 e2e | add-coverage | 2h | [BILL-1196](https://zocdoc.atlassian.net/browse/BILL-1196) |
-| [FE-006](tickets/FE-006-ach-no-e2e-coverage.md) | Add coverage for the ACH / bank-account add-payment-method path | L5 e2e | add-coverage | 4h | [BILL-1198](https://zocdoc.atlassian.net/browse/BILL-1198) |
-| WEB-002 | Replace the tautological tax assertion in `ProcessorGenerateChargeGroupsTest` with hardcoded amounts | L1 unit | add-coverage | 2h | [BILL-1218](https://zocdoc.atlassian.net/browse/BILL-1218) |
-| WEB-003 | The bill generator has no active tests — its only fixture is `[Ignore]`d | L3 integration | add-coverage | 1d | [BILL-1219](https://zocdoc.atlassian.net/browse/BILL-1219) |
+| [FE-005](tickets/FE-005-zero-api-contract-tests.md) | Add API contract tests for the billing endpoints the UI consumes | API contract test | add-coverage | 1d | [BILL-1197](https://zocdoc.atlassian.net/browse/BILL-1197) — **In Progress** |
+| [FE-004](tickets/FE-004-conditional-assertions-green-noops.md) | Fix six E2E tests whose assertions are entirely inside `if (mock.find(...))` | Browser test | add-coverage | 2h | [BILL-1196](https://zocdoc.atlassian.net/browse/BILL-1196) |
+| [FE-006](tickets/FE-006-ach-no-e2e-coverage.md) | Add coverage for the ACH / bank-account add-payment-method path | Browser test | add-coverage | 4h | [BILL-1198](https://zocdoc.atlassian.net/browse/BILL-1198) |
+| WEB-002 | Replace the tautological tax assertion in `ProcessorGenerateChargeGroupsTest` with hardcoded amounts | Unit test | add-coverage | 2h | [BILL-1218](https://zocdoc.atlassian.net/browse/BILL-1218) |
+| WEB-003 | The bill generator has no active tests — its only fixture is `[Ignore]`d | Integration test | add-coverage | 1d | [BILL-1219](https://zocdoc.atlassian.net/browse/BILL-1219) |
 
 ### P2 — meaningful gap, low blast radius
 
-| ID | Title | Level | Action | Est. | Jira |
+| ID | Title | Kind of test | Action | Est. | Jira |
 |---|---|---|---|---|---|
-| [FE-009](tickets/FE-009-shift-19-e2e-tests-to-component-level.md) | Shift 19 mocked E2E tests down to L2 component tests | L2 component | shift-left | 1d | [BILL-1201](https://zocdoc.atlassian.net/browse/BILL-1201) |
-| [FE-010](tickets/FE-010-delete-39-redundant-e2e-tests.md) | Delete 39 E2E tests already covered by named L2 tests | L5 e2e | delete | 1d | [BILL-1202](https://zocdoc.atlassian.net/browse/BILL-1202) |
-| [FE-007](tickets/FE-007-delete-empty-and-duplicate-e2e-tests.md) | Delete the empty E2E test and the four intra-suite duplicates | L5 e2e | delete | 45m | [BILL-1199](https://zocdoc.atlassian.net/browse/BILL-1199) |
-| [FE-008](tickets/FE-008-move-geometry-assertions-to-visual-regression.md) | Move the three layout-geometry assertions out of the functional E2E suite | L5 e2e | shift-left | 4h | [BILL-1200](https://zocdoc.atlassian.net/browse/BILL-1200) |
-| [FE-012](tickets/FE-012-legacy-invoice-view-coverage.md) | Assess coverage of `LegacyInvoiceView`, now that it renders unconditionally — **do not delete it** | L2 component | investigate | 2h | [BILL-1204](https://zocdoc.atlassian.net/browse/BILL-1204) |
-| [FE-011](tickets/FE-011-investigate-iframe-deprecation-flag.md) | Determine the `BILLING_PAGE_ENABLE_IFRAME_DEPRECATION` ramp state and remove its test branches | L2 component | investigate | 2h | [BILL-1203](https://zocdoc.atlassian.net/browse/BILL-1203) |
-| PB-002 | Cover the hardcoded `ActualCost = 0` in the appointment event processor | L1 unit | add-coverage | 2h | [BILL-1212](https://zocdoc.atlassian.net/browse/BILL-1212) |
-| PB-004 | Add an integration test for the billing-export **Generate** stage (Gather and Enrich have one) | L3 integration | add-coverage | 4h | [BILL-1214](https://zocdoc.atlassian.net/browse/BILL-1214) |
+| [FE-009](tickets/FE-009-shift-19-e2e-tests-to-component-level.md) | Turn 19 mocked browser tests into component tests | Component test | shift-left | 1d | [BILL-1201](https://zocdoc.atlassian.net/browse/BILL-1201) |
+| [FE-010](tickets/FE-010-delete-39-redundant-e2e-tests.md) | Delete 39 browser tests already covered by named component tests | Browser test | delete | 1d | [BILL-1202](https://zocdoc.atlassian.net/browse/BILL-1202) |
+| [FE-007](tickets/FE-007-delete-empty-and-duplicate-e2e-tests.md) | Delete the empty E2E test and the four intra-suite duplicates | Browser test | delete | 45m | [BILL-1199](https://zocdoc.atlassian.net/browse/BILL-1199) |
+| [FE-008](tickets/FE-008-move-geometry-assertions-to-visual-regression.md) | Move the three layout-geometry assertions out of the functional E2E suite | Browser test | shift-left | 4h | [BILL-1200](https://zocdoc.atlassian.net/browse/BILL-1200) |
+| [FE-012](tickets/FE-012-legacy-invoice-view-coverage.md) | Assess coverage of `LegacyInvoiceView`, now that it renders unconditionally — **do not delete it** | Component test | investigate | 2h | [BILL-1204](https://zocdoc.atlassian.net/browse/BILL-1204) |
+| [FE-011](tickets/FE-011-investigate-iframe-deprecation-flag.md) | Determine the `BILLING_PAGE_ENABLE_IFRAME_DEPRECATION` ramp state and remove its test branches | Component test | investigate | 2h | [BILL-1203](https://zocdoc.atlassian.net/browse/BILL-1203) |
+| PB-002 | Cover the hardcoded `ActualCost = 0` in the appointment event processor | Unit test | add-coverage | 2h | [BILL-1212](https://zocdoc.atlassian.net/browse/BILL-1212) |
+| PB-004 | Add an integration test for the billing-export **Generate** stage (Gather and Enrich have one) | Integration test | add-coverage | 4h | [BILL-1214](https://zocdoc.atlassian.net/browse/BILL-1214) |
 
 ### P3 — polish
 
-| ID | Title | Level | Action | Est. | Jira |
+| ID | Title | Kind of test | Action | Est. | Jira |
 |---|---|---|---|---|---|
-| [FE-013](tickets/FE-013-thirteen-source-files-with-no-coverage.md) | Add coverage for the 13 billing source files with no tests at all | L2 component | add-coverage | 1d | [BILL-1205](https://zocdoc.atlassian.net/browse/BILL-1205) |
-| WEB-004 | Establish what billing code the 15 gate-exempt test files leave uncovered | L1 unit | investigate | 4h | [BILL-1220](https://zocdoc.atlassian.net/browse/BILL-1220) |
+| [FE-013](tickets/FE-013-thirteen-source-files-with-no-coverage.md) | Add coverage for the 13 billing source files with no tests at all | Component test | add-coverage | 1d | [BILL-1205](https://zocdoc.atlassian.net/browse/BILL-1205) |
+| WEB-004 | Establish what billing code the 15 gate-exempt test files leave uncovered | Unit test | investigate | 4h | [BILL-1220](https://zocdoc.atlassian.net/browse/BILL-1220) |
 
 ### Hygiene — not test coverage, tracked separately
 
-| ID | Title | Level | Action | Est. | Jira |
+| ID | Title | Kind of test | Action | Est. | Jira |
 |---|---|---|---|---|---|
 | PB-006 | Rename the three `provider-billing` test projects that are named for a level they don't test at | n/a | cleanup | 2h | [BILL-1216](https://zocdoc.atlassian.net/browse/BILL-1216) |
 
 No bug ships from a misnamed folder, so this is **not** in the priority list above and is not in the
-effort total. It's kept because the L-level counts in this analysis are read off those project names,
+effort total. It's kept because the test counts in this analysis are read off those project names,
 so the names being wrong makes the counts misleading. Schedule it whenever there's slack.
 
 ---
@@ -97,7 +97,7 @@ FE-008  (relocate geometry assertions so it's clear what needs a browser)
    ↓
 FE-007  (free wins — empty test + 4 duplicates)
    ↓
-FE-009  (shift 19 down to L2 — each L2 test lands BEFORE its E2E counterpart is removed)
+FE-009  (19 become component tests — each one lands BEFORE its browser counterpart is removed)
    ↓
 FE-010  (bulk delete 39 — last, deliberately)
 ```
@@ -164,10 +164,10 @@ team's sprint backlog under this program.
 
 A fourth — **PB-006 / BILL-1216** (three test projects named for a level they don't test at) — was
 also going to be dropped as file organisation. It is **kept** instead, as the hygiene row above:
-still not test coverage, but the L-level counts in this analysis are read off those project names, so
+still not test coverage, but the test counts in this analysis are read off those project names, so
 wrong names make the counts misleading.
 
-**One caveat worth carrying forward from PB-005:** nobody confirmed that `provider-billing`'s 70 L3
+**One caveat worth carrying forward from PB-005:** nobody confirmed that `provider-billing`'s 70
 integration tests actually execute in CI. If LocalStack isn't provisioned there, they skip silently
 and that entire layer has never run. That *is* a coverage question — it's recorded in the limitations
 of [`../SUMMARY.md`](../SUMMARY.md) rather than as a ticket, because the answer is a

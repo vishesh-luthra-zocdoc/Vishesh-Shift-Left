@@ -5,7 +5,7 @@
 | Jira project | BILL |
 | Issue type | Bug |
 | Priority | P0 |
-| Test level | L1 unit |
+| Kind of test | Unit test |
 | Action | add-coverage |
 | Repo | provider-fe-monorepo |
 | Area | Billing Settings — monthly payment limit validation |

@@ -1,11 +1,11 @@
-# FE-010 — Delete 39 E2E tests already covered by named L2 tests
+# FE-010 — Delete 39 E2E tests already covered by named component tests
 
 | Field | Value |
 |---|---|
 | Jira project | BILL |
 | Issue type | Chore |
 | Priority | P2 |
-| Test level | L5 e2e |
+| Kind of test | Browser test |
 | Action | delete |
 | Repo | provider-fe-monorepo |
 | Area | Billing Settings — E2E suite |
@@ -14,12 +14,12 @@
 | Evidence revision | `dd9e4952a6` |
 
 ## Summary
-Thirty-nine billing E2E tests assert behaviour that a **named, existing** L2 test already asserts.
+Thirty-nine billing E2E tests assert behaviour that a **named, existing** component test already asserts.
 Delete them. This is the largest single CI-cost reduction in the backlog — and the one with the most
 sequencing risk, so it goes last.
 
 ## Current state
-39 of 63 tests carry the verdict `delete-redundant`, each with its covering L2 test cited by file and
+39 of 63 tests carry the verdict `delete-redundant`, each with its covering component test cited by file and
 verbatim `it` title in
 [`../../shift-left/E2E-TEST-BY-TEST.md`](../../shift-left/E2E-TEST-BY-TEST.md).
 
@@ -39,7 +39,7 @@ No correctness gain — and that is the point of doing it last: the benefit is c
 never be bought at the price of real coverage.
 
 ## Tests being removed
-39 tests. Each row in the test-by-test file gives: source spec, line, and the covering L2 test's file and
+39 tests. Each row in the test-by-test file gives: source spec, line, and the covering component test's file and
 `it` title. **The PR description must reproduce that mapping in full** so a reviewer can check any
 row without re-deriving it.
 
@@ -55,7 +55,7 @@ Split into per-spec PRs, not one 39-test deletion:
 Take exact counts from the test-by-test file at execution time — they shift as FE-004/FE-007/FE-009 land.
 
 ## Acceptance criteria
-- [ ] Before deleting each test, **run its cited L2 covering test and confirm it passes.** A cited
+- [ ] Before deleting each test, **run its cited component-test covering test and confirm it passes.** A cited
       test that does not exist or does not pass blocks that row — downgrade it to `investigate`
       rather than deleting.
 - [ ] The full source → covering-test mapping appears in the PR description.

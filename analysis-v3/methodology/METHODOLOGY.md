@@ -17,7 +17,7 @@ v3, which invalidated v2's entire shift-left plan.
 v3 changes three things:
 
 1. **Tests are segregated by level, not by folder.** See
-   [`TEST-LEVEL-TAXONOMY.md`](TEST-LEVEL-TAXONOMY.md). Classification is by what a test actually
+   [`KINDS-OF-TEST.md`](KINDS-OF-TEST.md). Classification is by what a test actually
    does, not by which directory it sits in or what the team calls it.
 2. **Scope covers all three team-owned repos**, not just the frontend monorepo. v1/v2 treated the backend as a
    footnote and never looked at the `provider-billing` service at all.
@@ -34,9 +34,9 @@ here.
 
 | Repo | What it holds | Levels present |
 |---|---|---|
-| `provider-fe-monorepo` | Billing Settings UI (`apps/settings`), shared payment components (`shared/core`) | L1, L2, L5 |
-| `zocdoc_web` | Billing monolith — bill generation, charges, Stripe, chargebacks, tax | L1, L4, L5 |
-| `provider-billing` | Provider Billing service (.NET) — Web API, lambdas, cron jobs | L1, L3, L4 |
+| `provider-fe-monorepo` | Billing Settings UI (`apps/settings`), shared payment components (`shared/core`) | unit, component, browser |
+| `zocdoc_web` | Billing monolith — bill generation, charges, Stripe, chargebacks, tax | unit, API contract, browser |
+| `provider-billing` | Provider Billing service (.NET) — Web API, lambdas, cron jobs | unit, integration, API contract |
 
 ## Repositories considered and excluded
 
@@ -74,7 +74,7 @@ same care applies to any repo whose working tree is not level with its remote.
 ## How the analysis was produced
 
 Parallel agents, one per repo-and-level slice, each working from a fixed revision against a shared
-conventions document that defines the taxonomy, the evidence requirements, and the prohibition on
+conventions document that defines the kinds of test, the evidence requirements, and the prohibition on
 unverified claims. Findings were then cross-referenced centrally to produce the gap list, the
 shift-left plan, and the diff against v2.
 
@@ -82,7 +82,7 @@ Cross-references performed:
 
 1. Source file → does a test exist, at which level? (finds uncovered code)
 2. Same behaviour asserted at two levels? (finds redundancy — the shift-left and delete candidates)
-3. E2E test → does it mock its backend? (finds tests paying L5 cost for L2 confidence)
+3. E2E test → does it mock its backend? (finds tests paying browser-test cost for component-test confidence)
 4. v2 finding → still true at v3 revision? (finds what the team actually fixed, and what v2 got wrong)
 5. Monorepo billing DOM → the `data-test` attributes the downstream production suite depends on
    (finds implicit cross-repo coupling with no CI signal — recorded as context, not filed as a

@@ -145,7 +145,7 @@ fixtures.ts               login / gql / auth×3 / phi-ab            (every test 
 
 ### Layer 2 — `setUpRoutes` (`billing-settings-page-commands.ts:188-359`)
 
-Full path/status table is in [`e2e-L5.md`](e2e-L5.md#shared-stub-table). Thirteen endpoints, every
+Full path/status table is in [`browser-tests.md`](browser-tests.md#shared-stub-table). Thirteen endpoints, every
 one `route.fulfill`ed. Notable literal payloads:
 
 | Stub | Value | Line |
@@ -202,7 +202,7 @@ mapping, no 3DS challenge, no ACH microdeposit handoff, no invalid-`client_secre
 evidence that a real Element mounts. Because the fake has no dependency on Stripe at all, a Stripe.js
 major-version bump, a publishable-key misconfiguration, or a CSP change that breaks card entry in
 production leaves every one of these 63 tests green. Recorded as a P0 gap in
-[`e2e-L5.md#candidate-gaps`](e2e-L5.md#candidate-gaps) row 2.
+[`browser-tests.md#candidate-gaps`](browser-tests.md#candidate-gaps) row 2.
 
 ---
 
@@ -326,8 +326,8 @@ Three consequences:
    `'327'` in `billing-settings-v2.spec.ts:~980`; `$50.00` / `$30.00` at :313, :320), so a fixture
    change breaks the spec at an assertion rather than at the data.
 
-The same `mocks.ts` constants are also imported by the L2 suites, which is why several L5 assertions
-are byte-identical to L2 ones — it makes the redundancy in
+The same `mocks.ts` constants are also imported by the component suites, which is why several browser-test assertions
+are byte-identical to the component level ones — it makes the redundancy in
 [`../../shift-left/E2E-TEST-BY-TEST.md`](../../shift-left/E2E-TEST-BY-TEST.md)
 easy to establish, since both levels assert the same numbers from the same source.
 
@@ -339,8 +339,8 @@ real practice across billing specs, and must run `--workers=1`.)
 
 ## Tests that mock their whole backend
 
-Per the taxonomy: *"A browser test that mocks its entire backend is not really an L5. It pays L5 cost
-for L2 confidence. These are the highest-value shift-left targets and are flagged individually."*
+Per the conventions: *"A browser test that mocks its entire backend is not really a browser test. It pays browser-test cost
+for component-test confidence. These are the highest-value shift-left targets and are flagged individually."*
 
 **All 63 billing E2E tests qualify.** Flagging each individually would reproduce the full test list,
 so the flag is recorded structurally — the mechanism is suite-wide and unconditional, not per-test:
@@ -355,9 +355,9 @@ Per-spec confirmation that no real backend call survives:
 
 | Spec | Tests | Real backend calls | Only-in-a-browser justification |
 |---|---|---|---|
-| `billing-settings-page.spec.ts` | 7 | 0 | none — error page + null-field renders are pure L2 |
-| `billing-settings-v2.spec.ts` | 16 | 0 | none — every behaviour has a named L2 counterpart |
-| `billing-settings-payment-element.spec.ts` | 4 | 0 | none — Stripe itself is faked; retry semantics are L1-covered |
+| `billing-settings-page.spec.ts` | 7 | 0 | none — error page + null-field renders are pure component-test material |
+| `billing-settings-v2.spec.ts` | 16 | 0 | none — every behaviour has a named component-test counterpart |
+| `billing-settings-payment-element.spec.ts` | 4 | 0 | none — Stripe itself is faked; retry semantics have unit-test coverage |
 | `billing-invoice-summary.spec.ts` | 20 | 0 | 1 (test 20, `boundingBox()` y-ordering — jsdom has no layout) |
 | `billing-pricing-v2.spec.ts` | 11 | 0 | none |
 | `invoice-details-page.spec.ts` | 1 | 0 | none |
@@ -395,16 +395,16 @@ is the model the other six specs should follow.**
 ## Candidate Gaps — infrastructure
 
 Coverage gaps in the billing journeys themselves are in
-[`e2e-L5.md#candidate-gaps`](e2e-L5.md#candidate-gaps) (9 rows). These are infrastructure-level.
+[`browser-tests.md#candidate-gaps`](browser-tests.md#candidate-gaps) (9 rows). These are infrastructure-level.
 
 | # | Missing / wrong | Correct level | File(s) | Why it matters | Effort | Priority |
 |---|---|---|---|---|---|---|
-| I1 | **No E2E runs against a real backend at any level.** There is no smoke tier: not one test proves the billing page can load real settings, render a real bill, or persist a real payment method. The 13-endpoint stub table means a breaking change to any billing API contract (renamed field, changed enum, new required property) ships with all 63 tests green. | L4 api (contract tests against the real endpoints) **plus** a 2–3 test L5 smoke tier against a deployed environment | new: `apps/settings/e2e/` smoke spec; contract subjects `apps/settings/src/server/controllers/practiceBillingSettingsPage/` | This is the load-bearing risk of the whole suite. Every existing test asserts the frontend agrees with a fixture that the frontend team wrote. Nothing asserts the frontend agrees with the backend. A field rename in the billing monolith is undetectable until production. Money-critical. | 2d (split: 1d contract, 1d smoke) | **P0** |
-| I2 | **Stripe is faked with no real-integration test anywhere.** `fixtures.ts:32` is unconditional; `installStripeJsFake.ts:113-119` makes `confirmSetup` always succeed. No test can exercise a decline, 3DS, or a real Element mount. | L5 e2e against Stripe test mode | `apps/settings/e2e/fixtures.ts:32`; `shared/core/src/testing/installStripeJsFake.ts`; subject `shared/core/src/billing/getBillingStripePromise.ts` | Duplicate of `e2e-L5.md` gap 2, restated here because the cause is infrastructural: the fake is installed by the shared fixture, so no spec can opt out even if someone wanted to. Fixing this requires a fixture change, not a spec change. | 1d | **P0** |
-| I3 | **Six tests can pass while asserting nothing** because assertions sit inside `if (mock.find(...))`. | fix existing L5 | `billing-settings-v2.spec.ts:191, 241, 288, 349, 425, 759` | Six of sixteen payment-method tests are one fixture edit away from being no-ops that report green, in a suite whose subject is how a practice is charged. Add `expect(found).toBeDefined()` before each block. | 1h | **P1** |
+| I1 | **No E2E runs against a real backend at any level.** There is no smoke tier: not one test proves the billing page can load real settings, render a real bill, or persist a real payment method. The 13-endpoint stub table means a breaking change to any billing API contract (renamed field, changed enum, new required property) ships with all 63 tests green. | API contract (contract tests against the real endpoints) **plus** a 2–3 test browser smoke tier against a deployed environment | new: `apps/settings/e2e/` smoke spec; contract subjects `apps/settings/src/server/controllers/practiceBillingSettingsPage/` | This is the load-bearing risk of the whole suite. Every existing test asserts the frontend agrees with a fixture that the frontend team wrote. Nothing asserts the frontend agrees with the backend. A field rename in the billing monolith is undetectable until production. Money-critical. | 2d (split: 1d contract, 1d smoke) | **P0** |
+| I2 | **Stripe is faked with no real-integration test anywhere.** `fixtures.ts:32` is unconditional; `installStripeJsFake.ts:113-119` makes `confirmSetup` always succeed. No test can exercise a decline, 3DS, or a real Element mount. | browser against Stripe test mode | `apps/settings/e2e/fixtures.ts:32`; `shared/core/src/testing/installStripeJsFake.ts`; subject `shared/core/src/billing/getBillingStripePromise.ts` | Duplicate of `browser-tests.md` gap 2, restated here because the cause is infrastructural: the fake is installed by the shared fixture, so no spec can opt out even if someone wanted to. Fixing this requires a fixture change, not a spec change. | 1d | **P0** |
+| I3 | **Six tests can pass while asserting nothing** because assertions sit inside `if (mock.find(...))`. | fix existing browser test | `billing-settings-v2.spec.ts:191, 241, 288, 349, 425, 759` | Six of sixteen payment-method tests are one fixture edit away from being no-ops that report green, in a suite whose subject is how a practice is charged. Add `expect(found).toBeDefined()` before each block. | 1h | **P1** |
 | I4 | **E2E specs import production `src/` mocks as fixtures.** No boundary, no ownership signal, no test that guards the mock's shape. | restructure | `apps/settings/src/server/controllers/practiceBillingSettingsPage/mocks.ts` → new `apps/settings/e2e/fixtures/billing/` | An engineer editing a local-dev mock cannot know they are changing 63 E2E assertions; the file gives no indication it is test infrastructure. Move (or re-export behind an `e2e/fixtures` module) so the coupling is explicit. | 4h | P2 |
 | I5 | **`getElem` silently downgrades visibility to attachment.** | fix helper | `helpers.ts` `getElem` | Assertions across the whole suite are weaker than they read. An invoice total hidden behind a modal, or a CTA rendered at zero height, passes. Split into `getVisibleElem` (strict) and keep the lenient variant opt-in. | 3h | P2 |
 | I6 | **`fulfillStatus`'s `?? 200` masks mistyped failure-path options.** | fix helper | `EditBillingContactInfoModalPageObject.ts` | The two error-path tests (`billing-settings-v2.spec.ts:659`, `:704`) depend on a 500 arriving. If the option key is ever mistyped the tests assert the success path and still pass. Require the status explicitly. | 1h | P2 |
-| I7 | **No spec exercises `getPaymentMethodsWithoutRollovers`**, the only option that puts `mockAchInfo` into the payment-method list. | add L5 or delete option | `billing-settings-page-commands.ts:203-208`; `mocks.ts:143` | Either dead support code (delete it) or the missing ACH-row coverage from `e2e-L5.md` gap 1 (use it). Decision rule: if ACH rows must render distinctly from cards, write the test; if not, delete the option and `mockAchInfo`'s E2E path. | 2h | P2 |
+| I7 | **No spec exercises `getPaymentMethodsWithoutRollovers`**, the only option that puts `mockAchInfo` into the payment-method list. | add browser test or delete option | `billing-settings-page-commands.ts:203-208`; `mocks.ts:143` | Either dead support code (delete it) or the missing ACH-row coverage from `browser-tests.md` gap 1 (use it). Decision rule: if ACH rows must render distinctly from cards, write the test; if not, delete the option and `mockAchInfo`'s E2E path. | 2h | P2 |
 | I8 | **Unreachable `fixtures.ts:107` route handler** and an **unlocated `SHOULD_MOCK_STRIPE` cookie** set by 6 specs. | investigate / cleanup | `fixtures.ts:107`; the 6 spec sites listed above | Both make the suite read as if it does something it does not (pass through AB assignments; conditionally mock Stripe). Decision rule: confirm no consumer in a full clone, then delete both. | 1h | P3 |
-| I9 | **`billing-pricing-v2.spec.ts` loads the page twice per test.** | fix existing L5 | `billing-pricing-v2.spec.ts:79-80` | 11 wasted page loads (~1–2 min of CI per run, estimate). Navigate straight to `#pricing` in one `goto` instead of visiting the billing page and then re-navigating. | 1h | P3 |
+| I9 | **`billing-pricing-v2.spec.ts` loads the page twice per test.** | fix existing browser test | `billing-pricing-v2.spec.ts:79-80` | 11 wasted page loads (~1–2 min of CI per run, estimate). Navigate straight to `#pricing` in one `goto` instead of visiting the billing page and then re-navigating. | 1h | P3 |

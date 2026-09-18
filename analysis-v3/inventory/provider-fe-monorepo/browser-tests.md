@@ -1,14 +1,14 @@
-# provider-fe-monorepo — L5 `e2e` Billing Inventory
+# provider-fe-monorepo — Browser `e2e` Billing Inventory
 
 | Field | Value |
 |---|---|
 | Repo | `provider-fe-monorepo` |
 | Revision analyzed | `dd9e4952a6` (`origin/main`, 2026-09-03) |
 | Snapshot path | `/tmp/slv3/snapshots/provider-fe-monorepo/` |
-| Level | L5 `e2e` (Playwright) — see caveat in [Level caveat](#level-caveat) |
+| Level | Browser `e2e` (Playwright) — see caveat in [Level caveat](#level-caveat) |
 | Suite root | `apps/settings/e2e/` |
 | Billing specs | 7 |
-| Billing L5 tests | **63** |
+| Billing browser tests | **63** |
 
 Cypress no longer exists anywhere in this tree — `find . -iname '*cypress*'` returns zero files at
 this revision. Every billing spec is Playwright. Several ported specs retain a file-header comment
@@ -20,7 +20,7 @@ naming their Cypress predecessor (e.g. `billing-settings-page-commands.ts:2`,
 ## Level caveat
 
 All 63 tests drive a real Chromium browser against a running `apps/settings` Next-style server, so
-by the taxonomy's rule 1 ("is a browser involved? → L5") they are all L5.
+by the conventions' rule 1 ("is a browser involved? → browser test") they are all browser tests.
 
 **But every backend response they consume is stubbed in-process by `page.route` + `route.fulfill`.**
 No test in this set reaches a real billing API, a real database, or `js.stripe.com`. The full stub
@@ -34,8 +34,8 @@ The commands file states this explicitly at `billing-settings-page-commands.ts:5
 > every response was either a fixed status or one of the imported mock constants, so a full stub is
 > equivalent and avoids a live proxy dependency
 
-Consequence: these tests pay L5 cost (browser boot, page load, flake) for what is, in confidence
-terms, an L2/L3 multi-component-tree assertion. Per-test detail is in
+Consequence: these tests pay browser-test cost (browser boot, page load, flake) for what is, in confidence
+terms, a component/Integration multi-component-tree assertion. Per-test detail is in
 [`e2e-infrastructure.md`](e2e-infrastructure.md) and
 [`../../shift-left/E2E-TEST-BY-TEST.md`](../../shift-left/E2E-TEST-BY-TEST.md).
 
@@ -240,7 +240,7 @@ Cookies: `has_seen_billing_completion_modal` via `hideBillingCompletionModal` (:
 - Tests 3 & 4 override `POST /payment-methods` → **400** via `mockPostRoute` (:82, :120).
 - Tests 3 & 4 attach a `page.on('request')` listener to **count** POSTs to `/setup-intents` and
   `/payment-methods` (:70-80, :111-118) — this is a request-contract assertion (`toHaveLength(1)` /
-  `toHaveLength(2)`), i.e. L4-shaped logic executed in a browser.
+  `toHaveLength(2)`), i.e. API contract-shaped logic executed in a browser.
 
 ### Page objects
 None.
@@ -306,7 +306,7 @@ to get past the `FpbInvoiceView` booking-period cutoff and render the API-driven
   says the mock has Paid / PartiallyPaid / Unpaid, but the assertion never checks the text.
 - Test 17 asserts `toBeAttached()` on a filtered locator — "clickable" is never exercised.
 - Test 9 asserts the PDF button is visible and contains "PDF". **Nothing clicks it**; no download
-  is asserted anywhere in the L5 suite.
+  is asserted anywhere in the browser suite.
 
 ### Flags / experiment overrides
 Defaults only (`BILLING_PROVIDER_REPOSITIONING=on`, `BILLING_UPDATED_CALCULATOR_COPY=off`,
@@ -589,7 +589,7 @@ Where duplication **does** exist:
 | `billing-settings-v2.spec.ts` `Pricing calculator V2` (2 tests, :838, :989) vs `billing-pricing-v2.spec.ts` (11 tests) | Both render the V2 pricing tab through the same `getSkuMappings` stub shape. `billing-pricing-v2.spec.ts:185` (`renders V2 pricing tab`) re-asserts `pricingTabV2.view`, which `billing-settings-v2.spec.ts:848-850` already asserts as a precondition. **2 tests overlap on tab-render setup**; the calculator wizard itself is unique to `billing-settings-v2.spec.ts`. | :846-850 vs :186-187 |
 | `billing-invoice-summary.spec.ts:193` vs `:235` | Two tests, one behaviour (`bill-selected-check` visible). | :198-200 vs :240-245 |
 
-Quantified: **4 of 63 billing L5 tests (6.3%) are intra-suite duplicates** — 1 (`invoice-details-page`),
+Quantified: **4 of 63 billing browser tests (6.3%) are intra-suite duplicates** — 1 (`invoice-details-page`),
 2 (pricing-tab render), 1 (`bill-selected-check`).
 
 ### 2. `billing-settings-page.spec.ts` — 1,254 Cypress lines → what now?
@@ -615,7 +615,7 @@ absorbed the content:
 3. **Genuine downward migration** — the file's own remaining tests are the residue that could not
    move: error pages and null-field crash smoke tests.
 
-Net: the **billing L5 footprint grew** from a single 1,254-line file to 2,380 spec lines + 1,011
+Net: the **billing browser-test footprint grew** from a single 1,254-line file to 2,380 spec lines + 1,011
 support lines = **3,391 lines / 63 tests**. Caveat: `UNVERIFIED —` I cannot compare the pre-deletion
 Cypress totals across all billing files, only the one line count quoted from the v2 analysis. To
 verify, `git show e44f4ff75f^ --stat -- apps/settings/cypress/e2e/PracticeSettingsPages/` in a full
@@ -653,7 +653,7 @@ reuse (the `useConfirmPaymentSetup` invalidate-on-change contract) and the reque
 emits. What they cannot prove: card validation, declines, 3DS, ACH microdeposits, Stripe error
 mapping, real `client_secret` handling, or that the Element renders at all in a real browser.
 
-The same contract is already asserted at L2/L1 without a browser:
+The same contract is already asserted at the component level/Unit without a browser:
 `shared/core/src/billing/__tests__/useConfirmPaymentSetup-tests.tsx:163`
 (`it('reuses the confirmed payment method on retry without a second intent')`) and `:176`
 (`it('confirms again once the entered details change')`); plus
@@ -661,7 +661,7 @@ The same contract is already asserted at L2/L1 without a browser:
 (`it('invalidates the confirmed payment method when the details change')`) and `:141`
 (`it('renders the modal shell around the payment element fields')`).
 
-**This is the sharpest shift-left finding in the L5 billing suite: a spec named for Stripe's Payment
+**This is the sharpest shift-left finding in the billing browser-test suite: a spec named for Stripe's Payment
 Element never touches Stripe, and its four behaviours are each already covered by a named RTL test.**
 
 ### 4. Total billing E2E test count and estimated runtime
@@ -689,26 +689,26 @@ Element never touches Stripe, and its four behaviours are each already covered b
 - `UNVERIFIED —` an exact figure requires a CI run (`yarn playwright test apps/settings/e2e/PracticeSettingsPages/billing-*.spec.ts payment-recovery.spec.ts --reporter=json`)
   or a TeamCity build log.
 
-For contrast, the 63 L5 tests' nearest lower-level equivalents run in-process: the billing L2/L1
+For contrast, the 63 browser tests' nearest lower-level equivalents run in-process: the billing component and unit tests
 suites under `apps/settings/src/pages/settingsPages/billingSettings/__tests__/` and
-`shared/core/src/billing/__tests__/` are jsdom Jest files (10–200 ms/test per the taxonomy), so the
-same behaviours cost roughly **two orders of magnitude less** at L2.
+`shared/core/src/billing/__tests__/` are jsdom Jest files (10–200 ms/test per the conventions), so the
+same behaviours cost roughly **two orders of magnitude less** at the component level.
 
 ---
 
 ## Candidate Gaps
 
-Billing user journeys with **no** L5 coverage at this revision. Each row is verified by searching
+Billing user journeys with **no** browser-test coverage at this revision. Each row is verified by searching
 the seven billing specs for the relevant affordance.
 
 | # | Missing journey | Correct level | File(s) | Why it matters | Effort | Priority |
 |---|---|---|---|---|---|---|
-| 1 | **Add ACH / bank account end-to-end.** Zero L5 coverage. `grep -in 'ach\|bank\|routing' PracticeSettingsPages/*.spec.ts` matches only the word `beforeEach`. `mockAchInfo` exists (`mocks.ts:143`) but is only injected into a **read** list via `getPaymentMethodsWithoutRollovers` (commands :203-208) — no spec sets that option. L2 exists (`AchFormContentV2-handleConnectBank-tests.tsx`, `AchFormContentV2-schema-tests.ts`) but nothing proves the ACH branch of the unified PaymentElement modal reaches a save. | L5 e2e (add) — the microdeposit/bank-connect handoff cannot be asserted in jsdom | new spec under `apps/settings/e2e/PracticeSettingsPages/`; subject `shared/core/src/components/AddPaymentMethodModal/` | ACH is the cheapest rail for large practices. A broken ACH add means the practice cannot pay at all and lands in collections. Money-critical. | 1d | **P0** |
-| 2 | **Add a card against real Stripe.** All 4 payment-element tests run on `installStripeJsFake`; `confirmSetup` always succeeds (`installStripeJsFake.ts:113-119`). Nothing anywhere in this repo proves a real Stripe Element mounts, validates a card, or that a real `client_secret` is consumed. | L5 e2e (add) against Stripe test mode | new spec; subject `shared/core/src/billing/useConfirmPaymentSetup.ts`, `getBillingStripePromise.ts` | A Stripe.js major-version bump, a publishable-key misconfiguration, or a CSP change breaks card entry in production and **every existing test still passes** — the fake has no dependency on Stripe at all. Money-critical. | 1d | **P0** |
-| 3 | **Payment failure → recovery → successful re-charge with a real charge.** `payment-recovery.spec.ts:78-93` stubs `POST /pay-now` to `{succeeded_count: 1, remaining_failures: 0}`. No test observes a real decline, a partial success (`remaining_failures > 0`), or the multi-method outcome variants. `deriveOutcome`/`resolvePaymentOutcome` are L1-covered, but the wiring to a real charge is not covered at any level. | L4 api (charge contract) + L5 e2e (one real recovery happy path) | `apps/settings/e2e/PracticeSettingsPages/payment-recovery.spec.ts`; subject `.../billingSettings/PaymentRecovery/` | The recovery flow exists specifically to un-break failed money collection. A stubbed 200 proves the UI renders a success banner, not that the provider was charged. | 1d | **P0** |
-| 4 | **Invoice PDF download.** `billing-invoice-summary.spec.ts:172-183` asserts the button is visible and says "PDF". Nothing clicks it; no `page.waitForEvent('download')` exists in any billing spec (`grep -in download PracticeSettingsPages/*.spec.ts` → 1 match, the selector name). Fetch-and-download logic is L2-covered in `v2/__tests__/FpbInvoiceView-tests.tsx:386` (`it('fetches the PDF url and downloads on clicking "PDF" (flag on, happy path)')`) with a mocked fetch. | L5 e2e (add) — a real download needs a real browser + real object storage URL | `apps/settings/e2e/PracticeSettingsPages/billing-invoice-summary.spec.ts` | A provider who cannot download an invoice cannot submit it to their accountant or dispute a charge. A broken/expired signed URL is invisible to every current test. | 4h | **P1** |
-| 5 | **Bookings CSV download.** `FpbInvoiceView-tests.tsx:354` (`it('fetches the CSV url and downloads on clicking "Bookings CSV"')`) and `:659` in `InvoiceDetailsContainer-tests.tsx` cover it at L2 behind the BILL-1135 flag. **Zero L5 coverage**; the flag is never set in any e2e spec. | L5 e2e (add) — same real-URL argument as #4 | `apps/settings/e2e/PracticeSettingsPages/billing-invoice-summary.spec.ts` | Same blast radius as #4; the CSV is how practices reconcile bookings against charges. | 3h | **P1** |
-| 6 | **Monthly limit change actually constrains spend.** `billing-settings-v2.spec.ts:228` / `:278` set a limit against a `204`-stubbed `savePaymentMethodAttributes` and assert only the on-screen label. Nothing verifies the limit was persisted with the value sent, and both tests are inside an `if (paymentMethodWithLimit)` guard (:241, :288) so they can silently pass while asserting nothing. | L4 api (persist contract) — the UI part is already L2-covered by `EditMonthlyLimitModalV2-tests.tsx` | subject `.../billingSettings/apiCalls.ts`; existing L2 at `__tests__/EditMonthlyLimitModalV2-tests.tsx` | A monthly limit is a hard cap on what Zocdoc may charge a practice. Silently dropping it overcharges the provider — direct money corruption. | 4h | **P0** |
+| 1 | **Add ACH / bank account end-to-end.** Zero browser-test coverage. `grep -in 'ach\|bank\|routing' PracticeSettingsPages/*.spec.ts` matches only the word `beforeEach`. `mockAchInfo` exists (`mocks.ts:143`) but is only injected into a **read** list via `getPaymentMethodsWithoutRollovers` (commands :203-208) — no spec sets that option. Component exists (`AchFormContentV2-handleConnectBank-tests.tsx`, `AchFormContentV2-schema-tests.ts`) but nothing proves the ACH branch of the unified PaymentElement modal reaches a save. | browser (add) — the microdeposit/bank-connect handoff cannot be asserted in jsdom | new spec under `apps/settings/e2e/PracticeSettingsPages/`; subject `shared/core/src/components/AddPaymentMethodModal/` | ACH is the cheapest rail for large practices. A broken ACH add means the practice cannot pay at all and lands in collections. Money-critical. | 1d | **P0** |
+| 2 | **Add a card against real Stripe.** All 4 payment-element tests run on `installStripeJsFake`; `confirmSetup` always succeeds (`installStripeJsFake.ts:113-119`). Nothing anywhere in this repo proves a real Stripe Element mounts, validates a card, or that a real `client_secret` is consumed. | browser (add) against Stripe test mode | new spec; subject `shared/core/src/billing/useConfirmPaymentSetup.ts`, `getBillingStripePromise.ts` | A Stripe.js major-version bump, a publishable-key misconfiguration, or a CSP change breaks card entry in production and **every existing test still passes** — the fake has no dependency on Stripe at all. Money-critical. | 1d | **P0** |
+| 3 | **Payment failure → recovery → successful re-charge with a real charge.** `payment-recovery.spec.ts:78-93` stubs `POST /pay-now` to `{succeeded_count: 1, remaining_failures: 0}`. No test observes a real decline, a partial success (`remaining_failures > 0`), or the multi-method outcome variants. `deriveOutcome`/`resolvePaymentOutcome` have unit-test coverage, but the wiring to a real charge is not covered at any level. | API contract (charge contract) + browser (one real recovery happy path) | `apps/settings/e2e/PracticeSettingsPages/payment-recovery.spec.ts`; subject `.../billingSettings/PaymentRecovery/` | The recovery flow exists specifically to un-break failed money collection. A stubbed 200 proves the UI renders a success banner, not that the provider was charged. | 1d | **P0** |
+| 4 | **Invoice PDF download.** `billing-invoice-summary.spec.ts:172-183` asserts the button is visible and says "PDF". Nothing clicks it; no `page.waitForEvent('download')` exists in any billing spec (`grep -in download PracticeSettingsPages/*.spec.ts` → 1 match, the selector name). Fetch-and-download logic is component-covered in `v2/__tests__/FpbInvoiceView-tests.tsx:386` (`it('fetches the PDF url and downloads on clicking "PDF" (flag on, happy path)')`) with a mocked fetch. | browser (add) — a real download needs a real browser + real object storage URL | `apps/settings/e2e/PracticeSettingsPages/billing-invoice-summary.spec.ts` | A provider who cannot download an invoice cannot submit it to their accountant or dispute a charge. A broken/expired signed URL is invisible to every current test. | 4h | **P1** |
+| 5 | **Bookings CSV download.** `FpbInvoiceView-tests.tsx:354` (`it('fetches the CSV url and downloads on clicking "Bookings CSV"')`) and `:659` in `InvoiceDetailsContainer-tests.tsx` cover it at the component level behind the BILL-1135 flag. **Zero browser-test coverage**; the flag is never set in any e2e spec. | browser (add) — same real-URL argument as #4 | `apps/settings/e2e/PracticeSettingsPages/billing-invoice-summary.spec.ts` | Same blast radius as #4; the CSV is how practices reconcile bookings against charges. | 3h | **P1** |
+| 6 | **Monthly limit change actually constrains spend.** `billing-settings-v2.spec.ts:228` / `:278` set a limit against a `204`-stubbed `savePaymentMethodAttributes` and assert only the on-screen label. Nothing verifies the limit was persisted with the value sent, and both tests are inside an `if (paymentMethodWithLimit)` guard (:241, :288) so they can silently pass while asserting nothing. | API contract (persist contract) — the UI part is already component-covered by `EditMonthlyLimitModalV2-tests.tsx` | subject `.../billingSettings/apiCalls.ts`; existing component test at `__tests__/EditMonthlyLimitModalV2-tests.tsx` | A monthly limit is a hard cap on what Zocdoc may charge a practice. Silently dropping it overcharges the provider — direct money corruption. | 4h | **P0** |
 | 7 | **`SHOULD_MOCK_STRIPE` cookie may be dead.** ~~(RETRACTED — it is consumed by production code; see orchestrator correction in this file.)~~ Set by 6 of 7 billing specs but matched nowhere in the snapshot's application source. If dead, 6 specs carry a misleading 8-line `addCookies` block implying Stripe behaviour is being toggled when `installStripeJsFake` already faked it unconditionally. | investigate | `billing-settings-page.spec.ts:25`, `billing-settings-v2.spec.ts:44`, `billing-invoice-summary.spec.ts:50`, `billing-pricing-v2.spec.ts:174`, `invoice-details-page.spec.ts:23`, `payment-recovery.spec.ts:34` | Not a coverage gap, but a correctness gap in the tests: a reader will believe Stripe is conditionally mocked. Decision rule: if no consumer exists outside the snapshot subtree, delete the cookie from all 6 specs. | 1h | P2 |
 | 8 | **Empty test with zero assertions.** `billing-settings-v2.spec.ts:175-179` — title duplicates the sibling at `:56`; body is a single `setUpRoutesAndVisitBillingPage` call. Costs a full browser page load and can only fail on a page crash. | delete | `billing-settings-v2.spec.ts:175` | An always-green test in a money-critical suite is worse than no test: it inflates the count and implies coverage that does not exist. | 15m | P1 |
 | 9 | **Six tests guarded by `if (mock.find(...))`.** `billing-settings-v2.spec.ts` tests at :181, :228, :278, :341, :403, :745 wrap every assertion in `if (found) { ... }` (:191, :241, :288, :349, :425, :759). A fixture change makes them pass vacuously. | investigate / fix | `billing-settings-v2.spec.ts` | Six of the sixteen tests in the payment-method suite can silently stop asserting. Replace with a hard `expect(found).toBeDefined()` before the block. | 1h | P1 |

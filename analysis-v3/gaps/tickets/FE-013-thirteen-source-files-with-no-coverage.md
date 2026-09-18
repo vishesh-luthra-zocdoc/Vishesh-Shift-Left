@@ -5,7 +5,7 @@
 | Jira project | BILL |
 | Issue type | Task |
 | Priority | P3 |
-| Test level | L2 component |
+| Kind of test | Component test |
 | Action | add-coverage |
 | Repo | provider-fe-monorepo |
 | Area | Billing Settings — uncovered components |
@@ -49,7 +49,7 @@ P1 ticket instead of handling it here.
 - [ ] Re-derive the uncovered list at `HEAD` and record it on the ticket. Do not work from the stale list.
 - [ ] Triage each file into: **money/logic** (split out to a higher-priority ticket),
       **presentational** (cover here), or **intentionally untested** (document why and close).
-- [ ] Each presentational file gets an L2 render test asserting it renders and displays its key props.
+- [ ] Each presentational file gets a component render test asserting it renders and displays its key props.
 - [ ] Any money formatting uses **hardcoded** expected values (see FE-002).
 - [ ] Verification: `yarn test .../billingSettings` passes with 13 fewer wholly-uncovered files.
 

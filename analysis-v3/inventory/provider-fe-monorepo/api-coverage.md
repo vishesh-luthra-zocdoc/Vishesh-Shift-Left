@@ -22,16 +22,16 @@ One endpoint uses neither: the invoice PDF URL is a **hardcoded string literal**
 
 ## Coverage legend
 
-- **L1** — a `describe` in a Jest unit test that asserts the request built and/or the response mapped, with the
+- **Unit** — a `describe` in a Jest unit test that asserts the request built and/or the response mapped, with the
   transport (`fetchHelperV2` or the generated client) `jest.mock`ed.
-- **L2** — a component/hook test that reaches the call site but `jest.mock`s the client module, so it asserts *that*
+- **Component** — a component/hook test that reaches the call site but `jest.mock`s the client module, so it asserts *that*
   the function was called (and with what), never the wire format.
-- **L3** — a real-boundary test. **There are none.** See `integration-L3.md`: no MSW, no `nock`, no in-memory HTTP.
-- **L4** — an HTTP-contract test. **There are none (0 files).**
+- **Integration** — a real-boundary test. **There are none.** See `integration-tests.md`: no MSW, no `nock`, no in-memory HTTP.
+- **API contract** — an HTTP-contract test. **There are none (0 files).**
 
 ## Endpoints defined with `TemplatedUrl` (8)
 
-| # | Method + URL pattern | Template defined at | Client function | L1 | L2 | L3 |
+| # | Method + URL pattern | Template defined at | Client function | Unit | Component | Integration |
 |---|---|---|---|---|---|---|
 | 1 | `GET /api/rest/provider/v1/settings/billing/{practiceId}` | `routes.ts:562` | `fetchPracticeBillingSettings` (`apiCalls.ts:116`, method `:128`) | Yes — `describe('fetchPracticeBillingSettings')` in `apiCalls-tests.ts:56` | Indirect — `usePracticeBillingSettings-tests.ts` (4 blocks) mocks `apiCalls` | None |
 | 2 | `POST /api/rest/provider/v1/settings/billing/{practiceId}/{paymentMethodId}/setDefaultPaymentMethod` | `routes.ts:566` | `setDefaultPaymentMethod` (`:146`, `:164`) | Yes — `describe('setDefaultPaymentMethod')` `apiCalls-tests.ts:261` | Yes — `PaymentMethodV2-tests.tsx` `describe('API calls')` (:604), `apiCalls` mocked | None |
@@ -44,7 +44,7 @@ One endpoint uses neither: the invoice PDF URL is a **hardcoded string literal**
 
 ## Endpoints owned by the generated client (10)
 
-| # | Method + URL pattern | Path evidence | Client function | L1 | L2 | L3 |
+| # | Method + URL pattern | Path evidence | Client function | Unit | Component | Integration |
 |---|---|---|---|---|---|---|
 | 9 | `GET /billing-monolith-api/v1/bill/{bill_id}/summary` | `routes.ts:667`; dev mount `app.ts:1547`; Playwright glob `e2e/…/billing-settings-page-commands.ts:172` | `fetchInvoiceDetails` → `apiClient.getBillSummary` (`apiCalls.ts:39,43`) | Yes — `describe('fetchInvoiceDetails')` `apiCalls-tests.ts:192` | Indirect — `InvoiceDetailsContainer-tests.tsx` (17 blocks) mocks `../apiCalls` **and** `v2/FpbInvoiceView` | None |
 | 10 | `GET /billing-monolith-api/v1/practice/{practiceId}/recovery` | `routes.ts:673`; `provider-home-webapp/src/config/routes.ts:95`; dev mounts `app.ts:1552`, `server.ts:545-546`; Playwright glob `:184` | `fetchRecovery` (`apiCalls.ts:65,69`) **and** `apps/provider-home-webapp/src/apis/recoveryApi.ts:22` — two independent callers | Yes, twice — `describe('fetchRecovery')` `apiCalls-tests.ts:82` and `recoveryApi-tests.ts:24` (3 blocks) | Indirect — `useRecoverySummary-tests.ts` (9), `useRecoveryStatusSummary.test.ts` (7) | None |
@@ -62,7 +62,7 @@ One endpoint uses neither: the invoice PDF URL is a **hardcoded string literal**
 
 | # | Method + URL | Where built | Coverage |
 |---|---|---|---|
-| 20 | `GET /api/provider/v1/invoices?year={y}&month={m}` | **Hardcoded literal** at `InvoiceDetailsContainer.tsx:171`. The `GET_INVOICE_PDF_DOWNLOAD_URL` template (`routes.ts:681`) is used only by the dev server (`app.ts:145,1562`) | L2 only — `InvoiceDetailsContainer-tests.tsx` `describe('PDF URL Generation')` (:483) asserts the exact strings at `:573`, `:614`, `:655` (`…?year=2025&month=9`, `month=1`, `month=12`). No L1, no L3 |
+| 20 | `GET /api/provider/v1/invoices?year={y}&month={m}` | **Hardcoded literal** at `InvoiceDetailsContainer.tsx:171`. The `GET_INVOICE_PDF_DOWNLOAD_URL` template (`routes.ts:681`) is used only by the dev server (`app.ts:145,1562`) | component-level only — `InvoiceDetailsContainer-tests.tsx` `describe('PDF URL Generation')` (:483) asserts the exact strings at `:573`, `:614`, `:655` (`…?year=2025&month=9`, `month=1`, `month=12`). No unit test, no integration test |
 
 ## Endpoints with no coverage at any level
 
@@ -72,33 +72,33 @@ One endpoint uses neither: the invoice PDF URL is a **hardcoded string literal**
 | `POST /billing-monolith-api/v1/practice/{practiceId}/setup-intents/{setupIntentId}/prepare` | `prepareSetupIntentV2` (`apiCalls.ts:402`) | ACH / Financial Connections preparation step. No `describe`, single call site, mocked there |
 | `GET /billing-monolith-api/v1/practice/{practiceId}/billing-address` | `shared/core/.../getBillingAddress.ts` | Prefills the billing address in the unified Payment Element modal. No test file; the module's own JSDoc notes the values are returned unvalidated, and `billingAddressSchema-tests.ts` covers only the write-side schema |
 | `PUT /billing-monolith-api/v1/practice/{practiceId}/billing-address` | `shared/core/.../updateBillingAddress.ts` | **Writes** the practice's billing address. Zero tests at any level — the only file that names it does so to `jest.mock` it |
-| Every endpoint above at **L3/L4** | all 20 | No test in the repo asserts a billing request/response against a real HTTP layer |
+| Every endpoint above at **Integration/API contract** | all 20 | No test in the repo asserts a billing request/response against a real HTTP layer |
 
 ## Candidate Gaps
 
 | # | What's missing | Level | Path(s) | Why it matters | Effort | Priority |
 |---|---|---|---|---|---|---|
-| API-1 | `updateBillingAddress.ts` has **zero tests at any level** and `getBillingAddress.ts` has none either | L1 | `shared/core/src/billing/updateBillingAddress.ts`, `getBillingAddress.ts` | A write of the practice's billing address with no test; the read feeds Stripe's address collection. Both are new code from the Payment Element extraction | S | **P0** |
-| API-2 | No `describe` for `createSetupIntentV2` or `prepareSetupIntentV2` — 2 of 14 `apiCalls.ts` functions, both on the Pay Now recovery path | L1 | `apps/settings/.../__tests__/apiCalls-tests.ts`; `apiCalls.ts:323,402` | The other 11 request-builders all have one; these two gate a practice's ability to replace a declined card | S | **P0** |
-| API-3 | No L3/L4 tier at all: 20 endpoints verified only against self-authored mocks | L3 | whole scope; `apps/settings/src/config/routes.ts:562-683`, `apiCalls.ts`, `shared/core/src/billing/billingApiClient.ts` | Route-template typos, method changes, and response-shape drift are invisible below L5. MSW once + one suite per client module would cover all 20 | M setup, S each | **P0** |
-| API-4 | `POST /spo-provider/v1/management/{practiceId}/pay-now` is still a **placeholder route** per `routes.ts:577` (`TODO(BILL-826)`), tested by 2 declared blocks | L1/L3 | `routes.ts:577`, `apiCalls.ts:426`, `__tests__/triggerPayNow-tests.ts` | This is the batch-charge call. If the route and `BatchProcessorResult` shape are not final, the code and its 2 tests are both provisional and will silently mismatch the real endpoint | S | **P1** |
-| API-5 | Two client functions POST to the same `…/payment-methods` path (`addPaymentMethodV3` in `apiCalls.ts:359`, core `addPaymentMethod.ts:15`) with separate tests and no shared contract | L1 | those two files | Divergent request bodies / error handling for one endpoint; a backend change must be found twice | S | **P1** |
-| API-6 | The invoice PDF URL is hardcoded at the call site while a template for it exists | L1 | `InvoiceDetailsContainer.tsx:171`, `routes.ts:681` | The L2 test asserts the literal, so source and template can drift with a green suite. Use the template and assert via it | XS | P2 |
-| API-7 | Save paths for billing email and business address have L1 request tests but no L2 assertion that the modal actually calls them | L2 | `__tests__/EditBillingEmailModal-tests.tsx` (2 blocks), `__tests__/EditBusinessAddressModal-tests.tsx` (9 blocks, all validation) | Both modals could stop saving and their suites would stay green | S | P2 |
-| API-8 | `fetchRecovery` is implemented twice (`apiCalls.ts:65`, `provider-home-webapp/src/apis/recoveryApi.ts:22`) against one endpoint, each with its own L1 test and different error policies | L1 | those two files | Duplicate transport for the same read; `recoveryApi.ts`'s JSDoc documents a never-404 contract that the settings copy does not encode | S | P2 |
+| API-1 | `updateBillingAddress.ts` has **zero tests at any level** and `getBillingAddress.ts` has none either | Unit | `shared/core/src/billing/updateBillingAddress.ts`, `getBillingAddress.ts` | A write of the practice's billing address with no test; the read feeds Stripe's address collection. Both are new code from the Payment Element extraction | S | **P0** |
+| API-2 | No `describe` for `createSetupIntentV2` or `prepareSetupIntentV2` — 2 of 14 `apiCalls.ts` functions, both on the Pay Now recovery path | Unit | `apps/settings/.../__tests__/apiCalls-tests.ts`; `apiCalls.ts:323,402` | The other 11 request-builders all have one; these two gate a practice's ability to replace a declined card | S | **P0** |
+| API-3 | No integration test/API contract tier at all: 20 endpoints verified only against self-authored mocks | Integration | whole scope; `apps/settings/src/config/routes.ts:562-683`, `apiCalls.ts`, `shared/core/src/billing/billingApiClient.ts` | Route-template typos, method changes, and response-shape drift are invisible below the browser level. MSW once + one suite per client module would cover all 20 | M setup, S each | **P0** |
+| API-4 | `POST /spo-provider/v1/management/{practiceId}/pay-now` is still a **placeholder route** per `routes.ts:577` (`TODO(BILL-826)`), tested by 2 declared blocks | Unit/Integration | `routes.ts:577`, `apiCalls.ts:426`, `__tests__/triggerPayNow-tests.ts` | This is the batch-charge call. If the route and `BatchProcessorResult` shape are not final, the code and its 2 tests are both provisional and will silently mismatch the real endpoint | S | **P1** |
+| API-5 | Two client functions POST to the same `…/payment-methods` path (`addPaymentMethodV3` in `apiCalls.ts:359`, core `addPaymentMethod.ts:15`) with separate tests and no shared contract | Unit | those two files | Divergent request bodies / error handling for one endpoint; a backend change must be found twice | S | **P1** |
+| API-6 | The invoice PDF URL is hardcoded at the call site while a template for it exists | Unit | `InvoiceDetailsContainer.tsx:171`, `routes.ts:681` | The component test asserts the literal, so source and template can drift with a green suite. Use the template and assert via it | XS | P2 |
+| API-7 | Save paths for billing email and business address have unit-level request tests but no component-test assertion that the modal actually calls them | Component | `__tests__/EditBillingEmailModal-tests.tsx` (2 blocks), `__tests__/EditBusinessAddressModal-tests.tsx` (9 blocks, all validation) | Both modals could stop saving and their suites would stay green | S | P2 |
+| API-8 | `fetchRecovery` is implemented twice (`apiCalls.ts:65`, `provider-home-webapp/src/apis/recoveryApi.ts:22`) against one endpoint, each with its own unit test and different error policies | Unit | those two files | Duplicate transport for the same read; `recoveryApi.ts`'s JSDoc documents a never-404 contract that the settings copy does not encode | S | P2 |
 
 ## Level Summary
 
 | Level | Billing test files | Declared blocks | Endpoints with coverage at this level |
 |---|---|---|---|
-| L1 unit | 34 | 224 | 15 of 20 (endpoints 1-11, 14-16, 19) |
-| L2 component | 45 | 515 | 12 of 20, all with the client module mocked (endpoints 1-3, 6, 7, 9-11, 14-16, 20) |
-| L2H hook render | 9 | 47 | 5 of 20 (1, 10, 11, 17-as-mock, 19) |
-| **L3 integration** | 2 | 70 | **0 of 20** |
-| **L4 api** | **0** | **0** | **0 of 20** |
+| unit | 34 | 224 | 15 of 20 (endpoints 1-11, 14-16, 19) |
+| component | 45 | 515 | 12 of 20, all with the client module mocked (endpoints 1-3, 6, 7, 9-11, 14-16, 20) |
+| Hook hook render | 9 | 47 | 5 of 20 (1, 10, 11, 17-as-mock, 19) |
+| **integration** | 2 | 70 | **0 of 20** |
+| **API contract** | **0** | **0** | **0 of 20** |
 | Total non-E2E billing | **90** | **856** | — |
 
 **Endpoint totals:** 20 billing endpoints reached from this repo — 8 via `TemplatedUrl`, 10 via the generated
 billing-monolith client (1 of those with an UNVERIFIED path, #19), 1 hardcoded, 1 (`…/payment-methods`) reached by two
 different client functions and counted once per caller (#14, #16). **4 endpoints have no coverage at any level;
-20 of 20 have no coverage above L2.**
+20 of 20 have no coverage above the component level.**

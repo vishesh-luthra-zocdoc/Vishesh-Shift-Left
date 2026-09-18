@@ -5,7 +5,7 @@
 | Jira project | BILL |
 | Issue type | Task |
 | Priority | P2 |
-| Test level | L2 component |
+| Kind of test | Component test |
 | Action | investigate |
 | Repo | provider-fe-monorepo |
 | Area | Billing Settings — feature flag cleanup |

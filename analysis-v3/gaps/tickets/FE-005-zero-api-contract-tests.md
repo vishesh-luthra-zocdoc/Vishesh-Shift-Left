@@ -5,7 +5,7 @@
 | Jira project | BILL |
 | Issue type | Task |
 | Priority | P1 |
-| Test level | L4 api |
+| Kind of test | API contract test |
 | Action | add-coverage |
 | Repo | provider-fe-monorepo |
 | Area | Billing Settings — API contracts |
@@ -14,19 +14,19 @@
 | Evidence revision | `dd9e4952a6` |
 
 ## Summary
-Billing has **zero** L4 API-contract tests. Every mock in the repo encodes what the frontend
+Billing has **zero** API contract tests. Every mock in the repo encodes what the frontend
 *believes* the backend returns, and nothing verifies that belief. This ticket introduces a contract
 layer for the highest-traffic billing endpoints.
 
 ## Context
 Billing Settings calls 13 REST endpoints. Their shapes are hand-written into E2E route stubs
-(`apps/settings/e2e/fixtures.ts`) and into L2 component mocks. Those two sets of assumptions are
+(`apps/settings/e2e/fixtures.ts`) and into component mocks. Those two sets of assumptions are
 maintained separately, by hand, and neither is checked against the real services (`zocdoc_web`,
 `provider-billing`).
 
 ## Current state
-- **L4 test count for billing: 0.** Verified by inventory across 90 non-E2E billing test files
-  (L1 34 files / 224 tests, L2 45 / 515, L2-hooks 9 / 47, L3 2 / 70, **L4 0**).
+- **API contract test count for billing: 0.** Verified by inventory across 90 non-E2E billing test files
+  (unit 34 files / 224 tests, component 45 / 515, hooks 9 / 47, integration 2 / 70, **API contract 0**).
 - No MSW. No `nock`. No recorded-fixture or schema-validation harness anywhere in the billing tree.
 - E2E stubs all 13 endpoints inline, so the browser suite validates the frontend against the
   frontend's own assumptions.

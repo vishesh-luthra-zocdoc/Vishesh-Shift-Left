@@ -34,7 +34,7 @@ written back into [`BACKLOG.md`](BACKLOG.md) after creation, so the mapping stay
 | Jira project | BILL |
 | Issue type | Story |
 | Priority | P0 \| P1 \| P2 \| P3 |
-| Test level | L1 unit \| L2 component \| L3 integration \| L4 api \| L5 e2e |
+| Kind of test | Unit test \| Component test \| Integration test \| API contract test \| Browser test |
 | Action | add-coverage \| shift-left \| delete \| investigate |
 | Repo | provider-fe-monorepo \| zocdoc_web \| provider-billing |
 | Area | <e.g. Billing Settings — invoice formatting> |

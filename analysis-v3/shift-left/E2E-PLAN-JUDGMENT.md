@@ -14,12 +14,12 @@ guard rail before it becomes tickets, and that guard rail is the point of this f
 | Verdict | Count | Share |
 |---|---|---|
 | `keep-e2e` | 5 | 7.9% |
-| `shift-to-L2` | 19 | 30.2% |
+| `shift-to-component` | 19 | 30.2% |
 | `delete-redundant` | 39 | 61.9% |
-| `shift-to-L1` / `shift-to-L3` / `delete-suspected` | 0 | — |
+| `shift-to-unit` / `shift-to-integration` / `delete-suspected` | 0 | — |
 | **Total** | **63** | |
 
-Taken literally: delete 39 tests, move 19 down to L2, keep 5.
+Taken literally: delete 39 tests, move 19 down to the component level, keep 5.
 
 ## Why the raw number is defensible
 
@@ -27,11 +27,11 @@ Every one of the 63 tests **mocks its entire backend** — 13 REST endpoints stu
 `/login/*` deliberately 500'd, and Stripe.js replaced by a fake installed unconditionally for every
 test in the directory (`e2e/fixtures.ts:32`). Nothing in this suite talks to a real dependency.
 
-That means the suite currently provides **no integration confidence to lose**. It pays L5 cost —
+That means the suite currently provides **no integration confidence to lose**. It pays browser-test cost —
 browser boot, page load, 60 s timeouts, serial execution on CI
 (`apps/settings/playwright.config.ts:13-14`: `retries: isCI ? 1 : 0`, `workers: isCI ? 1 :
 undefined`) — for assertions a jsdom render could make in milliseconds. Deleting a mocked browser
-test that duplicates a named L2 test genuinely loses nothing.
+test that duplicates a named component test genuinely loses nothing.
 
 ## Why it should not be executed as stated
 
@@ -68,15 +68,15 @@ The subset that costs nothing to remove because it asserts nothing or is self-ev
 
 **Phase 2 — establish the floor before removing anything else.**
 Add the integration coverage that does not exist today, at the right level:
-- One genuine L5 smoke: billing settings page loads against a **real** backend and a **real**
+- One genuine browser smoke: billing settings page loads against a **real** backend and a **real**
   Stripe Payment Element mounts. Nothing at any level proves this today — see the uncovered-journey
   finding below.
 - Promote the three geometry assertions out of the functional suite. Layout/visual assertions
   belong in a visual-regression check, not mixed into functional E2E where they are the sole
   justification for keeping a test alive.
 
-**Phase 3 — execute the bulk deletion and the 19 L2 shifts.**
-Only after Phase 2 lands. Each L2 shift ticket must land the L2 test **before** removing the E2E
+**Phase 3 — execute the bulk deletion and the 19 component-test shifts.**
+Only after Phase 2 lands. Each component-shift ticket must land the component test **before** removing the E2E
 test, in that order, not the reverse.
 
 ## The gap that dominates everything above
@@ -108,7 +108,7 @@ wrong `delete-redundant` silently removes real coverage:
 Citations are real and re-checkable, and zero verdicts were `delete-suspected`, which is the
 category reserved for uncitable claims. The classification can be trusted at row level.
 
-**One residual caveat that applies to the whole `delete-redundant` set:** the covering L2 tests
+**One residual caveat that applies to the whole `delete-redundant` set:** the covering component tests
 prove a component *fires* an API call. They do not prove the page wires that component to anything.
 For any single test that distinction is immaterial; across 39 deletions it is exactly the erosion
 Phase 2 exists to prevent.

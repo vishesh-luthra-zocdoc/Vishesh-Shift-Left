@@ -5,7 +5,7 @@
 | Jira project | BILL |
 | Issue type | Task |
 | Priority | P1 |
-| Test level | L5 e2e |
+| Kind of test | Browser test |
 | Action | add-coverage |
 | Repo | provider-fe-monorepo |
 | Area | Billing Settings — ACH / bank account |

@@ -49,7 +49,7 @@ Measured across all billing files in `0561a881ee`:
 | `EditBillingContactInfoModalPageObject` | 130 | 185 | +55 |
 | **Total** | **2,302** | **3,049** | **+747 (+32%)** |
 
-A framework migration is the cheapest moment to drop coverage that shouldn't be at L5 — the tests
+A framework migration is the cheapest moment to drop coverage that shouldn't be at the browser level — the tests
 are already being rewritten line by line. That opportunity was not taken; the suite was ported
 faithfully and grew. This is why v3's shift-left backlog is large: the debt was carried forward
 intact and then added to.

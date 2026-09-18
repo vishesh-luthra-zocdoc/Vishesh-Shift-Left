@@ -1,11 +1,11 @@
-# FE-009 — Shift 19 mocked E2E tests down to L2 component tests
+# FE-009 — Shift 19 mocked E2E tests down to component tests
 
 | Field | Value |
 |---|---|
 | Jira project | BILL |
 | Issue type | Task |
 | Priority | P2 |
-| Test level | L2 component |
+| Kind of test | Component test |
 | Action | shift-left |
 | Repo | provider-fe-monorepo |
 | Area | Billing Settings — E2E suite |
@@ -14,8 +14,8 @@
 | Evidence revision | `dd9e4952a6` |
 
 ## Summary
-Nineteen billing E2E tests assert component-level behaviour with a fully mocked backend — L2
-confidence at L5 cost. Re-implement each as a jsdom component test, then remove the browser test.
+Nineteen billing E2E tests assert component-level behaviour with a fully mocked backend — Component
+confidence at browser-test cost. Re-implement each as a jsdom component test, then remove the browser test.
 
 ## Context
 Every one of the 63 billing E2E tests mocks its entire backend: 13 REST endpoints stubbed, auth
@@ -27,31 +27,31 @@ which these 19 tests do not depend on.
 ## Current state
 Per-test classification with the destination component named for each of the 19 is in
 [`../../shift-left/E2E-TEST-BY-TEST.md`](../../shift-left/E2E-TEST-BY-TEST.md)
-(verdict `shift-to-L2`, 19 of 63 rows). The existing L2 suite these join is already substantial:
+(verdict `shift-to-component`, 19 of 63 rows). The existing component suite these join is already substantial:
 45 files / 515 tests, plus 9 hook files / 47 tests.
 
 ## Why this matters
 Cost and feedback speed, not correctness. CI runs these serially (`playwright.config.ts:14`,
-`workers: isCI ? 1 : undefined`) with a 60 s timeout each; the L2 equivalents run in milliseconds.
+`workers: isCI ? 1 : undefined`) with a 60 s timeout each; the component-test equivalents run in milliseconds.
 Faster signal also means less incentive to skip the suite locally.
 
 ## Tests being moved
-19 tests, each `shift-to-L2`. Rather than one ticket doing all 19, split by destination component so
+19 tests, each `shift-to-component`. Rather than one ticket doing all 19, split by destination component so
 each PR is reviewable:
 
 | Batch | Source spec | Destination |
 |---|---|---|
-| A | `billing-settings-v2.spec.ts` | `PaymentMethodsList` / `PaymentMethodV2` L2 tests |
-| B | `billing-invoice-summary.spec.ts` | Invoice summary component L2 tests |
-| C | `billing-pricing-v2.spec.ts` | `PricingInformationV2` / `PricingTab` L2 tests |
-| D | `billing-settings-page.spec.ts`, `invoice-details-page.spec.ts` | Respective container L2 tests |
+| A | `billing-settings-v2.spec.ts` | `PaymentMethodsList` / `PaymentMethodV2` component tests |
+| B | `billing-invoice-summary.spec.ts` | Invoice summary component tests |
+| C | `billing-pricing-v2.spec.ts` | `PricingInformationV2` / `PricingTab` component tests |
+| D | `billing-settings-page.spec.ts`, `invoice-details-page.spec.ts` | Respective container component tests |
 
 Exact per-test destinations come from the test-by-test file. Do not guess — each row names its target.
 
 ## Acceptance criteria
-- [ ] For each of the 19: an L2 test exists asserting the same behaviour, **and it lands before** the
+- [ ] For each of the 19: an component test exists asserting the same behaviour, **and it lands before** the
       E2E test is removed. In that order, in the same PR or an earlier one — never the reverse.
-- [ ] Each new L2 test is named so its origin is traceable (reference the E2E test in a comment or
+- [ ] Each new component test is named so its origin is traceable (reference the E2E test in a comment or
       the PR body).
 - [ ] Where the E2E test asserted something jsdom genuinely cannot do (real layout, iframe), it is
       **not** shifted — it is escalated to FE-008's visual-regression treatment instead. Record any
@@ -62,11 +62,11 @@ Exact per-test destinations come from the test-by-test file. Do not guess — ea
 ## Files
 | Path | Change |
 |---|---|
-| `apps/settings/src/pages/settingsPages/billingSettings/**/__tests__/*-tests.tsx` | change / **create** — 19 new L2 tests |
+| `apps/settings/src/pages/settingsPages/billingSettings/**/__tests__/*-tests.tsx` | change / **create** — 19 new component tests |
 | `apps/settings/e2e/PracticeSettingsPages/*.spec.ts` | change — remove 19 E2E tests |
 
 ## Out of scope
-The 39 `delete-redundant` tests (FE-010) — those are already covered at L2 and need no replacement.
+The 39 `delete-redundant` tests (FE-010) — those are already covered at the component level and need no replacement.
 
 ## Blocked by
 - **FE-001** — the real-Stripe smoke must exist first, or the suite loses its last real integration
@@ -82,7 +82,7 @@ yarn playwright test apps/settings/e2e/PracticeSettingsPages/
 Both green, E2E count down 19.
 
 ## Notes
-**Residual caveat that applies to this whole ticket:** L2 tests prove a component *fires* an API
+**Residual caveat that applies to this whole ticket:** component tests prove a component *fires* an API
 call; they do not prove the page wires that component up. For any single test that distinction is
 immaterial. Across 19 + 39 removals it is real erosion — which is exactly what FE-001 exists to
 backstop. Do not run this ticket without it.

@@ -31,7 +31,7 @@ arithmetic or the input validation**. A wrong number here is a wrong revenue pro
 | `__tests__/ResultContentV2-tests.tsx` | 73 | 2 |
 | **Total** | **810** | **34** |
 
-All 34 are **L2 component** tests (jsdom render, no browser) — the correct level. Runtime is
+All 34 are **component** tests (jsdom render, no browser) — the correct level. Runtime is
 milliseconds, not minutes.
 
 ### Why this fix is the model for the rest of the backlog
@@ -124,7 +124,7 @@ the E2E suite: while that cookie is honoured, the green E2E path executes code r
 
 `ad433d2bee` is worth flagging: it is the origin of the toast-geometry assertion
 (`height === 68`) that is currently the **sole reason** an E2E test is kept alive. A real design bug
-was fixed, but the regression guard landed at L5 where it costs a browser boot. v3 recommends moving
+was fixed, but the regression guard landed at the browser level where it costs a browser boot. v3 recommends moving
 it to visual regression rather than deleting it — see
 [`shift-left/E2E-PLAN-JUDGMENT.md`](shift-left/E2E-PLAN-JUDGMENT.md) Phase 2.
 

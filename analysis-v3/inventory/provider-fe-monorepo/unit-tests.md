@@ -1,4 +1,4 @@
-# provider-fe-monorepo — L1 (unit) Billing Tests
+# provider-fe-monorepo — Unit (unit) Billing Tests
 
 **Analyzed revision:** `provider-fe-monorepo` @ `origin/main` `dd9e4952a6` (2026-09-03)
 **Snapshot:** `/tmp/slv3/snapshots/provider-fe-monorepo/` — 2647 files, **no `package.json` and no `node_modules`**,
@@ -12,20 +12,20 @@ block even though it expands to N runtime cases at run time, so the real execute
 than every number here. The `it.each` column makes that gap visible. Where a total matters I label it
 "declared blocks", never "tests".
 
-## L1/L2 boundary decision (read this before comparing counts with v2)
+## Unit/component boundary decision (read this before comparing counts with v2)
 
-CONVENTIONS.md L1 says "No React render". Nine billing test files drive a hook with `renderHook`, which *does*
-mount a React host component through the reconciler and `act()`. I classified those as **L2 (hook render)**, tagged
-`L2H`, and they live in `component-L2.md`. This is the single judgement call that moves counts:
+CONVENTIONS.md says a unit test does "No React render". Nine billing test files drive a hook with `renderHook`, which *does*
+mount a React host component through the reconciler and `act()`. I classified those as **Component (hook render)**, tagged
+`Hook`, and they live in `component-Component.md`. This is the single judgement call that moves counts:
 
-| If `renderHook` counts as… | L1 files | L1 declared blocks | L2 files | L2 declared blocks |
+| If `renderHook` counts as… | Unit files | Unit declared blocks | Component files | component declared blocks |
 |---|---|---|---|---|
-| **L2 (what I did)** | **34** | **224** | **54** | **562** |
-| L1 (the alternative) | 43 | 271 | 45 | 515 |
+| **Component (what I did)** | **34** | **224** | **54** | **562** |
+| Unit (the alternative) | 43 | 271 | 45 | 515 |
 
 Nothing else in the billing scope is borderline on this axis.
 
-## L1 test files (34 files, 224 declared blocks)
+## unit test files (34 files, 224 declared blocks)
 
 ### apps/settings — billing page logic
 
@@ -38,8 +38,8 @@ Nothing else in the billing scope is borderline on this axis.
 | `__tests__/getAdjustedFreeBookingCount-tests.ts` | 2 | 1 | `getAdjustedFreeBookingCount` | Free-booking adjustment arithmetic | — |
 | `__tests__/resolvePaymentOutcome-tests.ts` | 3 | 0 | `makeMockResolvePaymentOutcome`, `resolvePaymentOutcome` | Charge result → resolved outcome, plus the fixture factory itself | Mocks `pages/settingsPages/billingSettings/apiCalls` |
 | `__tests__/SkuTitleMap-tests.ts` | 2 | 0 | `Sku Title Map tests` | `getFullTitleFor` display titles | — |
-| `__tests__/steps-tests.ts` | 15 | 9 | `YearlyValueCalcModal steps`, `validationSchema — common rules`, `validationSchema — showUps range (1-10)`, `validationSchema — patientReturns range (1-100)`, `step descriptions`, `step field metadata (defaultValue, prefix, suffix)` | The calculator's yup schema ranges and per-step metadata | Rendering — that is `YearlyValueCalcModalV2-tests.tsx` (L2) |
-| `__tests__/AchFormContentV2-schema-tests.ts` | 7 | 4 | `AchFormContentV2 schema`, `account holder name`, `email` | `achV2Schema` field validation in isolation | The form itself and Stripe Financial Connections — split into `AchFormContentV2-handleConnectBank-tests.tsx` (L2) |
+| `__tests__/steps-tests.ts` | 15 | 9 | `YearlyValueCalcModal steps`, `validationSchema — common rules`, `validationSchema — showUps range (1-10)`, `validationSchema — patientReturns range (1-100)`, `step descriptions`, `step field metadata (defaultValue, prefix, suffix)` | The calculator's yup schema ranges and per-step metadata | Rendering — that is `YearlyValueCalcModalV2-tests.tsx` (Component) |
+| `__tests__/AchFormContentV2-schema-tests.ts` | 7 | 4 | `AchFormContentV2 schema`, `account holder name`, `email` | `achV2Schema` field validation in isolation | The form itself and Stripe Financial Connections — split into `AchFormContentV2-handleConnectBank-tests.tsx` (Component) |
 | `PaymentRecovery/__tests__/buildUpdatedCardIdentity-tests.ts` | 4 | 1 | `buildUpdatedCardIdentity` | Identity record for a replaced card | — |
 | `utils/__tests__/billingDateUtils-tests.ts` | 8 | 2 | `formatInvoiceDate`, `getLegacyInvoiceTitle`, `getYearFromInvoiceName`, `isFutureInvoice`, `isStrictlyFutureInvoice` | All 5 exported date helpers | `invoiceHelpers.ts`, the *other* invoice date module, which has no test at all |
 | `utils/__tests__/getStripePromise-tests.ts` | 2 | 0 | `getStripePromise` | Live vs sandbox key selection | Mocks `@stripe/stripe-js/pure` and `config/environment`; no memoization assertion |
@@ -60,7 +60,7 @@ Nothing else in the billing scope is borderline on this axis.
 
 | Test file | Blocks | `it.each` | `describe` names | Covers | Deliberately does not |
 |---|---|---|---|---|---|
-| `__tests__/recoveryBannerSuppression-tests.ts` | 20 | 6 | `recoveryBannerSuppression`, `buildSuppressionKey`, `suppressRecoveryBanner + evaluateRecoverySuppression`, `cross-surface key normalization`, `falsy practiceId on write`, `server-flag rule` | The 36h TTL (`SUPPRESSION_TTL_MS`), key building/normalization across surfaces, falsy-practiceId write guard, server-flag precedence | Nothing significant — the deepest L1 suite in the scope (444 lines) |
+| `__tests__/recoveryBannerSuppression-tests.ts` | 20 | 6 | `recoveryBannerSuppression`, `buildSuppressionKey`, `suppressRecoveryBanner + evaluateRecoverySuppression`, `cross-surface key normalization`, `falsy practiceId on write`, `server-flag rule` | The 36h TTL (`SUPPRESSION_TTL_MS`), key building/normalization across surfaces, falsy-practiceId write guard, server-flag precedence | Nothing significant — the deepest unit-test suite in the scope (444 lines) |
 | `__tests__/mapRecoveryToSummary-tests.ts` | 8 | 2 | `mapRecoveryToSummary`, `providerName` | API payload → `RecoveryStatusSummary`, provider-name derivation | — |
 | `__tests__/mapRecoveryBalanceDetail-tests.ts` | 5 | 0 | `mapRecoveryBalanceDetail` | Balance-detail payload → month groups + subtotals | — |
 | `__tests__/deriveOutcome-tests.ts` | 1 | 1 | `deriveOutcome` | Charge result → `OutcomeVariant` — a single `it.each` table is the whole suite | — |
@@ -68,8 +68,8 @@ Nothing else in the billing scope is borderline on this axis.
 | `__tests__/recoveryCopy-tests.ts` | 11 | 2 | `formatBalance`, `getRecoveryCopy`, `getRecoveryCopy (homepage surface)`, `formatShortMonth` | Money/month formatting and per-surface copy | `formatLongMonth` has no `describe` |
 | `__tests__/recoveryBannerCopy-tests.ts` | 6 | 1 | `getRecoveryBannerCopy` | Banner copy per state | — |
 | `__tests__/recoveryOutcomeCopy-tests.ts` | 11 | 2 | `getRecoveryOutcomeCopy` | Outcome copy + actions per outcome kind | — |
-| `__tests__/failedPaymentMethodCopy-tests.ts` | 11 | 4 | `getProviderCount`, `getProviderTooltipText`, `getProviderTooltipLabel`, `getFailedMethodHeading`, `getDeclineLine` | All copy helpers for the failed-card component | `ROLLOVER_BLOCKED_LINE` has no `describe` (it is asserted in the L2 card suite instead) |
-| `__tests__/mockRecovery-tests.ts` | 8 | 0 | `describe.each(SCENARIOS)('mock recovery scenario %i', …)`, `mock recovery scenario 0` | That every dev mock scenario produces a self-consistent payload | It tests fixtures, not product code — see gap L1-6 |
+| `__tests__/failedPaymentMethodCopy-tests.ts` | 11 | 4 | `getProviderCount`, `getProviderTooltipText`, `getProviderTooltipLabel`, `getFailedMethodHeading`, `getDeclineLine` | All copy helpers for the failed-card component | `ROLLOVER_BLOCKED_LINE` has no `describe` (it is asserted in the component card suite instead) |
+| `__tests__/mockRecovery-tests.ts` | 8 | 0 | `describe.each(SCENARIOS)('mock recovery scenario %i', …)`, `mock recovery scenario 0` | That every dev mock scenario produces a self-consistent payload | It tests fixtures, not product code — see gap UNIT-6 |
 | `paymentMethodArtwork/__tests__/getPaymentMethodArtwork-tests.ts` | 1 | 1 | `getPaymentMethodArtwork` | Brand → artwork mapping, one `it.each` | — |
 
 ### apps/provider-home-webapp and apps/spo-webapp
@@ -87,17 +87,17 @@ Nothing else in the billing scope is borderline on this axis.
 
 | Level | Files | Declared `it`/`test` blocks | of which `it.each` declarations |
 |---|---|---|---|
-| L1 unit | 34 | 224 | 49 |
-| L2 component (component render) | 45 | 515 | 43 |
-| L2H component (`renderHook`) | 9 | 47 | 4 |
-| **L2 total** | **54** | **562** | **47** |
-| L3 integration | 2 | 70 | 6 |
-| L4 api | **0** | 0 | 0 |
-| L5 e2e | out of scope (another agent) — note the snapshot does contain `apps/settings/e2e/**` | — | — |
+| unit | 34 | 224 | 49 |
+| component (component render) | 45 | 515 | 43 |
+| Hook component (`renderHook`) | 9 | 47 | 4 |
+| **component-test total** | **54** | **562** | **47** |
+| integration | 2 | 70 | 6 |
+| API contract | **0** | 0 | 0 |
+| browser | out of scope (another agent) — note the snapshot does contain `apps/settings/e2e/**` | — | — |
 | **Total non-E2E** | **90** | **856** | **102** |
 
 Source side: **152** billing source files, **88** with a dedicated test file, **64** with none.
-Test-to-source file ratio 90:152. Ratio of L1 to L2 declared blocks: **224 : 562 ≈ 1 : 2.5** — the pyramid is
+Test-to-source file ratio 90:152. Ratio of unit to component declared blocks: **224 : 562 ≈ 1 : 2.5** — the pyramid is
 inverted at the component layer, and there is effectively no integration layer.
 
 ### 2. Feature flags referenced in billing code
@@ -123,14 +123,14 @@ Only 4 non-test billing source files read a flag at all (`grep -rn "useExperimen
 - **`invoiceHelpers.ts`** (47 lines; `formatDate` :1, `getLastDayOfMonth` :24, `capitalizeStatus` :37) — still has
   **no direct test**. Evidence: no file named `invoiceHelpers*` exists under any `__tests__/`, and no test file in
   the 90-file set imports it. Its only importers are product code: `InvoiceDetailsContainer.tsx:21` and
-  `v2/FpbInvoiceView.tsx:22`. Note the confusing near-duplicate: `utils/billingDateUtils.ts` *is* fully tested at L1
+  `v2/FpbInvoiceView.tsx:22`. Note the confusing near-duplicate: `utils/billingDateUtils.ts` *is* fully tested at the unit level
   (`billingDateUtils-tests.ts`, 8 blocks / 5 describes), which makes this gap easy to mistake for closed.
 - **`utils/schemaBuilder.ts`** (130 lines; 5 exported schemas at :16, :28, :49, :71, :102) — still has **no direct
   test**. No test file imports it. Its 5 importers are all modals: `EditMonthlyLimitModalV2.tsx:8`,
   `EditBillingEmailModal.tsx:12`, `EditBusinessAddressModal.tsx:12`, `CreditCardFormContentV2.tsx:17`,
   `PaymentMethodsList/components/v2/EditBillingContactInfoModal.tsx:11`. The money boundaries live here
   (`maximumMonthlyLimit = 500000` at :101, minimum from the flag at :99) and are exercised only by whatever values
-  the modal L2 suites happen to type — and the minimum-limit assertion is the tautology described in #2.
+  the modal component suites happen to type — and the minimum-limit assertion is the tautology described in #2.
 
 ### 4. `LegacyInvoiceView` — still present, and NOT dead
 
@@ -147,19 +147,19 @@ non-FPB invoice path. Its 12-block suite should stay.
 | `PricingInformation.tsx` (65) → `v2/PricingInformationV2.tsx` (350) | Both live; V1 fetches `getProvidersDetails` then renders V2, imported at `BillingSettingsContainer.tsx:27`, rendered :549 | **Asymmetric.** V2: `PricingInformationV2-tests.tsx` (40 blocks / 12 describes). V1: only `PricingTab-tests.tsx` (2 blocks) — and the file name matches neither component |
 | `apps/settings/.../utils/shouldUseStripeSandbox.ts` vs `shared/core/src/billing/shouldUseStripeSandbox.ts` | **Byte-identical**, both live | Both tested separately — `utils/__tests__/shouldUseStripeSandbox-tests.ts` (1 block) and `shared/core/src/billing/__tests__/shouldUseStripeSandbox-tests.ts` (3 blocks). Duplicate code *and* duplicate tests |
 | `apps/settings/.../utils/getStripePromise.ts` (30) vs `shared/core/src/billing/getBillingStripePromise.ts` (37) | Near-duplicates, both live. Settings version takes `shouldUseSandbox: boolean` and reads `config/environment`; core version takes `{liveKey, sandboxKey}`, calls `shouldUseStripeSandbox()` itself and logs on a missing key | Both tested separately (2 blocks vs 6 blocks). Only the core version asserts the missing-key path |
-| Local `formatCurrency` ×2 vs the shared one | `FeaturedProviderSection.tsx:8` and `LicenseFeeSection.tsx:9` each define their own; `FpbInvoiceDetailsComponents/formatCurrency.ts` (6 lines) is used by `FpbInvoiceView`/`TaxesAndFeesSection`/`PatientBookingsSection`/`BookingSourceRows` | Three implementations of money formatting on one invoice, none with a direct L1 test |
-| `AddPaymentMethodModalV2` (settings, legacy split Card Elements) vs `AddPaymentMethodModal` + `AddPaymentMethodElementModal` (core, unified Payment Element) | Both live — see #7 | Both tested at L2, but the settings suite mocks the core modal, so no test crosses the seam |
+| Local `formatCurrency` ×2 vs the shared one | `FeaturedProviderSection.tsx:8` and `LicenseFeeSection.tsx:9` each define their own; `FpbInvoiceDetailsComponents/formatCurrency.ts` (6 lines) is used by `FpbInvoiceView`/`TaxesAndFeesSection`/`PatientBookingsSection`/`BookingSourceRows` | Three implementations of money formatting on one invoice, none with a direct unit test |
+| `AddPaymentMethodModalV2` (settings, legacy split Card Elements) vs `AddPaymentMethodModal` + `AddPaymentMethodElementModal` (core, unified Payment Element) | Both live — see #7 | Both tested at the component level, but the settings suite mocks the core modal, so no test crosses the seam |
 
 ### 6. Test files that mix levels
 
 | File | Mix | Why it matters |
 |---|---|---|
-| `__tests__/billing-analytics-events-tests.tsx` (11 blocks, 8 describes, 475 lines) | Single L2 file that renders **five different components** — `FAQsSection`, `MarketplaceCard`, `PaymentMethodsListV2`, `BillingContactInfo`, `Bill` — inside a real `BillingSettingsContext.Provider`, with real `initializeMetricsDataOnWindow`. Level is uniformly L2, but the *subject* is a cross-cutting concern, not a component | Cannot be run as "the tests for X"; an analytics regression in any of 5 components surfaces in one file that no one owns |
-| `__tests__/ResultContentV2-tests.tsx` (5 blocks, 5 describes) | L2 by mechanism (`renderComponent`) but 3 of 5 describes are pure-function assertions in disguise: `thousand-separator formatting (THOUSAND_SEPARATOR_REGEX)`, `.toFixed(0) rounding at the .5 boundary`, `copy variant does not affect the formatted value` | Number-formatting rules are being verified through a DOM render; they belong in an L1 suite next to the formatter |
-| `__tests__/BillingSettingsContainer-tests.tsx` (35 blocks, 11 describes, 1141 lines) | Classified **L3**, but `describe('rollover-blocked ids derived from the payment-method list (BILL-1017)')` and `describe('recovery banner suppression')` are pure derivation/predicate logic asserted through a full page render | Slowest possible way to test a pure derivation; also see `integration-L3.md` |
-| `AchFormContentV2` | **Correctly** split across two files by level: `AchFormContentV2-schema-tests.ts` (L1) and `AchFormContentV2-handleConnectBank-tests.tsx` (L2). This is the pattern the rest of the scope should follow | — (positive example) |
+| `__tests__/billing-analytics-events-tests.tsx` (11 blocks, 8 describes, 475 lines) | Single component-test file that renders **five different components** — `FAQsSection`, `MarketplaceCard`, `PaymentMethodsListV2`, `BillingContactInfo`, `Bill` — inside a real `BillingSettingsContext.Provider`, with real `initializeMetricsDataOnWindow`. Every one is a component test, but the *subject* is a cross-cutting concern, not a component | Cannot be run as "the tests for X"; an analytics regression in any of 5 components surfaces in one file that no one owns |
+| `__tests__/ResultContentV2-tests.tsx` (5 blocks, 5 describes) | A component test by mechanism (`renderComponent`) but 3 of 5 describes are pure-function assertions in disguise: `thousand-separator formatting (THOUSAND_SEPARATOR_REGEX)`, `.toFixed(0) rounding at the .5 boundary`, `copy variant does not affect the formatted value` | Number-formatting rules are being verified through a DOM render; they belong in a unit-test suite next to the formatter |
+| `__tests__/BillingSettingsContainer-tests.tsx` (35 blocks, 11 describes, 1141 lines) | Classified **Integration**, but `describe('rollover-blocked ids derived from the payment-method list (BILL-1017)')` and `describe('recovery banner suppression')` are pure derivation/predicate logic asserted through a full page render | Slowest possible way to test a pure derivation; also see `integration-tests.md` |
+| `AchFormContentV2` | **Correctly** split across two files by level: `AchFormContentV2-schema-tests.ts` (Unit) and `AchFormContentV2-handleConnectBank-tests.tsx` (Component). This is the pattern the rest of the scope should follow | — (positive example) |
 
-No file mixes L1 and L2 *within itself*.
+No file mixes unit and component tests *within itself*.
 
 ### 7. Stripe Payment Element migration — what the code shows
 
@@ -196,39 +196,39 @@ But **both** consumer tests mock the core modal out —
 `AddPaymentMethodModalV2-tests.tsx:30-32` and `ActivationAddPaymentMethodModal-tests.tsx:31-33` both
 `jest.mock('@zocdoc/provider-core/lib/components/AddPaymentMethodModal/AddPaymentMethodElementModal')` — so they
 assert prop wiring only. No non-E2E test renders a real Payment Element modal inside a real app consumer, which
-means a prop-contract break across the `shared/core` → app boundary is caught only at L5.
+means a prop-contract break across the `shared/core` → app boundary is caught only at the browser level.
 
 Related: `shared/core/src/testing/installStripeJsFake.ts` (130 lines) is a Stripe.js fake built for exactly this
-kind of test, and **no L1/L2/L3 test uses it**. Its only consumers in the snapshot are
-`apps/settings/e2e/fixtures.ts` (L5) and
+kind of test, and **no unit test/Component/integration test uses it**. Its only consumers in the snapshot are
+`apps/settings/e2e/fixtures.ts` (Browser) and
 `apps/provider-home-webapp/src/pages/homepage/reposition/components/__stories__/ActivationAddPaymentMethodModal-stories.tsx`.
-The tool to close the seam gap already exists and is unused below L5.
+The tool to close the seam gap already exists and is unused below the browser level.
 
 ## Candidate Gaps
 
 | # | What's missing | Level | Path(s) | Why it matters | Effort | Priority |
 |---|---|---|---|---|---|---|
-| L1-1 | No `describe` for `createSetupIntentV2` (`apiCalls.ts:323`) or `prepareSetupIntentV2` (:402) — 2 of 14 client functions, both on the money path, both still used by the Pay Now flow | L1 | `apps/settings/.../__tests__/apiCalls-tests.ts`, `apiCalls.ts:323,402` | Every other client function has a `describe`; these two build the setup-intent requests for card and ACH entry during recovery | S | **P0** |
-| L1-2 | `utils/schemaBuilder.ts` has no direct test, and the one flag assertion that exists is tautological (`EditMonthlyLimitModalV2-tests.tsx:129-133` re-evaluates the source expression) | L1 | `apps/settings/.../utils/schemaBuilder.ts` | Monthly-limit min/max are the only client guard on a money field; a wrong default silently ships | S | **P0** |
-| L1-3 | `invoiceHelpers.ts` has no direct test | L1 | `apps/settings/.../invoiceHelpers.ts` | `getLastDayOfMonth` drives customer-visible invoice period labels | XS | **P1** |
-| L1-4 | `triggerPayNow` has only 2 declared blocks for a batch-charge POST | L1 | `apps/settings/.../__tests__/triggerPayNow-tests.ts`, `apiCalls.ts:426` | This is the call that actually charges a practice's failed balance; error/retry shapes are unasserted | S | **P1** |
-| L1-5 | `formatLongMonth` (`recoveryCopy.ts`) and `ROLLOVER_BLOCKED_LINE` (`failedPaymentMethodCopy.ts`) have no `describe` while every sibling export does | L1 | `shared/core/src/paymentRecovery/recoveryCopy.ts`, `failedPaymentMethodCopy.ts` | Small, cheap, and inconsistent with an otherwise complete copy suite | XS | P3 |
-| L1-6 | `mockRecovery-tests.ts` (8 blocks) tests dev fixtures, while the real mapper `mapRecoveryMethodDisplay.ts` next to it has no test at all | L1 | `shared/core/src/paymentRecovery/mockRecovery.ts`, `mapRecoveryMethodDisplay.ts` | Test effort is pointed at fixtures instead of product logic | XS | P2 |
-| L1-7 | `installStripeJsFake.ts` is unused below L5, so the Payment Element seam has no in-process test | L2/L3 | `shared/core/src/testing/installStripeJsFake.ts`, `AddPaymentMethodModalV2-tests.tsx:30`, `ActivationAddPaymentMethodModal-tests.tsx:31` | A ready-made fake exists; using it in one consumer test would cover the `shared/core` → app prop contract that is currently E2E-only | M | **P1** |
-| L1-8 | `BILLING_PAGE_ENABLE_IFRAME_DEPRECATION` looks like a fully-ramped kill switch still carrying test branches | L1 | `BillingSettingsContainer.tsx` (3 refs), `BillingSettingsContainer-tests.tsx` `describe('bootstrap decouple experiment')` | Dead-flag cleanup removes a whole gate + its test branches; needs a ramp-state check first (UNVERIFIED from code alone) | S | P3 |
-| L1-9 | Number-formatting rules asserted through a DOM render instead of L1 | L1 | `apps/settings/.../__tests__/ResultContentV2-tests.tsx` (`describe('thousand-separator formatting (THOUSAND_SEPARATOR_REGEX)')`, `describe('.toFixed(0) rounding at the .5 boundary')`) | Extract the formatter and test it at L1; keeps the rounding contract runnable without React | S | P2 |
+| UNIT-1 | No `describe` for `createSetupIntentV2` (`apiCalls.ts:323`) or `prepareSetupIntentV2` (:402) — 2 of 14 client functions, both on the money path, both still used by the Pay Now flow | Unit | `apps/settings/.../__tests__/apiCalls-tests.ts`, `apiCalls.ts:323,402` | Every other client function has a `describe`; these two build the setup-intent requests for card and ACH entry during recovery | S | **P0** |
+| UNIT-2 | `utils/schemaBuilder.ts` has no direct test, and the one flag assertion that exists is tautological (`EditMonthlyLimitModalV2-tests.tsx:129-133` re-evaluates the source expression) | Unit | `apps/settings/.../utils/schemaBuilder.ts` | Monthly-limit min/max are the only client guard on a money field; a wrong default silently ships | S | **P0** |
+| UNIT-3 | `invoiceHelpers.ts` has no direct test | Unit | `apps/settings/.../invoiceHelpers.ts` | `getLastDayOfMonth` drives customer-visible invoice period labels | XS | **P1** |
+| UNIT-4 | `triggerPayNow` has only 2 declared blocks for a batch-charge POST | Unit | `apps/settings/.../__tests__/triggerPayNow-tests.ts`, `apiCalls.ts:426` | This is the call that actually charges a practice's failed balance; error/retry shapes are unasserted | S | **P1** |
+| UNIT-5 | `formatLongMonth` (`recoveryCopy.ts`) and `ROLLOVER_BLOCKED_LINE` (`failedPaymentMethodCopy.ts`) have no `describe` while every sibling export does | Unit | `shared/core/src/paymentRecovery/recoveryCopy.ts`, `failedPaymentMethodCopy.ts` | Small, cheap, and inconsistent with an otherwise complete copy suite | XS | P3 |
+| UNIT-6 | `mockRecovery-tests.ts` (8 blocks) tests dev fixtures, while the real mapper `mapRecoveryMethodDisplay.ts` next to it has no test at all | Unit | `shared/core/src/paymentRecovery/mockRecovery.ts`, `mapRecoveryMethodDisplay.ts` | Test effort is pointed at fixtures instead of product logic | XS | P2 |
+| UNIT-7 | `installStripeJsFake.ts` is unused below the browser level, so the Payment Element seam has no in-process test | Component/Integration | `shared/core/src/testing/installStripeJsFake.ts`, `AddPaymentMethodModalV2-tests.tsx:30`, `ActivationAddPaymentMethodModal-tests.tsx:31` | A ready-made fake exists; using it in one consumer test would cover the `shared/core` → app prop contract that is currently E2E-only | M | **P1** |
+| UNIT-8 | `BILLING_PAGE_ENABLE_IFRAME_DEPRECATION` looks like a fully-ramped kill switch still carrying test branches | Unit | `BillingSettingsContainer.tsx` (3 refs), `BillingSettingsContainer-tests.tsx` `describe('bootstrap decouple experiment')` | Dead-flag cleanup removes a whole gate + its test branches; needs a ramp-state check first (UNVERIFIED from code alone) | S | P3 |
+| UNIT-9 | Number-formatting rules asserted through a DOM render instead of a unit test | Unit | `apps/settings/.../__tests__/ResultContentV2-tests.tsx` (`describe('thousand-separator formatting (THOUSAND_SEPARATOR_REGEX)')`, `describe('.toFixed(0) rounding at the .5 boundary')`) | Extract the formatter and test it at the unit level; keeps the rounding contract runnable without React | S | P2 |
 
 ## Level Summary
 
 | Level | Files | Declared blocks | `it.each` declarations |
 |---|---|---|---|
-| **L1 (this file)** | **34** | **224** | **49** |
-| L2 component | 45 | 515 | 43 |
-| L2H (`renderHook`) | 9 | 47 | 4 |
-| L3 integration | 2 | 70 | 6 |
-| L4 api | 0 | 0 | 0 |
+| **Unit (this file)** | **34** | **224** | **49** |
+| component | 45 | 515 | 43 |
+| Hook (`renderHook`) | 9 | 47 | 4 |
+| integration | 2 | 70 | 6 |
+| API contract | 0 | 0 | 0 |
 | Total non-E2E billing | **90** | **856** | **102** |
 
-L1 file breakdown by area: `apps/settings` 13 files / 83 blocks; `shared/core/src/billing` 6 / 28;
+Unit file breakdown by area: `apps/settings` 13 files / 83 blocks; `shared/core/src/billing` 6 / 28;
 `shared/core/src/paymentRecovery` 10 / 85; `shared/core/src/paymentMethodArtwork` 1 / 1;
 `apps/provider-home-webapp` 3 / 25; `apps/spo-webapp` 1 / 2.

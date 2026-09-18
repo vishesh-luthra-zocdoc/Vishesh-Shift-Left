@@ -5,7 +5,7 @@
 | Jira project | BILL |
 | Issue type | Task |
 | Priority | P2 |
-| Test level | L2 component |
+| Kind of test | Component test |
 | Action | investigate |
 | Repo | provider-fe-monorepo |
 | Area | Billing Settings — invoice details |
@@ -49,7 +49,7 @@ Providers reading invoices through this view see real amounts.
 | Finding | Action |
 |---|---|
 | Existing `LegacyInvoiceView-tests.tsx` covers the render paths and money formatting | Close with evidence. No work needed. |
-| Coverage is thin for a now-permanent path | Extend the L2 tests. Prioritise anything displaying an amount, date, or status. |
+| Coverage is thin for a now-permanent path | Extend the component tests. Prioritise anything displaying an amount, date, or status. |
 | The component is genuinely unreachable (contradicting the above) | Prove it with the reachability trace, **then** delete with a `delete` ticket citing the evidence. Do not act on inference. |
 
 ## Acceptance criteria

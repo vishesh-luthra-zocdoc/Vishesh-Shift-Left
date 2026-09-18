@@ -5,7 +5,7 @@
 | Jira project | BILL |
 | Issue type | Task |
 | Priority | P2 |
-| Test level | L5 e2e |
+| Kind of test | Browser test |
 | Action | shift-left |
 | Repo | provider-fe-monorepo |
 | Area | Billing Settings — visual regression |

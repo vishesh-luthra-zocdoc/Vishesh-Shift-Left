@@ -5,7 +5,7 @@
 | Jira project | BILL |
 | Issue type | Chore |
 | Priority | P2 |
-| Test level | L5 e2e |
+| Kind of test | Browser test |
 | Action | delete |
 | Repo | provider-fe-monorepo |
 | Area | Billing Settings — E2E suite |
@@ -50,7 +50,7 @@ scenario it does not touch.
 | `apps/settings/e2e/PracticeSettingsPages/billing-settings-v2.spec.ts` | change — delete tests |
 
 ## Out of scope
-The 39 `delete-redundant` candidates (FE-010) and the 19 L2 shifts (FE-009). Those change coverage
+The 39 `delete-redundant` candidates (FE-010) and the 19 component-test shifts (FE-009). Those change coverage
 posture and are gated on FE-001. This ticket is only the risk-free subset.
 
 ## Verification

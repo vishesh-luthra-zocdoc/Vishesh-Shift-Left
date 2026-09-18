@@ -5,7 +5,7 @@
 | Jira project | BILL |
 | Issue type | Task |
 | Priority | P0 |
-| Test level | L5 e2e |
+| Kind of test | Browser test |
 | Action | add-coverage |
 | Repo | provider-fe-monorepo |
 | Area | Billing Settings — add payment method |
@@ -30,7 +30,7 @@ served by Stripe and mounted by Stripe.js at runtime.
 - All 63 billing E2E tests run with a fake Stripe.js installed unconditionally for every test in the
   directory: `apps/settings/e2e/fixtures.ts:32`.
 - All 13 backend REST endpoints are stubbed in the same fixture; `/login/*` is deliberately 500'd.
-- The L2 tests (`AddPaymentMethodElementModal-tests.tsx`) render in jsdom, where a Stripe iframe
+- The component tests (`AddPaymentMethodElementModal-tests.tsx`) render in jsdom, where a Stripe iframe
   cannot mount at all.
 - Production components additionally branch on a test-only cookie, `SHOULD_MOCK_STRIPE`
   (`AddPaymentMethodModalV2/CreditCardFormContentV2.tsx:52`,

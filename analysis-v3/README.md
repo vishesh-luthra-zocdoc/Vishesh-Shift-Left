@@ -19,21 +19,22 @@ and what has no tests at all.** CI wiring, deploy pipelines, and file organisati
 
 | If you want to… | Read |
 |---|---|
-| **Understand the whole thing** | [`SUMMARY.md`](SUMMARY.md) — 20 numbered findings, P0 → P3, with effort |
+| **Understand the whole thing** | [`SUMMARY.md`](SUMMARY.md) — 21 numbered findings, P0 → P3, with effort |
 | **File or work the tickets** | [`gaps/BACKLOG.md`](gaps/BACKLOG.md) — the same items with Jira keys and sequencing |
 | **Read one gap in full** | [`gaps/tickets/`](gaps/tickets/) — 13 self-contained frontend tickets |
 | **Execute the E2E reduction** | [`shift-left/E2E-TEST-BY-TEST.md`](shift-left/E2E-TEST-BY-TEST.md) — all 63 tests, classified |
 | **Check my work before trusting it** | [`VERIFY-THIS-FIRST.md`](VERIFY-THIS-FIRST.md) — 10 min of copy-pasteable commands |
 | **See what the team already fixed** | [`ALREADY-FIXED.md`](ALREADY-FIXED.md) |
 | **Know what v2 got wrong** | [`V2-VALIDATION.md`](V2-VALIDATION.md) — **v2's #1 P0 is wrong, do not execute it** |
-| **Understand the L1–L5 labels** | [`methodology/TEST-LEVEL-TAXONOMY.md`](methodology/TEST-LEVEL-TAXONOMY.md) |
+| **Understand the kinds of test** | [`methodology/KINDS-OF-TEST.md`](methodology/KINDS-OF-TEST.md) |
 | **Know how this was produced** | [`methodology/METHODOLOGY.md`](methodology/METHODOLOGY.md) |
 
 ## What's new in v3
 
 1. **Tests are grouped by what they actually do, not by folder.** A browser test that mocks its
-   entire backend is paying L5 cost for L2 confidence, whatever directory it lives in. The five
-   levels (L1 unit → L5 e2e) are explained in plain terms at the top of [`SUMMARY.md`](SUMMARY.md).
+   entire backend is paying browser-test cost for component-test confidence, whatever directory it
+   lives in. Each item in [`SUMMARY.md`](SUMMARY.md) says in plain words what kind of test exists
+   today — unit test, component test, browser test, or none.
 2. **All three team-owned repos**, not just the frontend. `provider-billing` — an entire .NET
    service with five test projects — was never in v1/v2 scope.
 3. **Frontend gaps are full ticket files**, with acceptance criteria, test cases, and a verification
@@ -69,11 +70,11 @@ analysis-v3/
 │   ├── BACKLOG.md             ← the ticket index, by priority, with Jira keys
 │   ├── TICKET-TEMPLATE.md     ← the contract every ticket follows
 │   └── tickets/               ← 13 self-contained frontend ticket files
-├── inventory/                 ← what tests exist, per repo, per level
+├── inventory/                 ← what tests exist, per repo, by kind of test
 ├── shift-left/
-│   ├── E2E-TEST-BY-TEST.md    ← all 63 E2E tests classified; source data for items 11–13
+│   ├── E2E-TEST-BY-TEST.md    ← all 63 browser tests classified; source data for items 11–13
 │   └── E2E-PLAN-JUDGMENT.md   ← whether the reduction plan is safe to execute, and in what order
-└── methodology/               ← taxonomy, method, verified history
+└── methodology/               ← kinds of test, method, verified history
 ```
 
 ## Honest limitations
@@ -82,10 +83,10 @@ analysis-v3/
   described CI wiring or deploy checks rather than test coverage, and are deleted in Jira. See
   "Dropped from scope" in [`gaps/BACKLOG.md`](gaps/BACKLOG.md), which records the findings so they
   aren't lost. One more (BILL-1216) is kept but flagged as hygiene, not coverage.
-- **`provider-billing`'s ~70 L3 integration tests may not execute in CI** — they skip when LocalStack
-  is unavailable and provisioning was never confirmed. Treat the L3 count as unverified.
+- **`provider-billing`'s ~70 integration tests may not execute in CI** — they skip when LocalStack
+  is unavailable and provisioning was never confirmed. Treat the integration-test count as unverified.
 - **`provider-billing` and `zocdoc_web` findings exist only in Jira.** Their per-ticket write-ups and
-  inventories were never committed here. The Jira ticket is the only detail for those seven items.
+  inventories were never committed here. The Jira ticket is the only detail for those eight items.
 - **No coverage tooling was run.** Counts come from reading test files. A test existing is not proof
   it asserts anything useful.
 - **Runtime figures are estimates** unless labelled otherwise. The serial-CI *basis* is confirmed.

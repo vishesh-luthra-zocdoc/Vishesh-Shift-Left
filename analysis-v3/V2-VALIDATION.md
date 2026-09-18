@@ -98,7 +98,7 @@ specs were ported to Playwright in `0561a881ee` (2026-07-06, #11242) and Cypress
 v2's *direction* was right and its warning was prescient — it flagged that Cypress was growing
 faster than unit coverage (+210% vs +38%) and that "shift-left pressure is increasing, not
 decreasing." That trend continued: the migration **grew** billing E2E 32% (2,302 → 3,049 lines).
-The rewrite was the cheapest possible moment to drop L5 tests that didn't need to be L5, and it
+The rewrite was the cheapest possible moment to drop browser tests that didn't need a browser, and it
 wasn't taken.
 
 ---

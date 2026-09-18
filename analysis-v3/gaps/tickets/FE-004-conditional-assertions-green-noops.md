@@ -5,7 +5,7 @@
 | Jira project | BILL |
 | Issue type | Bug |
 | Priority | P1 |
-| Test level | L5 e2e |
+| Kind of test | Browser test |
 | Action | add-coverage |
 | Repo | provider-fe-monorepo |
 | Area | Billing Settings — E2E suite integrity |
@@ -35,7 +35,7 @@ based on a suite containing silent no-ops means deleting the wrong things.
 - [ ] For each of the six tests, either:
       **(a)** assert the fixture lookup succeeded before using it (e.g. `expect(found).toBeDefined()`)
       so a fixture change fails the test, or
-      **(b)** delete the test if its assertions are already covered at L2 — citing the covering test
+      **(b)** delete the test if its assertions are already covered at the component level — citing the covering test
       by file and `it` title, per the `delete` rule.
 - [ ] No `expect` in these specs remains reachable only inside an unasserted conditional.
 - [ ] A deliberate fixture rename causes a **failure**, not a pass. Record this check on the ticket.
@@ -46,12 +46,12 @@ Not new tests — repairs. One row per site:
 
 | # | Location | Action |
 |---|---|---|
-| 1 | `billing-settings-v2.spec.ts:191` | Assert lookup, or delete citing L2 cover |
-| 2 | `billing-settings-v2.spec.ts:241` | Assert lookup, or delete citing L2 cover |
-| 3 | `billing-settings-v2.spec.ts:288` | Assert lookup, or delete citing L2 cover |
-| 4 | `billing-settings-v2.spec.ts:349` | Assert lookup, or delete citing L2 cover |
-| 5 | `billing-settings-v2.spec.ts:425` | Assert lookup, or delete citing L2 cover |
-| 6 | `billing-settings-v2.spec.ts:759` | Assert lookup, or delete citing L2 cover |
+| 1 | `billing-settings-v2.spec.ts:191` | Assert lookup, or delete citing component-test cover |
+| 2 | `billing-settings-v2.spec.ts:241` | Assert lookup, or delete citing component-test cover |
+| 3 | `billing-settings-v2.spec.ts:288` | Assert lookup, or delete citing component-test cover |
+| 4 | `billing-settings-v2.spec.ts:349` | Assert lookup, or delete citing component-test cover |
+| 5 | `billing-settings-v2.spec.ts:425` | Assert lookup, or delete citing component-test cover |
+| 6 | `billing-settings-v2.spec.ts:759` | Assert lookup, or delete citing component-test cover |
 
 ## Files
 | Path | Change |
@@ -59,7 +59,7 @@ Not new tests — repairs. One row per site:
 | `apps/settings/e2e/PracticeSettingsPages/billing-settings-v2.spec.ts` | change — 6 sites |
 
 ## Out of scope
-Shifting these tests to L2 (FE-009) or deleting the redundant bulk (FE-010). This ticket only makes
+Shifting these tests to the component level (FE-009) or deleting the redundant bulk (FE-010). This ticket only makes
 the suite tell the truth so those decisions rest on real signal.
 
 ## Verification
