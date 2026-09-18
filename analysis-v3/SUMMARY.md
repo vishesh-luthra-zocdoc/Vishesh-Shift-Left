@@ -53,7 +53,12 @@ Nothing made the breaking change fail where it was made: no canary, no shared se
 ownership link. **The fix for this is monorepo-side**, which is why it's in scope here. It will
 recur on the next teardown — and **[FE-011](gaps/tickets/FE-011-investigate-iframe-deprecation-flag.md)**
 is a pending teardown of exactly that kind.
-→ **[X-001](gaps/tickets/X-001-cross-repo-selector-contract.md)**
+
+**No ticket is filed for this.** The fix is a CI tripwire, and this analysis covers tests, not CI
+wiring — see "Dropped from scope" in [`gaps/BACKLOG.md`](gaps/BACKLOG.md). The *test* that would have
+caught this break in the monorepo is **[FE-001](gaps/tickets/FE-001-real-stripe-payment-element-untested.md)**,
+which is filed. It's recorded here because it explains why FE-001 is worth more than its estimate
+suggests.
 
 ---
 

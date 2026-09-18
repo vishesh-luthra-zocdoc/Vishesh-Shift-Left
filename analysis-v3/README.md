@@ -17,7 +17,7 @@ touches — `provider-fe-monorepo`, `provider-billing`, `zocdoc_web`. The QA-own
 | If you want to… | Read |
 |---|---|
 | **Understand the whole thing in one page** | [`START-HERE.md`](START-HERE.md) |
-| **File or work the tickets** | [`gaps/BACKLOG.md`](gaps/BACKLOG.md) — 23 tickets by priority, with Jira links and sequencing |
+| **File or work the tickets** | [`gaps/BACKLOG.md`](gaps/BACKLOG.md) — 20 tickets by priority, with Jira links and sequencing |
 | **Check my work before trusting it** | [`VERIFY-THIS-FIRST.md`](VERIFY-THIS-FIRST.md) — 10 min of copy-pasteable commands |
 | **See what the team already fixed** | [`ALREADY-FIXED.md`](ALREADY-FIXED.md) |
 | **Know what v2 got wrong** | [`V2-VALIDATION.md`](V2-VALIDATION.md) — **v2's #1 P0 is wrong, do not execute it** |
@@ -66,7 +66,7 @@ analysis-v3/
 ├── gaps/
 │   ├── BACKLOG.md             ← the ticket index, by priority, with Jira keys
 │   ├── TICKET-TEMPLATE.md     ← the contract every ticket follows
-│   └── tickets/               ← 14 self-contained frontend + cross-repo ticket files
+│   └── tickets/               ← 13 self-contained frontend ticket files
 ├── inventory/                 ← what tests exist, per repo, per level
 ├── shift-left/                ← the E2E reduction plan and its guard rails
 └── methodology/               ← taxonomy, method, verified history
@@ -74,6 +74,11 @@ analysis-v3/
 
 ## Honest limitations
 
+- **Four filed tickets were withdrawn as out of scope** — they described CI wiring, deploy checks, or
+  file organisation rather than test coverage. See "Dropped from scope" in
+  [`gaps/BACKLOG.md`](gaps/BACKLOG.md), which records the findings so they aren't lost.
+- **`provider-billing`'s 70 L3 integration tests may not execute in CI** — they skip when LocalStack
+  is unavailable and provisioning was never confirmed. Treat the L3 count as unverified.
 - **`PB-*` and `WEB-*` tickets exist only in Jira.** The backend per-ticket write-ups and the
   `provider-billing` / `zocdoc_web` inventories were never committed here. The Jira ticket is the
   only detail that exists for those ten items.

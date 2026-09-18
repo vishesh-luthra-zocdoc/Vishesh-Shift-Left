@@ -81,8 +81,11 @@ fix was still on a branch, not yet on `origin/main` `4bb607cc`.
 This is the structural finding, not the incident: **monorepo CI could not fail on a monorepo change**,
 because it mocks Stripe entirely and cannot see real payment DOM. The break surfaced in a different
 repo, on a different workflow, and was diagnosed by hand. Nothing was changed in the monorepo, so it
-will recur on the next teardown. The fix (X-001) is monorepo-side, which is why it is in scope here
-even though the red suite was not.
+will recur on the next teardown.
+
+No ticket is filed for the cross-repo signal itself — that is CI wiring, outside this analysis' scope.
+FE-001 is the in-scope answer: one E2E test against a **real** Stripe Element would have failed in the
+monorepo on this change.
 
 ## Corrections to subagent findings
 

@@ -14,7 +14,6 @@ Filenames: `<REPO>-<nnn>-<kebab-slug>.md`, numbered in priority order **within e
 | `FE` | `provider-fe-monorepo` |
 | `WEB` | `zocdoc_web` |
 | `PB` | `provider-billing` |
-| `X` | cross-repo (a gap no single repo owns) |
 
 Per-repo prefixes rather than one global sequence, for two reasons: you can tell which repo and
 which team a ticket belongs to from the filename alone, and adding a repo later doesn't renumber

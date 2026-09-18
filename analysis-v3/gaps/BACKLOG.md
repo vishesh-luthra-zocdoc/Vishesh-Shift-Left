@@ -1,6 +1,6 @@
 # v3 Gap Backlog
 
-**23 tickets, all filed in Jira project BILL** — 14 with a write-up here, 9 in Jira only. Read
+**20 tickets, all filed in Jira project BILL** — 13 with a write-up here, 7 in Jira only. Read
 [`../START-HERE.md`](../START-HERE.md) first — it says what to test and in what order in one page.
 This file is the full index with links to both the local write-up and the Jira ticket.
 
@@ -14,8 +14,8 @@ against the highest-risk claims.
 Ticket shape is defined by [`TICKET-TEMPLATE.md`](TICKET-TEMPLATE.md).
 
 **On the `FE-*` / `PB-*` / `WEB-*` prefixes:** they're just repo handles — `FE` =
-`provider-fe-monorepo`, `PB` = `provider-billing`, `WEB` = `zocdoc_web`, `X` = spans repos. The
-`FE-*` and `X-001` rows have a full write-up in [`tickets/`](tickets/); the `PB-*` and `WEB-*` rows
+`provider-fe-monorepo`, `PB` = `provider-billing`, `WEB` = `zocdoc_web`. The
+`FE-*` rows have a full write-up in [`tickets/`](tickets/); the `PB-*` and `WEB-*` rows
 exist only as Jira tickets — the backend write-ups and inventories were never committed here.
 
 ---
@@ -39,10 +39,8 @@ exist only as Jira tickets — the backend write-ups and inventories were never 
 | [FE-005](tickets/FE-005-zero-api-contract-tests.md) | Add API contract tests for the billing endpoints the UI consumes | L4 api | add-coverage | 1d | [BILL-1197](https://zocdoc.atlassian.net/browse/BILL-1197) |
 | [FE-004](tickets/FE-004-conditional-assertions-green-noops.md) | Fix six E2E tests whose assertions are entirely inside `if (mock.find(...))` | L5 e2e | add-coverage | 2h | [BILL-1196](https://zocdoc.atlassian.net/browse/BILL-1196) |
 | [FE-006](tickets/FE-006-ach-no-e2e-coverage.md) | Add coverage for the ACH / bank-account add-payment-method path | L5 e2e | add-coverage | 4h | [BILL-1198](https://zocdoc.atlassian.net/browse/BILL-1198) |
-| [X-001](tickets/X-001-cross-repo-selector-contract.md) | Make a billing DOM change fail in the repo that made it | L5 e2e | add-coverage | 1d | [BILL-1206](https://zocdoc.atlassian.net/browse/BILL-1206) |
 | WEB-002 | Replace the tautological tax assertion in `ProcessorGenerateChargeGroupsTest` with hardcoded amounts | L1 unit | add-coverage | 2h | [BILL-1218](https://zocdoc.atlassian.net/browse/BILL-1218) |
 | WEB-003 | The bill generator has no active tests — its only fixture is `[Ignore]`d | L3 integration | add-coverage | 1d | [BILL-1219](https://zocdoc.atlassian.net/browse/BILL-1219) |
-| PB-005 | LocalStack integration tests silently `Assert.Ignore` when LocalStack is unavailable | L3 integration | investigate | 4h | [BILL-1215](https://zocdoc.atlassian.net/browse/BILL-1215) |
 
 ### P2 — meaningful gap, low blast radius
 
@@ -62,8 +60,7 @@ exist only as Jira tickets — the backend write-ups and inventories were never 
 | ID | Title | Level | Action | Est. | Jira |
 |---|---|---|---|---|---|
 | [FE-013](tickets/FE-013-thirteen-source-files-with-no-coverage.md) | Add coverage for the 13 billing source files with no tests at all | L2 component | add-coverage | 1d | [BILL-1205](https://zocdoc.atlassian.net/browse/BILL-1205) |
-| WEB-004 | Audit the 15 billing test files that disable the coverage gate | L1 unit | cleanup | 4h | [BILL-1220](https://zocdoc.atlassian.net/browse/BILL-1220) |
-| PB-006 | Relabel the three mislabelled test projects so the pyramid reflects reality | — | cleanup | 2h | [BILL-1216](https://zocdoc.atlassian.net/browse/BILL-1216) |
+| WEB-004 | Establish what the 15 gate-exempt billing test files actually leave uncovered | L1 unit | investigate | 4h | [BILL-1220](https://zocdoc.atlassian.net/browse/BILL-1220) |
 
 ---
 
@@ -87,8 +84,9 @@ FE-009  (shift 19 down to L2 — each L2 test lands BEFORE its E2E counterpart i
 FE-010  (bulk delete 39 — last, deliberately)
 ```
 
-`X-001` should land before `FE-011`, since FE-011 is a flag teardown of exactly the kind that caused
-the 2026-09-02 break.
+`FE-001` should land before `FE-011`. FE-011 is a flag teardown of the same kind that changed the
+payment DOM on 2026-09-02 — monorepo CI stayed green because it mocks Stripe, and a downstream suite
+went red instead. FE-001 is the test that would catch it in this repo.
 
 ## Independent, no sequencing
 
@@ -123,22 +121,31 @@ FE-001 prevents a revenue-path outage.
 | FE-011 | [BILL-1203](https://zocdoc.atlassian.net/browse/BILL-1203) | `provider-fe-monorepo` |
 | FE-012 | [BILL-1204](https://zocdoc.atlassian.net/browse/BILL-1204) | `provider-fe-monorepo` |
 | FE-013 | [BILL-1205](https://zocdoc.atlassian.net/browse/BILL-1205) | `provider-fe-monorepo` |
-| X-001 | [BILL-1206](https://zocdoc.atlassian.net/browse/BILL-1206) | `provider-fe-monorepo` (fix side) |
 | PB-001 | [BILL-1211](https://zocdoc.atlassian.net/browse/BILL-1211) | `provider-billing` |
 | PB-002 | [BILL-1212](https://zocdoc.atlassian.net/browse/BILL-1212) | `provider-billing` |
 | PB-004 | [BILL-1214](https://zocdoc.atlassian.net/browse/BILL-1214) | `provider-billing` |
-| PB-005 | [BILL-1215](https://zocdoc.atlassian.net/browse/BILL-1215) | `provider-billing` |
-| PB-006 | [BILL-1216](https://zocdoc.atlassian.net/browse/BILL-1216) | `provider-billing` |
 | WEB-001 | [BILL-1217](https://zocdoc.atlassian.net/browse/BILL-1217) | `zocdoc_web` |
 | WEB-002 | [BILL-1218](https://zocdoc.atlassian.net/browse/BILL-1218) | `zocdoc_web` |
 | WEB-003 | [BILL-1219](https://zocdoc.atlassian.net/browse/BILL-1219) | `zocdoc_web` |
 | WEB-004 | [BILL-1220](https://zocdoc.atlassian.net/browse/BILL-1220) | `zocdoc_web` |
 
-**One ticket still needs a Jira fix:** BILL-1215 is issue type **Bug** in status `Unassigned`.
-Every other ticket is a Story in `To Do`. The REST API can't convert it (the workflow scheme rejects
-it) — use **Move** in the Jira UI.
+## Dropped from scope
 
-**Dropped from scope:** PB-003 (post-deploy smoke test is a bare `Assert.Pass`) was filed as
-BILL-1213 and has been deleted. A post-deploy check runs after release, and this analysis covers
-pre-release tests only. The observation still stands — it belongs to whoever owns the deploy
-pipeline, not to this backlog.
+This analysis answers three questions: **what isn't being checked, what's stale, and what has no
+tests at all.** Four tickets were filed that answered a different question — they described
+infrastructure, CI wiring, or file organisation. All four are deleted in Jira. The findings behind
+them are real and are recorded here so they aren't lost, but they are not test-coverage work and
+don't belong in a team's sprint backlog under this program.
+
+| Was | Finding | Why it's out | Whose it is |
+|---|---|---|---|
+| PB-003 / BILL-1213 | The post-deploy smoke test is a bare `Assert.Pass` | Runs after release; this analysis is pre-release only | Deploy pipeline owner |
+| PB-005 / BILL-1215 | LocalStack integration tests `Assert.Ignore` when LocalStack is down | The fix is CI environment detection, not a test | CI / pipeline owner — **but see the caveat below** |
+| PB-006 / BILL-1216 | Three test projects named for a level they don't test at | File organisation. Its own write-up conceded no bug ships from a misnamed folder | `provider-billing` team, as hygiene |
+| X-001 / BILL-1206 | No signal fails in the monorepo when a billing DOM change breaks a downstream suite | A CI tripwire, not a test. FE-001 is the test that covers this risk | Whoever owns the monorepo CI config |
+
+**One caveat worth carrying forward from PB-005:** nobody confirmed that `provider-billing`'s 70 L3
+integration tests actually execute in CI. If LocalStack isn't provisioned there, they skip silently
+and that entire layer has never run. That *is* a coverage question — it's recorded in the limitations
+of [`../START-HERE.md`](../START-HERE.md) rather than as a ticket, because the answer is a
+five-minute look at the pipeline, not a sprint item.

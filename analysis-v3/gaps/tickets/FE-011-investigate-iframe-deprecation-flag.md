@@ -73,5 +73,6 @@ yarn test apps/settings/src/pages/settingsPages/billingSettings
 Plus a build if source was removed.
 
 ## Notes
-Do **X-001 first.** This is a pending flag teardown of exactly the kind that broke the downstream
-suite on 2026-09-02. Landing the cross-repo tripwire before this teardown is the whole point of X-001.
+Do **FE-001 first.** This is a pending flag teardown of the same kind that changed the payment DOM on
+2026-09-02 and broke a downstream suite — monorepo CI stayed green because it mocks Stripe entirely.
+FE-001 adds the one test in this repo that would see such a change.

@@ -85,7 +85,8 @@ Cross-references performed:
 3. E2E test → does it mock its backend? (finds tests paying L5 cost for L2 confidence)
 4. v2 finding → still true at v3 revision? (finds what the team actually fixed, and what v2 got wrong)
 5. Monorepo billing DOM → the `data-test` attributes the downstream production suite depends on
-   (finds implicit cross-repo coupling with no CI signal — the basis for X-001)
+   (finds implicit cross-repo coupling with no CI signal — recorded as context, not filed as a
+   ticket, since the remedy is CI wiring rather than a test)
 
 ## Evidence standard
 

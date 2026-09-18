@@ -82,10 +82,8 @@ Everything below follows from those two.
 | [FE-005](gaps/tickets/FE-005-zero-api-contract-tests.md) | That the billing endpoints return what the UI expects. **Zero** contract tests exist — no MSW, no nock. This is the empty L4 row. | L4 | 1d |
 | [FE-004](gaps/tickets/FE-004-conditional-assertions-green-noops.md) | Six E2E tests wrap every assertion in `if (mock.find(...))`. One fixture change turns them into green tests that check nothing. Fix before trusting any E2E result. | L5 | 2h |
 | [FE-006](gaps/tickets/FE-006-ach-no-e2e-coverage.md) | The ACH / bank-account payment path. `mockAchInfo` exists but no test ever selects the option that renders it. | L5 | 4h |
-| [X-001](gaps/tickets/X-001-cross-repo-selector-contract.md) | That a billing DOM change fails **in the repo that made it**. On 2026-09-02 a flag teardown broke downstream tests while monorepo CI stayed green. Fix is monorepo-side. | L5 | 1d |
 | WEB-002 → [BILL-1218](https://zocdoc.atlassian.net/browse/BILL-1218) | Tax amounts in `ProcessorGenerateChargeGroupsTest` — same cannot-fail pattern as FE-002, on tax. | L1 | 2h |
 | WEB-003 → [BILL-1219](https://zocdoc.atlassian.net/browse/BILL-1219) | The bill generator. Its only test fixture is `[Ignore]`d, so it has no active tests at all. | L3 | 1d |
-| PB-005 → [BILL-1215](https://zocdoc.atlassian.net/browse/BILL-1215) | LocalStack integration tests silently `Assert.Ignore` when LocalStack is down — they report success while running nothing. | L3 | 4h |
 
 ### P2 — meaningful, low blast radius
 
@@ -105,8 +103,7 @@ Everything below follows from those two.
 | ID | What needs testing | Level | Est. |
 |---|---|---|---|
 | [FE-013](gaps/tickets/FE-013-thirteen-source-files-with-no-coverage.md) | The 13 billing source files with no tests at all. | L2 | 1d |
-| WEB-004 → [BILL-1220](https://zocdoc.atlassian.net/browse/BILL-1220) | The 15 billing test files that disable the coverage gate — audit why. | L1 | 4h |
-| PB-006 → [BILL-1216](https://zocdoc.atlassian.net/browse/BILL-1216) | Three mislabelled test projects, so the pyramid reflects reality. | — | 2h |
+| WEB-004 → [BILL-1220](https://zocdoc.atlassian.net/browse/BILL-1220) | What the 15 billing test files that opted out of the coverage gate actually leave uncovered. The output is a list of untested billing code, not a config change. | L1 | 4h |
 
 ---
 
@@ -135,8 +132,9 @@ FE-001  (add the one real test) · FE-008 (relocate pixel assertions)
 FE-007  (free wins) → FE-009 (move 19 down) → FE-010 (bulk delete, last)
 ```
 
-`X-001` before `FE-011` — FE-011 is a flag teardown of exactly the kind that caused the 2026-09-02
-break.
+`FE-001` before `FE-011` — FE-011 is a flag teardown of the same kind that changed the payment DOM on
+2026-09-02 and broke a downstream suite while monorepo CI stayed green. FE-001 is the test that would
+have caught it here.
 
 Everything else is independent. Start any of it today.
 
@@ -148,6 +146,10 @@ branch permanent, not dead. Details in [`V2-VALIDATION.md`](V2-VALIDATION.md).
 
 ## Honest limitations
 
+- **`provider-billing`'s 70 integration tests may never run.** They skip themselves when LocalStack
+  is unavailable, and nobody confirmed LocalStack is provisioned in CI. If it isn't, that whole L3
+  layer is reporting success without executing. Worth five minutes on the pipeline config before
+  trusting the L3 numbers below.
 - **PB-\* and WEB-\* rows link to Jira, not to files here.** Those tickets were filed from the
   backend analysis, but the per-ticket write-ups and the `provider-billing` / `zocdoc_web`
   inventories were never committed. The Jira ticket is the only detail that exists for them today.

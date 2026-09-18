@@ -9,7 +9,7 @@ Snapshots are content exports and carry no git metadata. This file is the author
 | `zocdoc_web/` | Zocdoc/zocdoc_web | `8742b5072da` | `master` (GitHub API) | 2026-09-04 |
 
 The QA-owned `sandbox` repo is out of scope for this analysis. Where its 2026-09-02 breakage is cited
-as evidence for X-001, the reference revisions are `dac52b65` (branch
+as context for the 2026-09-02 DOM break, the reference revisions are `dac52b65` (branch
 `fix/billing-stripe-payment-element`) and `origin/main` at `4bb607cc`, both 2026-09-04.
 
 ## Why snapshots, not the local checkouts
