@@ -8,6 +8,13 @@ This file is the full index with links to both the local write-up and the Jira t
 **Scope:** pre-release tests in team-owned repos — `provider-fe-monorepo`, `provider-billing`,
 `zocdoc_web`. The QA-owned `sandbox` repo is out of scope and handled separately.
 
+**Epic [BILL-746](https://zocdoc.atlassian.net/browse/BILL-746) shows 24 issues, not 21.** The extra
+three pre-date this analysis: BILL-747 (open, overlaps WEB-003), BILL-748 and BILL-962 (both closed —
+the revenue-calculator tests credited in [`../ALREADY-FIXED.md`](../ALREADY-FIXED.md)).
+
+**FE-003 and FE-005 are already In Progress** in Jira — check with the assignees before picking
+either up.
+
 Before working these, spot-check the findings with
 [`../VERIFY-THIS-FIRST.md`](../VERIFY-THIS-FIRST.md) — ten minutes of copy-pasteable commands
 against the highest-risk claims.
@@ -29,7 +36,7 @@ exist only as Jira tickets — the backend write-ups and inventories were never 
 |---|---|---|---|---|---|
 | [FE-001](tickets/FE-001-real-stripe-payment-element-untested.md) | Add an integration test that a real Stripe Payment Element mounts and accepts a card | L5 e2e | add-coverage | 1d | [BILL-1193](https://zocdoc.atlassian.net/browse/BILL-1193) |
 | [FE-002](tickets/FE-002-monthly-limit-tautological-test.md) | Replace the tautological monthly-limit assertion with hardcoded boundary values | L1 unit | add-coverage | 45m | [BILL-1194](https://zocdoc.atlassian.net/browse/BILL-1194) |
-| [FE-003](tickets/FE-003-invoice-helpers-untested.md) | Add unit tests for `invoiceHelpers.ts` | L1 unit | add-coverage | 45m | [BILL-1195](https://zocdoc.atlassian.net/browse/BILL-1195) |
+| [FE-003](tickets/FE-003-invoice-helpers-untested.md) | Add unit tests for `invoiceHelpers.ts` | L1 unit | add-coverage | 45m | [BILL-1195](https://zocdoc.atlassian.net/browse/BILL-1195) — **In Progress** |
 | PB-001 | Stripe webhook idempotency is bypassed in production and all four dedup tests are commented out | L3 integration | add-coverage | 1d | [BILL-1211](https://zocdoc.atlassian.net/browse/BILL-1211) |
 | WEB-001 | Prorated subscription day-count is untested, and the source comment says the math is wrong | L1 unit | add-coverage | 4h | [BILL-1217](https://zocdoc.atlassian.net/browse/BILL-1217) |
 
@@ -37,7 +44,7 @@ exist only as Jira tickets — the backend write-ups and inventories were never 
 
 | ID | Title | Level | Action | Est. | Jira |
 |---|---|---|---|---|---|
-| [FE-005](tickets/FE-005-zero-api-contract-tests.md) | Add API contract tests for the billing endpoints the UI consumes | L4 api | add-coverage | 1d | [BILL-1197](https://zocdoc.atlassian.net/browse/BILL-1197) |
+| [FE-005](tickets/FE-005-zero-api-contract-tests.md) | Add API contract tests for the billing endpoints the UI consumes | L4 api | add-coverage | 1d | [BILL-1197](https://zocdoc.atlassian.net/browse/BILL-1197) — **In Progress** |
 | [FE-004](tickets/FE-004-conditional-assertions-green-noops.md) | Fix six E2E tests whose assertions are entirely inside `if (mock.find(...))` | L5 e2e | add-coverage | 2h | [BILL-1196](https://zocdoc.atlassian.net/browse/BILL-1196) |
 | [FE-006](tickets/FE-006-ach-no-e2e-coverage.md) | Add coverage for the ACH / bank-account add-payment-method path | L5 e2e | add-coverage | 4h | [BILL-1198](https://zocdoc.atlassian.net/browse/BILL-1198) |
 | WEB-002 | Replace the tautological tax assertion in `ProcessorGenerateChargeGroupsTest` with hardcoded amounts | L1 unit | add-coverage | 2h | [BILL-1218](https://zocdoc.atlassian.net/browse/BILL-1218) |
@@ -61,7 +68,7 @@ exist only as Jira tickets — the backend write-ups and inventories were never 
 | ID | Title | Level | Action | Est. | Jira |
 |---|---|---|---|---|---|
 | [FE-013](tickets/FE-013-thirteen-source-files-with-no-coverage.md) | Add coverage for the 13 billing source files with no tests at all | L2 component | add-coverage | 1d | [BILL-1205](https://zocdoc.atlassian.net/browse/BILL-1205) |
-| WEB-004 | Establish what the 15 gate-exempt billing test files actually leave uncovered | L1 unit | investigate | 4h | [BILL-1220](https://zocdoc.atlassian.net/browse/BILL-1220) |
+| WEB-004 | Establish what billing code the 15 gate-exempt test files leave uncovered | L1 unit | investigate | 4h | [BILL-1220](https://zocdoc.atlassian.net/browse/BILL-1220) |
 
 ### Hygiene — not test coverage, tracked separately
 

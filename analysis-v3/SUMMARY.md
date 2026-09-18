@@ -7,7 +7,8 @@
 **Prior Analysis:** v1 (2026-04-14), v2 (2026-04-23)
 **Drift since v2:** ~4.5 months. `provider-fe-monorepo` moved 550 commits; Cypress was removed
 monorepo-wide and the billing specs were rewritten in Playwright.
-**Jira:** 21 tickets, all under epic [BILL-746](https://zocdoc.atlassian.net/browse/BILL-746)
+**Jira:** epic [BILL-746](https://zocdoc.atlassian.net/browse/BILL-746) holds **24** issues — the 21
+from this analysis plus 3 that pre-date it (see *Epic contents* below)
 
 ---
 
@@ -24,6 +25,25 @@ P0 → P3, and each item names the file, the problem, the test level, and its Ji
 | Check my work before trusting it | [`VERIFY-THIS-FIRST.md`](VERIFY-THIS-FIRST.md) |
 | See what the team already fixed | [`ALREADY-FIXED.md`](ALREADY-FIXED.md) |
 | Know what v2 got wrong | [`V2-VALIDATION.md`](V2-VALIDATION.md) |
+
+### Epic contents — what the 24 issues under BILL-746 are
+
+| Group | Count | Keys |
+|---|---|---|
+| From this analysis (v3) | 20 | BILL-1193–1205, 1211, 1212, 1214, 1217–1220 |
+| From this analysis, hygiene not coverage | 1 | BILL-1216 — item 21 below |
+| Pre-dating v3, filed by QA | 3 | BILL-747 *(open)*, BILL-748 *(closed)*, BILL-962 *(closed)* |
+
+The two closed ones are the revenue-calculator work credited under *What's Working Well*.
+BILL-747 ("make monolith invoice generation testable") is still open and overlaps item 10.
+
+Three more v3 tickets were filed and then **deleted as out of scope** — BILL-1206, BILL-1213,
+BILL-1215. Their findings are preserved under "Dropped from scope" in
+[`gaps/BACKLOG.md`](gaps/BACKLOG.md).
+
+**Already moving:** item 3 ([BILL-1195](https://zocdoc.atlassian.net/browse/BILL-1195)) and item 6
+([BILL-1197](https://zocdoc.atlassian.net/browse/BILL-1197)) are **In Progress** — the cheapest P0 and
+the empty L4 row. Check with the assignees before starting either.
 
 **The five test levels**, used throughout. They are labels for *how much of the system a test starts
 up* — not for which folder it lives in:
@@ -200,9 +220,11 @@ work. Each names the level it belongs at and its Jira ticket.
     [FE-013](gaps/tickets/FE-013-thirteen-source-files-with-no-coverage.md) ·
     [BILL-1205](https://zocdoc.atlassian.net/browse/BILL-1205)
 
-20. **15 billing test files opted out of the coverage gate** — establish what billing code that
-    actually leaves uncovered. The deliverable is a list of untested billing code, not a config
-    change. **L1** · 4h · [BILL-1220](https://zocdoc.atlassian.net/browse/BILL-1220) *(`zocdoc_web`)*
+20. **15 billing test files are exempt from the coverage gate** — so this is the one part of the
+    billing tree where the real coverage number is unknown, and it's the same tree that holds items
+    5, 9, and 10. The question is not "why is the gate off", it's **"which billing code is therefore
+    untested?"** The deliverable is a list of untested code, not a config change. **L1** · 4h ·
+    [BILL-1220](https://zocdoc.atlassian.net/browse/BILL-1220) *(`zocdoc_web`)*
 
 21. **Three `provider-billing` test projects are named for a level they don't test at** — e.g. a
     project called *integration* holding unit tests. **This is repo structure, not test coverage** —
