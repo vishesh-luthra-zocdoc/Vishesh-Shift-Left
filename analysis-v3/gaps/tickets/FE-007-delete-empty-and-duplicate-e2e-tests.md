@@ -23,7 +23,7 @@ duplicate another test in the same suite. This is the free-wins phase of the shi
   copy-pasted from the test at `:56`.
 - Four further tests duplicate an earlier test in the same spec (6.3% of the 63-test suite). Each is
   identified with its duplicate in
-  [`../../analysis-scratch/e2e-shift-left-candidates.md`](../../analysis-scratch/e2e-shift-left-candidates.md).
+  [`../../shift-left/E2E-TEST-BY-TEST.md`](../../shift-left/E2E-TEST-BY-TEST.md).
 
 ## Why this matters
 Low blast radius — this is cost and clarity, not correctness. Each test costs a browser boot on a CI

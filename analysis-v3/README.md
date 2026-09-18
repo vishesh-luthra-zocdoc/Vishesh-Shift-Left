@@ -22,6 +22,7 @@ and what has no tests at all.** CI wiring, deploy pipelines, and file organisati
 | **Understand the whole thing** | [`SUMMARY.md`](SUMMARY.md) — 20 numbered findings, P0 → P3, with effort |
 | **File or work the tickets** | [`gaps/BACKLOG.md`](gaps/BACKLOG.md) — the same items with Jira keys and sequencing |
 | **Read one gap in full** | [`gaps/tickets/`](gaps/tickets/) — 13 self-contained frontend tickets |
+| **Execute the E2E reduction** | [`shift-left/E2E-TEST-BY-TEST.md`](shift-left/E2E-TEST-BY-TEST.md) — all 63 tests, classified |
 | **Check my work before trusting it** | [`VERIFY-THIS-FIRST.md`](VERIFY-THIS-FIRST.md) — 10 min of copy-pasteable commands |
 | **See what the team already fixed** | [`ALREADY-FIXED.md`](ALREADY-FIXED.md) |
 | **Know what v2 got wrong** | [`V2-VALIDATION.md`](V2-VALIDATION.md) — **v2's #1 P0 is wrong, do not execute it** |
@@ -69,7 +70,9 @@ analysis-v3/
 │   ├── TICKET-TEMPLATE.md     ← the contract every ticket follows
 │   └── tickets/               ← 13 self-contained frontend ticket files
 ├── inventory/                 ← what tests exist, per repo, per level
-├── shift-left/                ← the E2E reduction plan and its guard rails
+├── shift-left/
+│   ├── E2E-TEST-BY-TEST.md    ← all 63 E2E tests classified; source data for items 11–13
+│   └── E2E-PLAN-JUDGMENT.md   ← whether the reduction plan is safe to execute, and in what order
 └── methodology/               ← taxonomy, method, verified history
 ```
 

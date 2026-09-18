@@ -37,7 +37,7 @@ The commands file states this explicitly at `billing-settings-page-commands.ts:5
 Consequence: these tests pay L5 cost (browser boot, page load, flake) for what is, in confidence
 terms, an L2/L3 multi-component-tree assertion. Per-test detail is in
 [`e2e-infrastructure.md`](e2e-infrastructure.md) and
-[`../../analysis-scratch/e2e-shift-left-candidates.md`](../../analysis-scratch/e2e-shift-left-candidates.md).
+[`../../shift-left/E2E-TEST-BY-TEST.md`](../../shift-left/E2E-TEST-BY-TEST.md).
 
 ---
 

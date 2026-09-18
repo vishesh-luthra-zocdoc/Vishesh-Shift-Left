@@ -21,7 +21,7 @@ sequencing risk, so it goes last.
 ## Current state
 39 of 63 tests carry the verdict `delete-redundant`, each with its covering L2 test cited by file and
 verbatim `it` title in
-[`../../analysis-scratch/e2e-shift-left-candidates.md`](../../analysis-scratch/e2e-shift-left-candidates.md).
+[`../../shift-left/E2E-TEST-BY-TEST.md`](../../shift-left/E2E-TEST-BY-TEST.md).
 
 **Zero** tests were classified `delete-suspected` — the category reserved for "looks redundant but I
 cannot cite the cover." Every deletion here has a named replacement.
@@ -39,7 +39,7 @@ No correctness gain — and that is the point of doing it last: the benefit is c
 never be bought at the price of real coverage.
 
 ## Tests being removed
-39 tests. Each row in the scratch file gives: source spec, line, and the covering L2 test's file and
+39 tests. Each row in the test-by-test file gives: source spec, line, and the covering L2 test's file and
 `it` title. **The PR description must reproduce that mapping in full** so a reviewer can check any
 row without re-deriving it.
 
@@ -52,7 +52,7 @@ Split into per-spec PRs, not one 39-test deletion:
 | 3 | `billing-pricing-v2.spec.ts` | |
 | 4 | `billing-settings-page.spec.ts` + `invoice-details-page.spec.ts` | remainder |
 
-Take exact counts from the scratch file at execution time — they shift as FE-004/FE-007/FE-009 land.
+Take exact counts from the test-by-test file at execution time — they shift as FE-004/FE-007/FE-009 land.
 
 ## Acceptance criteria
 - [ ] Before deleting each test, **run its cited L2 covering test and confirm it passes.** A cited

@@ -340,5 +340,6 @@ committed here — the Jira ticket is the only detail that exists for those eigh
 - **What did the team already fix?** → [`ALREADY-FIXED.md`](ALREADY-FIXED.md)
 - **Which v2 callouts survived?** → [`V2-VALIDATION.md`](V2-VALIDATION.md)
 - **Is the E2E reduction plan safe?** → [`shift-left/E2E-PLAN-JUDGMENT.md`](shift-left/E2E-PLAN-JUDGMENT.md)
+- **Which of the 63 E2E tests goes where?** → [`shift-left/E2E-TEST-BY-TEST.md`](shift-left/E2E-TEST-BY-TEST.md)
 - **What do L1–L5 mean precisely?** → [`methodology/TEST-LEVEL-TAXONOMY.md`](methodology/TEST-LEVEL-TAXONOMY.md)
 - **How was this produced?** → [`methodology/METHODOLOGY.md`](methodology/METHODOLOGY.md)

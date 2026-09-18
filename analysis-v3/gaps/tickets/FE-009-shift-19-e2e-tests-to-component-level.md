@@ -26,7 +26,7 @@ which these 19 tests do not depend on.
 
 ## Current state
 Per-test classification with the destination component named for each of the 19 is in
-[`../../analysis-scratch/e2e-shift-left-candidates.md`](../../analysis-scratch/e2e-shift-left-candidates.md)
+[`../../shift-left/E2E-TEST-BY-TEST.md`](../../shift-left/E2E-TEST-BY-TEST.md)
 (verdict `shift-to-L2`, 19 of 63 rows). The existing L2 suite these join is already substantial:
 45 files / 515 tests, plus 9 hook files / 47 tests.
 
@@ -46,7 +46,7 @@ each PR is reviewable:
 | C | `billing-pricing-v2.spec.ts` | `PricingInformationV2` / `PricingTab` L2 tests |
 | D | `billing-settings-page.spec.ts`, `invoice-details-page.spec.ts` | Respective container L2 tests |
 
-Exact per-test destinations come from the scratch file. Do not guess — each row names its target.
+Exact per-test destinations come from the test-by-test file. Do not guess — each row names its target.
 
 ## Acceptance criteria
 - [ ] For each of the 19: an L2 test exists asserting the same behaviour, **and it lands before** the

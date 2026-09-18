@@ -1,7 +1,7 @@
 # Orchestrator Judgment — The Monorepo E2E Shift-Left Plan
 
 **Repo:** `provider-fe-monorepo` @ `dd9e4952a6`
-**Underlying data:** [`../analysis-scratch/e2e-shift-left-candidates.md`](../analysis-scratch/e2e-shift-left-candidates.md)
+**Underlying data:** [`E2E-TEST-BY-TEST.md`](E2E-TEST-BY-TEST.md)
 
 The per-test classification is sound and its citations are real — I independently verified a sample
 (see [Verification](#verification-performed) below). But the aggregate recommendation needs a

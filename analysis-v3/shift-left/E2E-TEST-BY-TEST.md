@@ -1,10 +1,14 @@
-# provider-fe-monorepo — Billing E2E Shift-Left Candidates
+# Billing E2E Tests, One by One — `provider-fe-monorepo`
+
+**This is the source data for items 11, 12 and 13** in [`../SUMMARY.md`](../SUMMARY.md) (FE-009,
+FE-010, FE-007). Every one of the 63 billing E2E tests is classified here with its destination. The
+tickets deliberately do **not** repeat these lists — take the per-test rows from this file at
+execution time.
 
 | Field | Value |
 |---|---|
 | Repo | `provider-fe-monorepo` |
 | Revision analyzed | `dd9e4952a6` (`origin/main`, 2026-09-03) |
-| Snapshot path | `/tmp/slv3/snapshots/provider-fe-monorepo/` |
 | Tests classified | 63 (every `test()` in the 7 billing specs under `apps/settings/e2e/`) |
 | Companion files | [`../inventory/provider-fe-monorepo/e2e-L5.md`](../inventory/provider-fe-monorepo/e2e-L5.md), [`../inventory/provider-fe-monorepo/e2e-infrastructure.md`](../inventory/provider-fe-monorepo/e2e-infrastructure.md) |
 

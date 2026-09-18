@@ -328,7 +328,7 @@ Three consequences:
 
 The same `mocks.ts` constants are also imported by the L2 suites, which is why several L5 assertions
 are byte-identical to L2 ones — it makes the redundancy in
-[`../../analysis-scratch/e2e-shift-left-candidates.md`](../../analysis-scratch/e2e-shift-left-candidates.md)
+[`../../shift-left/E2E-TEST-BY-TEST.md`](../../shift-left/E2E-TEST-BY-TEST.md)
 easy to establish, since both levels assert the same numbers from the same source.
 
 There is **no** database seeding, no API-driven setup, no test-account provisioning, and no cleanup —
@@ -367,7 +367,7 @@ Per-spec confirmation that no real backend call survives:
 y-ordering and modal scroll position). The remaining 61 assert text content, element presence, form
 validation, and request sequencing — all reproducible in jsdom, and in most cases already reproduced
 there. Per-test verdicts are in
-[`../../analysis-scratch/e2e-shift-left-candidates.md`](../../analysis-scratch/e2e-shift-left-candidates.md).
+[`../../shift-left/E2E-TEST-BY-TEST.md`](../../shift-left/E2E-TEST-BY-TEST.md).
 
 `payment-recovery.spec.ts` is the one spec that reasons about this explicitly: its header (:23-30)
 states that decline and HTTP-error branches deliberately live in the `PayNowModal` +
