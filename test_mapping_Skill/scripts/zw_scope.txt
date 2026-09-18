@@ -1,0 +1,17 @@
+Billing/ZocDoc.Billing.Tests
+Billing/BillProcessor/BillingTests
+ZocBill/ZocBill.Unit.Tests
+ZocBill/ZocBill.Integration.Tests
+Apis/BillingMonolithApi/Zocdoc.BillingMonolithApi.Tests
+Apis/PracticeBillingSettings/Zocdoc.PracticeBillingSettingsTest
+RestApis/ZocDoc.RestApis.Tests/PracticeBillingSettings
+RestApis/ZocDoc.RestApis.Tests/BillingGrowth
+Zocron/Zocron.Tasks.Tests/Billing
+Tests/ZocDoc.AppCode.Tests/CS/Billing
+Tests/ZocDoc.AppCode.SlowTests/Billing
+Tests/ZocDoc.AppCode.SlowTests/CS/Billing
+Csr/ZocDoc.CsrBrains.Tests/Billing
+Csr/ZocDoc.Web.Csr.Tests/ViewModels/Billing
+SeleniumTests/SeleniumTests/Tests/CSR/Billing
+SeleniumTests/SeleniumTests/Tests/Ads/Billing
+SeleniumTests/SeleniumTests/Tests/API/Billing
