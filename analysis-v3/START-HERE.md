@@ -99,7 +99,6 @@ Everything below follows from those two.
 | [FE-011](gaps/tickets/FE-011-investigate-iframe-deprecation-flag.md) | `BILLING_PAGE_ENABLE_IFRAME_DEPRECATION` ramp state, then remove its dead test branches. | L2 | 2h |
 | PB-002 → [BILL-1212](https://zocdoc.atlassian.net/browse/BILL-1212) | The hardcoded `ActualCost = 0` in the appointment event processor. | L1 | 2h |
 | PB-004 → [BILL-1214](https://zocdoc.atlassian.net/browse/BILL-1214) | The billing-export **Generate** stage. Gather and Enrich each have an integration test; Generate has none. | L3 | 4h |
-| PB-003 → [BILL-1213](https://zocdoc.atlassian.net/browse/BILL-1213) | The post-deploy smoke test is a single `Assert.Pass` — it verifies nothing. | L4 | 2h |
 
 ### P3 — polish
 

@@ -1,6 +1,6 @@
 # v3 Gap Backlog
 
-**20 tickets, all filed in Jira project BILL.** Read
+**23 tickets, all filed in Jira project BILL** — 14 with a write-up here, 9 in Jira only. Read
 [`../START-HERE.md`](../START-HERE.md) first — it says what to test and in what order in one page.
 This file is the full index with links to both the local write-up and the Jira ticket.
 
@@ -56,7 +56,6 @@ exist only as Jira tickets — the backend write-ups and inventories were never 
 | [FE-011](tickets/FE-011-investigate-iframe-deprecation-flag.md) | Determine the `BILLING_PAGE_ENABLE_IFRAME_DEPRECATION` ramp state and remove its test branches | L2 component | investigate | 2h | [BILL-1203](https://zocdoc.atlassian.net/browse/BILL-1203) |
 | PB-002 | Cover the hardcoded `ActualCost = 0` in the appointment event processor | L1 unit | add-coverage | 2h | [BILL-1212](https://zocdoc.atlassian.net/browse/BILL-1212) |
 | PB-004 | Add an integration test for the billing-export **Generate** stage (Gather and Enrich have one) | L3 integration | add-coverage | 4h | [BILL-1214](https://zocdoc.atlassian.net/browse/BILL-1214) |
-| PB-003 | The post-deploy smoke test is a single `Assert.Pass` and verifies nothing | L4 api | add-coverage | 2h | [BILL-1213](https://zocdoc.atlassian.net/browse/BILL-1213) |
 
 ### P3 — polish
 
@@ -127,7 +126,6 @@ FE-001 prevents a revenue-path outage.
 | X-001 | [BILL-1206](https://zocdoc.atlassian.net/browse/BILL-1206) | `provider-fe-monorepo` (fix side) |
 | PB-001 | [BILL-1211](https://zocdoc.atlassian.net/browse/BILL-1211) | `provider-billing` |
 | PB-002 | [BILL-1212](https://zocdoc.atlassian.net/browse/BILL-1212) | `provider-billing` |
-| PB-003 | [BILL-1213](https://zocdoc.atlassian.net/browse/BILL-1213) | `provider-billing` |
 | PB-004 | [BILL-1214](https://zocdoc.atlassian.net/browse/BILL-1214) | `provider-billing` |
 | PB-005 | [BILL-1215](https://zocdoc.atlassian.net/browse/BILL-1215) | `provider-billing` |
 | PB-006 | [BILL-1216](https://zocdoc.atlassian.net/browse/BILL-1216) | `provider-billing` |
@@ -136,6 +134,11 @@ FE-001 prevents a revenue-path outage.
 | WEB-003 | [BILL-1219](https://zocdoc.atlassian.net/browse/BILL-1219) | `zocdoc_web` |
 | WEB-004 | [BILL-1220](https://zocdoc.atlassian.net/browse/BILL-1220) | `zocdoc_web` |
 
-**Two tickets still need a Jira fix:** BILL-1213 and BILL-1215 are issue type **Bug** in status
-`Unassigned`. Every other ticket is a Story in `To Do`. The REST API can't convert them (the
-workflow scheme rejects it) — use **Move** in the Jira UI.
+**One ticket still needs a Jira fix:** BILL-1215 is issue type **Bug** in status `Unassigned`.
+Every other ticket is a Story in `To Do`. The REST API can't convert it (the workflow scheme rejects
+it) — use **Move** in the Jira UI.
+
+**Dropped from scope:** PB-003 (post-deploy smoke test is a bare `Assert.Pass`) was filed as
+BILL-1213 and has been deleted. A post-deploy check runs after release, and this analysis covers
+pre-release tests only. The observation still stands — it belongs to whoever owns the deploy
+pipeline, not to this backlog.

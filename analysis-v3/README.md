@@ -17,7 +17,7 @@ touches — `provider-fe-monorepo`, `provider-billing`, `zocdoc_web`. The QA-own
 | If you want to… | Read |
 |---|---|
 | **Understand the whole thing in one page** | [`START-HERE.md`](START-HERE.md) |
-| **File or work the tickets** | [`gaps/BACKLOG.md`](gaps/BACKLOG.md) — 20 tickets by priority, with Jira links and sequencing |
+| **File or work the tickets** | [`gaps/BACKLOG.md`](gaps/BACKLOG.md) — 23 tickets by priority, with Jira links and sequencing |
 | **Check my work before trusting it** | [`VERIFY-THIS-FIRST.md`](VERIFY-THIS-FIRST.md) — 10 min of copy-pasteable commands |
 | **See what the team already fixed** | [`ALREADY-FIXED.md`](ALREADY-FIXED.md) |
 | **Know what v2 got wrong** | [`V2-VALIDATION.md`](V2-VALIDATION.md) — **v2's #1 P0 is wrong, do not execute it** |
