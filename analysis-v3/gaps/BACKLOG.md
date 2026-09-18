@@ -1,7 +1,8 @@
 # v3 Gap Backlog
 
-**20 tickets, all filed in Jira project BILL** — 13 with a write-up here, 7 in Jira only. Read
-[`../START-HERE.md`](../START-HERE.md) first — it says what to test and in what order in one page.
+**21 tickets, all filed in Jira project BILL** — 13 with a write-up here, 8 in Jira only. Twenty are
+test-coverage work; one (PB-006) is repo hygiene and is marked as such. Read
+[`../SUMMARY.md`](../SUMMARY.md) first — it's the whole analysis on one page, in priority order.
 This file is the full index with links to both the local write-up and the Jira ticket.
 
 **Scope:** pre-release tests in team-owned repos — `provider-fe-monorepo`, `provider-billing`,
@@ -61,6 +62,16 @@ exist only as Jira tickets — the backend write-ups and inventories were never 
 |---|---|---|---|---|---|
 | [FE-013](tickets/FE-013-thirteen-source-files-with-no-coverage.md) | Add coverage for the 13 billing source files with no tests at all | L2 component | add-coverage | 1d | [BILL-1205](https://zocdoc.atlassian.net/browse/BILL-1205) |
 | WEB-004 | Establish what the 15 gate-exempt billing test files actually leave uncovered | L1 unit | investigate | 4h | [BILL-1220](https://zocdoc.atlassian.net/browse/BILL-1220) |
+
+### Hygiene — not test coverage, tracked separately
+
+| ID | Title | Level | Action | Est. | Jira |
+|---|---|---|---|---|---|
+| PB-006 | Rename the three `provider-billing` test projects that are named for a level they don't test at | n/a | cleanup | 2h | [BILL-1216](https://zocdoc.atlassian.net/browse/BILL-1216) |
+
+No bug ships from a misnamed folder, so this is **not** in the priority list above and is not in the
+effort total. It's kept because the L-level counts in this analysis are read off those project names,
+so the names being wrong makes the counts misleading. Schedule it whenever there's slack.
 
 ---
 
@@ -124,6 +135,7 @@ FE-001 prevents a revenue-path outage.
 | PB-001 | [BILL-1211](https://zocdoc.atlassian.net/browse/BILL-1211) | `provider-billing` |
 | PB-002 | [BILL-1212](https://zocdoc.atlassian.net/browse/BILL-1212) | `provider-billing` |
 | PB-004 | [BILL-1214](https://zocdoc.atlassian.net/browse/BILL-1214) | `provider-billing` |
+| PB-006 | [BILL-1216](https://zocdoc.atlassian.net/browse/BILL-1216) | `provider-billing` — hygiene, not coverage |
 | WEB-001 | [BILL-1217](https://zocdoc.atlassian.net/browse/BILL-1217) | `zocdoc_web` |
 | WEB-002 | [BILL-1218](https://zocdoc.atlassian.net/browse/BILL-1218) | `zocdoc_web` |
 | WEB-003 | [BILL-1219](https://zocdoc.atlassian.net/browse/BILL-1219) | `zocdoc_web` |
@@ -132,20 +144,24 @@ FE-001 prevents a revenue-path outage.
 ## Dropped from scope
 
 This analysis answers three questions: **what isn't being checked, what's stale, and what has no
-tests at all.** Four tickets were filed that answered a different question — they described
-infrastructure, CI wiring, or file organisation. All four are deleted in Jira. The findings behind
-them are real and are recorded here so they aren't lost, but they are not test-coverage work and
-don't belong in a team's sprint backlog under this program.
+tests at all.** Three tickets were filed that answered a different question — they described
+infrastructure or CI wiring. **All three are deleted in Jira.** The findings behind them are real and
+are recorded here so they aren't lost, but they are not test-coverage work and don't belong in a
+team's sprint backlog under this program.
 
 | Was | Finding | Why it's out | Whose it is |
 |---|---|---|---|
 | PB-003 / BILL-1213 | The post-deploy smoke test is a bare `Assert.Pass` | Runs after release; this analysis is pre-release only | Deploy pipeline owner |
 | PB-005 / BILL-1215 | LocalStack integration tests `Assert.Ignore` when LocalStack is down | The fix is CI environment detection, not a test | CI / pipeline owner — **but see the caveat below** |
-| PB-006 / BILL-1216 | Three test projects named for a level they don't test at | File organisation. Its own write-up conceded no bug ships from a misnamed folder | `provider-billing` team, as hygiene |
 | X-001 / BILL-1206 | No signal fails in the monorepo when a billing DOM change breaks a downstream suite | A CI tripwire, not a test. FE-001 is the test that covers this risk | Whoever owns the monorepo CI config |
+
+A fourth — **PB-006 / BILL-1216** (three test projects named for a level they don't test at) — was
+also going to be dropped as file organisation. It is **kept** instead, as the hygiene row above:
+still not test coverage, but the L-level counts in this analysis are read off those project names, so
+wrong names make the counts misleading.
 
 **One caveat worth carrying forward from PB-005:** nobody confirmed that `provider-billing`'s 70 L3
 integration tests actually execute in CI. If LocalStack isn't provisioned there, they skip silently
 and that entire layer has never run. That *is* a coverage question — it's recorded in the limitations
-of [`../START-HERE.md`](../START-HERE.md) rather than as a ticket, because the answer is a
+of [`../SUMMARY.md`](../SUMMARY.md) rather than as a ticket, because the answer is a
 five-minute look at the pipeline, not a sprint item.

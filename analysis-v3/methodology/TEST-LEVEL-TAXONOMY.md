@@ -96,7 +96,7 @@ of an unverified claim.
 
 ## Target shape
 
-The current distribution is in [`../START-HERE.md`](../START-HERE.md); the reasoning behind the
+The current distribution is in [`../SUMMARY.md`](../SUMMARY.md); the reasoning behind the
 proposed E2E reduction is in
 [`../shift-left/E2E-PLAN-JUDGMENT.md`](../shift-left/E2E-PLAN-JUDGMENT.md). The goal is not a fixed
 ratio — it is that each test sits at the **lowest level that can still prove what it needs to

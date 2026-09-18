@@ -19,7 +19,7 @@ v3 changes three things:
 1. **Tests are segregated by level, not by folder.** See
    [`TEST-LEVEL-TAXONOMY.md`](TEST-LEVEL-TAXONOMY.md). Classification is by what a test actually
    does, not by which directory it sits in or what the team calls it.
-2. **Scope covers all four repos**, not just the frontend monorepo. v1/v2 treated the backend as a
+2. **Scope covers all three team-owned repos**, not just the frontend monorepo. v1/v2 treated the backend as a
    footnote and never looked at the `provider-billing` service at all.
 3. **Every gap is written as a ticket-ready file**, one per ticket, with acceptance criteria and
    verification. See [`../gaps/TICKET-TEMPLATE.md`](../gaps/TICKET-TEMPLATE.md). v1/v2 produced
