@@ -8,9 +8,9 @@ Reorganized so each repo folder holds exactly one mapping per **test level**. No
 changed — 4,939 rows across 440 files, same as the previous run.
 
 **`cron-test-mapping.md` is gone, folded into `unit-test-mapping.md`.** Cron was never a test
-level; those files held L1 unit tests whose subject happened to be a scheduled job, so listing
+level; those files held unit tests whose subject happened to be a scheduled job, so listing
 them beside `unit` / `integration` / `api` implied a level that does not exist. Every folded row
-keeps **`L1 unit (cron handler)`** in its Scope column, so the subset is still filterable:
+keeps **`unit (cron handler)`** in its Scope column, so the subset is still filterable:
 
 | Repo | Cron suite folded in | Tests | Unit mapping now |
 |---|---|---:|---|
@@ -18,7 +18,7 @@ keeps **`L1 unit (cron handler)`** in its Scope column, so the subset is still f
 | `zocdoc_web` | `Zocron/Zocron.Tasks.Tests/Billing` | 30 | 2,381 → **2,411** rows |
 
 Worth knowing: 43 of the `provider-billing` cron tests drive a real in-memory EF context and are
-flagged as such in Scope. They sit closest to the L1/L3 boundary and are the ones to look at first
+flagged as such in Scope. They sit closest to the unit/integration boundary and are the ones to look at first
 if this split gets revisited.
 
 **`playwright-` / `selenium-` → `e2e-test-mapping.md`.** Same reasoning: the filename now names the
@@ -34,15 +34,15 @@ Resulting layout:
 
 | Mapping | Repo | Branch | Commit | Level | Test files | Rows |
 |---|---|---|---|---|---:|---:|
-| [`provider-billing/api`](provider-billing/api-test-mapping.md) | `provider-billing` | `main` | `166621f1c8` | L4 api | 5 | 97 |
-| [`provider-billing/integration`](provider-billing/integration-test-mapping.md) | `provider-billing` | `main` | `166621f1c8` | L3 integration | 13 | 88 |
-| [`provider-billing/unit`](provider-billing/unit-test-mapping.md) | `provider-billing` | `main` | `166621f1c8` | L1/L2 unit | 54 | 578 |
-| [`provider-fe-monorepo/e2e`](provider-fe-monorepo/e2e-test-mapping.md) | `provider-fe-monorepo` | `main` | `9b3c308d21` | L5 e2e | 7 | 60 |
-| [`provider-fe-monorepo/unit`](provider-fe-monorepo/unit-test-mapping.md) | `provider-fe-monorepo` | `main` | `9b3c308d21` | L1/L2 unit | 82 | 1033 |
-| [`zocdoc_web/api`](zocdoc_web/api-test-mapping.md) | `zocdoc_web` | `master` | `b306dc12f4` | L4 api | 22 | 144 |
-| [`zocdoc_web/e2e`](zocdoc_web/e2e-test-mapping.md) | `zocdoc_web` | `master` | `b306dc12f4` | L5 e2e | 26 | 147 |
-| [`zocdoc_web/integration`](zocdoc_web/integration-test-mapping.md) | `zocdoc_web` | `master` | `b306dc12f4` | L3 integration | 20 | 381 |
-| [`zocdoc_web/unit`](zocdoc_web/unit-test-mapping.md) | `zocdoc_web` | `master` | `b306dc12f4` | L1/L2 unit | 211 | 2411 |
+| [`provider-billing/api`](provider-billing/api-test-mapping.md) | `provider-billing` | `main` | `166621f1c8` | api | 5 | 97 |
+| [`provider-billing/integration`](provider-billing/integration-test-mapping.md) | `provider-billing` | `main` | `166621f1c8` | integration | 13 | 88 |
+| [`provider-billing/unit`](provider-billing/unit-test-mapping.md) | `provider-billing` | `main` | `166621f1c8` | unit | 54 | 578 |
+| [`provider-fe-monorepo/e2e`](provider-fe-monorepo/e2e-test-mapping.md) | `provider-fe-monorepo` | `main` | `9b3c308d21` | e2e | 7 | 60 |
+| [`provider-fe-monorepo/unit`](provider-fe-monorepo/unit-test-mapping.md) | `provider-fe-monorepo` | `main` | `9b3c308d21` | unit | 82 | 1033 |
+| [`zocdoc_web/api`](zocdoc_web/api-test-mapping.md) | `zocdoc_web` | `master` | `b306dc12f4` | api | 22 | 144 |
+| [`zocdoc_web/e2e`](zocdoc_web/e2e-test-mapping.md) | `zocdoc_web` | `master` | `b306dc12f4` | e2e | 26 | 147 |
+| [`zocdoc_web/integration`](zocdoc_web/integration-test-mapping.md) | `zocdoc_web` | `master` | `b306dc12f4` | integration | 20 | 381 |
+| [`zocdoc_web/unit`](zocdoc_web/unit-test-mapping.md) | `zocdoc_web` | `master` | `b306dc12f4` | unit | 211 | 2411 |
 | **Total** | | | | | **440** | **4939** |
 
 ## 2026-09-18 — re-map `zocdoc_web` against current `origin/master`
@@ -74,7 +74,7 @@ suites is counted once as a reclassification rather than as both an add and a re
 
 **7 tests moved unit → integration.** Two `AppCode.SlowTests` billing files were assigned to the
 unit suite in the first run, which was wrong — `Tests/ZocDoc.AppCode.SlowTests/**` crosses a
-real boundary and belongs at L3. Both are now in the integration mapping:
+real boundary and belongs at integration. Both are now in the integration mapping:
 
 - `Tests/ZocDoc.AppCode.SlowTests/Billing/CreditCardTriggerTests.cs`
 - `Tests/ZocDoc.AppCode.SlowTests/CS/Billing/PricingOptionTest.cs`
@@ -142,7 +142,7 @@ They existed at `fb4a8bd7b9` too, so this is a correction to the earlier mapping
 - The extractor was re-validated per-file against the independent `awk` method counter across all
   279 files. One reported diff (`BillingDetailsViewModelTests.cs`, awk 14 vs 15) is a baseline
   limitation — `awk` cannot match `[TestCase (` with a space before the paren — not a miss.
-- The L4 classification of `SeleniumTests/.../Tests/API/Billing` was re-verified at this SHA: all
+- The api classification of `SeleniumTests/.../Tests/API/Billing` was re-verified at this SHA: all
   4 fixtures derive from `BaseZocHttpApiTestFixture` and reference no WebDriver (`Driver`,
   `Browser`, `OpenPage`, `Navigate` all absent). The 5th file in that directory,
   `BillingHttpUtils.cs`, is a `static` helper with no tests and so contributes no rows.

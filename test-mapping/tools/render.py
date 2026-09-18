@@ -173,12 +173,12 @@ def build_rows(recs, kind, owner, repo, sha, start_num=1):
             summary = mk_summary(what)
 
             unit = (suites[0] if suites else None) or os.path.basename(r['file']).split('-tests')[0].split('.test')[0]
-            level = {'unit': 'L1 unit', 'component': 'L2 component', 'integration': 'L3 integration',
-                     'api': 'L4 api', 'cron': 'L1 unit (cron handler)',
-                     'playwright': 'L5 e2e', 'cypress': 'L5 e2e',
-                     'selenium': 'L5 e2e', 'e2e': 'L5 e2e'}.get(kind, kind)
+            level = {'unit': 'unit', 'component': 'component', 'integration': 'integration',
+                     'api': 'api', 'cron': 'unit (cron handler)',
+                     'playwright': 'e2e', 'cypress': 'e2e',
+                     'selenium': 'e2e', 'e2e': 'e2e'}.get(kind, kind)
             if kind == 'unit' and re.search(r'\b(render|renderHook|mount)\s*\(', r.get('body') or ''):
-                level = 'L2 component'
+                level = 'component'
             if r.get('is_cron') and '(cron handler)' not in level:
                 level += ' (cron handler)'
             scope = f'{level}. In scope: `{unit}`.'

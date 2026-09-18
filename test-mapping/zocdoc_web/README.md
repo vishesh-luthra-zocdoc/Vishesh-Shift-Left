@@ -6,10 +6,10 @@
 
 | Mapping | Level | Test files | Rows | Revision |
 |---|---|---:|---:|---|
-| [`api-test-mapping.md`](api-test-mapping.md) | L4 api | 22 | 144 | `master` @ `b306dc12f4` |
-| [`e2e-test-mapping.md`](e2e-test-mapping.md) | L5 e2e | 26 | 147 | `master` @ `b306dc12f4` |
-| [`integration-test-mapping.md`](integration-test-mapping.md) | L3 integration | 20 | 381 | `master` @ `b306dc12f4` |
-| [`unit-test-mapping.md`](unit-test-mapping.md) | L1/L2 unit + component | 211 | 2411 | `master` @ `b306dc12f4` |
+| [`unit-test-mapping.md`](unit-test-mapping.md) | unit + component | 211 | 2411 | `master` @ `b306dc12f4` |
+| [`integration-test-mapping.md`](integration-test-mapping.md) | integration | 20 | 381 | `master` @ `b306dc12f4` |
+| [`api-test-mapping.md`](api-test-mapping.md) | api | 22 | 144 | `master` @ `b306dc12f4` |
+| [`e2e-test-mapping.md`](e2e-test-mapping.md) | e2e | 26 | 147 | `master` @ `b306dc12f4` |
 
 Each mapping opens with a `<!-- test-mapping-meta -->` header recording the repo, branch,
 commit and test type it was generated from. Links are pinned to the full SHA and will not

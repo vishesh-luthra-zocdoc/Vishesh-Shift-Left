@@ -6,8 +6,8 @@
 
 | Mapping | Level | Test files | Rows | Revision |
 |---|---|---:|---:|---|
-| [`e2e-test-mapping.md`](e2e-test-mapping.md) | L5 e2e | 7 | 60 | `main` @ `9b3c308d21` |
-| [`unit-test-mapping.md`](unit-test-mapping.md) | L1/L2 unit + component | 82 | 1033 | `main` @ `9b3c308d21` |
+| [`unit-test-mapping.md`](unit-test-mapping.md) | unit + component | 82 | 1033 | `main` @ `9b3c308d21` |
+| [`e2e-test-mapping.md`](e2e-test-mapping.md) | e2e | 7 | 60 | `main` @ `9b3c308d21` |
 
 Each mapping opens with a `<!-- test-mapping-meta -->` header recording the repo, branch,
 commit and test type it was generated from. Links are pinned to the full SHA and will not
